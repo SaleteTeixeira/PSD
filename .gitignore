@@ -1,0 +1,12 @@
+target*
+distributedkeyvaluestore.iml
+*.idea*
+*.iml*
+*.pdf
+*.log
+/client/nbproject/
+/client/build/
+*.mf
+*.xml
+*erl_crash.dump
+/client/dist/
