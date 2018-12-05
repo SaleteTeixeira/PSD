@@ -51,10 +51,10 @@ authenticate(Socket) ->
       gen_tcp:send(Socket, <<"false\n">>),
       authenticate(Socket);
     {tcp_closed, _} ->
-      io:fwrite('user gave up auth~n'),
+      io:fwrite('User gave up authentication.~n'),
       invalid;
     {tcp_error, _, _} ->
-      io:fwrite('tcp error in auth~n'),
+      io:fwrite('TCP error in authentication.~n'),
       invalid
   end.
 
