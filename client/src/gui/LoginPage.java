@@ -16,7 +16,7 @@ public class LoginPage extends javax.swing.JFrame {
     /**
      * Creates new form LoginPage
      */
-    public LoginPage() throws IOException {
+    public LoginPage() {
         this.erlang = ErlangBridge.getInstance();
         initComponents();
     }
@@ -35,6 +35,9 @@ public class LoginPage extends javax.swing.JFrame {
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
         rolesBox = new javax.swing.JComboBox<>();
+        menu = new javax.swing.JMenuBar();
+        file = new javax.swing.JMenu();
+        quit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +83,21 @@ public class LoginPage extends javax.swing.JFrame {
 
         rolesBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Investor", "Company" }));
 
+        file.setText("File");
+
+        quit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        quit.setText("Quit");
+        quit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitActionPerformed(evt);
+            }
+        });
+        file.add(quit);
+
+        menu.add(file);
+
+        setJMenuBar(menu);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,14 +117,14 @@ public class LoginPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rolesBox, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap()
                 .addComponent(title)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -117,9 +135,9 @@ public class LoginPage extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(rolesBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginButton)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,6 +196,11 @@ public class LoginPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passwordFieldFocusLost
 
+    private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_quitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -208,11 +231,7 @@ public class LoginPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new LoginPage().setVisible(true);
-                } catch (IOException ex) {
-                    System.out.println("Could not connect socket. Is the erlang server on?");
-                }
+                new LoginPage().setVisible(true);
             }
         });
     }
@@ -220,8 +239,11 @@ public class LoginPage extends javax.swing.JFrame {
     private final ErlangBridge erlang;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu file;
     private javax.swing.JButton loginButton;
+    private javax.swing.JMenuBar menu;
     private javax.swing.JPasswordField passwordField;
+    private javax.swing.JMenuItem quit;
     private javax.swing.JComboBox<String> rolesBox;
     private javax.swing.JLabel title;
     private javax.swing.JTextField userNameField;

@@ -74,6 +74,20 @@ manager(State) ->
               From ! invalid,
               manager(State)
           end;
+        {ok, {P, true}} ->
+          io:fwrite('Found username.\n'),
+          io:fwrite('Checking password. ~p\n', [Password]),
+          case P of
+            Password ->
+              io:fwrite('Password ok.\n'),
+              io:fwrite('Already logged in.\n'),
+              From ! invalid,
+              manager(maps:put(Username, {P, true}, State));
+            _ ->
+              io:fwrite('Wrong password.\n'),
+              From ! invalid,
+              manager(State)
+          end;
         error ->
           io:fwrite('Username not found.\n'),
           From ! invalid,

@@ -6,14 +6,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ErlangBridge {
 
     private static ErlangBridge instance = null;
 
-    public static ErlangBridge getInstance() throws IOException {
+    public static ErlangBridge getInstance() {
         if (instance == null) {
-            instance = new ErlangBridge();
+            try {
+                instance = new ErlangBridge();
+            } catch (IOException ex) {
+                System.exit(1);
+                System.out.println("Could not connect socket. Is the erlang server on?");
+            }
         }
         return instance;
     }

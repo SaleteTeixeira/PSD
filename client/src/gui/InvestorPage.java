@@ -38,6 +38,10 @@ public class InvestorPage extends javax.swing.JFrame {
         auctionsNotiArea = new javax.swing.JTextArea();
         fixedNotiPane = new javax.swing.JScrollPane();
         fixedNotiArea = new javax.swing.JTextArea();
+        menu = new javax.swing.JMenuBar();
+        file = new javax.swing.JMenu();
+        logout = new javax.swing.JMenuItem();
+        quit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 500));
@@ -59,6 +63,30 @@ public class InvestorPage extends javax.swing.JFrame {
         fixedNotiArea.setColumns(20);
         fixedNotiArea.setRows(5);
         fixedNotiPane.setViewportView(fixedNotiArea);
+
+        file.setText("File");
+
+        logout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        file.add(logout);
+
+        quit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        quit.setText("Quit");
+        quit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitActionPerformed(evt);
+            }
+        });
+        file.add(quit);
+
+        menu.add(file);
+
+        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,11 +129,23 @@ public class InvestorPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(auctionsNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fixedNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new LoginPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_quitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +187,7 @@ public class InvestorPage extends javax.swing.JFrame {
     private javax.swing.JTextArea auctionsNotiArea;
     private javax.swing.JScrollPane auctionsNotiPane;
     private javax.swing.JScrollPane auctionsPane;
+    private javax.swing.JMenu file;
     private javax.swing.JList<String> fixedList;
     private javax.swing.JTextArea fixedNotiArea;
     private javax.swing.JScrollPane fixedNotiPane;
@@ -154,5 +195,8 @@ public class InvestorPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem logout;
+    private javax.swing.JMenuBar menu;
+    private javax.swing.JMenuItem quit;
     // End of variables declaration//GEN-END:variables
 }
