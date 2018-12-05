@@ -33,6 +33,19 @@ authenticate(Socket) ->
           gen_tcp:send(Socket, <<"false\n">>),
           authenticate(Socket)
       end;
+    {tcp, _, <<"/logout ", NameArg/binary>>} ->
+      Username = string:trim(NameArg),
+      io:fwrite('Logout request. ~p\n', [Username]),
+      case loginManager:logout(Username) of
+        ok ->
+          io:fwrite('Logout ok.\n'),
+          gen_tcp:send(Socket, <<"true\n">>),
+          authenticate(Socket);
+        _ ->
+          io:fwrite('Logout not ok.\n'),
+          gen_tcp:send(Socket, <<"false\n">>),
+          authenticate(Socket)
+      end;
     {tcp, _, <<"/register ", NameArg/binary>>} ->
       io:fwrite('register'),
       [Username, Password] = string:split(string:trim(NameArg), " "),
@@ -57,6 +70,3 @@ authenticate(Socket) ->
       io:fwrite('TCP error in authentication.~n'),
       invalid
   end.
-
-temp(Socket) ->
-  temp(Socket).

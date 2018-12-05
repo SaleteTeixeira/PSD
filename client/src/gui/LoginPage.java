@@ -160,11 +160,11 @@ public class LoginPage extends javax.swing.JFrame {
         if (success) {
             if (role.equals("Investor")) {
                 this.setVisible(false);
-                new InvestorPage().setVisible(true);
+                new InvestorPage(username).setVisible(true);
                 this.dispose();
             } else if (role.equals("Company")) {
                 this.setVisible(false);
-                new CompanyPage().setVisible(true);
+                new CompanyPage(username).setVisible(true);
                 this.dispose();
             }
         } else {

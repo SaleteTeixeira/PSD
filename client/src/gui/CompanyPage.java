@@ -12,9 +12,11 @@ package gui;
 public class CompanyPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form CompanyPage
+     * Creates new form InvestorPage
      */
-    public CompanyPage() {
+    public CompanyPage(String username) {
+        this.erlang = ErlangBridge.getInstance();
+        this.username = username;
         initComponents();
     }
 
@@ -27,57 +29,233 @@ public class CompanyPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        auctionsPane = new javax.swing.JScrollPane();
+        auctionsList = new javax.swing.JList<>();
+        fixedPane = new javax.swing.JScrollPane();
+        fixedList = new javax.swing.JList<>();
+        auctionsNotiPane = new javax.swing.JScrollPane();
+        auctionsNotiArea = new javax.swing.JTextArea();
+        fixedNotiPane = new javax.swing.JScrollPane();
+        fixedNotiArea = new javax.swing.JTextArea();
+        amountAuctionField = new javax.swing.JTextField();
+        maxInterestField = new javax.swing.JTextField();
+        createAuctionButton = new javax.swing.JButton();
+        amountFixedField = new javax.swing.JTextField();
+        createFixedButton = new javax.swing.JButton();
+        menu = new javax.swing.JMenuBar();
+        file = new javax.swing.JMenu();
+        refresh = new javax.swing.JMenuItem();
+        logout = new javax.swing.JMenuItem();
+        quit = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel1.setText("Loan Auctions");
+
+        jLabel2.setText("Fixed Rate Loans");
+
+        auctionsPane.setViewportView(auctionsList);
+
+        fixedPane.setViewportView(fixedList);
+
+        auctionsNotiArea.setColumns(20);
+        auctionsNotiArea.setRows(5);
+        auctionsNotiPane.setViewportView(auctionsNotiArea);
+
+        fixedNotiArea.setColumns(20);
+        fixedNotiArea.setRows(5);
+        fixedNotiPane.setViewportView(fixedNotiArea);
+
+        amountAuctionField.setText("Amount");
+        amountAuctionField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amountAuctionFieldActionPerformed(evt);
+            }
+        });
+
+        maxInterestField.setText("Maximum Interest");
+
+        createAuctionButton.setText("Create");
+
+        amountFixedField.setText("Amount");
+        amountFixedField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amountFixedFieldActionPerformed(evt);
+            }
+        });
+
+        createFixedButton.setText("Create");
+        createFixedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createFixedButtonActionPerformed(evt);
+            }
+        });
+
+        file.setText("File");
+
+        refresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
+        refresh.setText("Refresh");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+        file.add(refresh);
+
+        logout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        file.add(logout);
+
+        quit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        quit.setText("Quit");
+        quit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitActionPerformed(evt);
+            }
+        });
+        file.add(quit);
+
+        menu.add(file);
+
+        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(auctionsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                    .addComponent(auctionsNotiPane)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(amountAuctionField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(maxInterestField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createAuctionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(372, 372, 372))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fixedPane)
+                                    .addComponent(fixedNotiPane))
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(amountFixedField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createFixedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jSeparator1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(auctionsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fixedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(auctionsNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fixedNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(85, 85, 85)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(amountAuctionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(maxInterestField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createAuctionButton))
+                        .addContainerGap(84, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(amountFixedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(createFixedButton))
+                        .addGap(81, 81, 81))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CompanyPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CompanyPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CompanyPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CompanyPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // TODO add your handling code here:
+        this.erlang.logout(this.username);
+        this.setVisible(false);
+        new LoginPage().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_logoutActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CompanyPage().setVisible(true);
-            }
-        });
-    }
+    private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_quitActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void amountAuctionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountAuctionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_amountAuctionFieldActionPerformed
+
+    private void amountFixedFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountFixedFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_amountFixedFieldActionPerformed
+
+    private void createFixedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFixedButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createFixedButtonActionPerformed
+
+    private final String username;
+    private final ErlangBridge erlang;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField amountAuctionField;
+    private javax.swing.JTextField amountFixedField;
+    private javax.swing.JList<String> auctionsList;
+    private javax.swing.JTextArea auctionsNotiArea;
+    private javax.swing.JScrollPane auctionsNotiPane;
+    private javax.swing.JScrollPane auctionsPane;
+    private javax.swing.JButton createAuctionButton;
+    private javax.swing.JButton createFixedButton;
+    private javax.swing.JMenu file;
+    private javax.swing.JList<String> fixedList;
+    private javax.swing.JTextArea fixedNotiArea;
+    private javax.swing.JScrollPane fixedNotiPane;
+    private javax.swing.JScrollPane fixedPane;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JMenuItem logout;
+    private javax.swing.JTextField maxInterestField;
+    private javax.swing.JMenuBar menu;
+    private javax.swing.JMenuItem quit;
+    private javax.swing.JMenuItem refresh;
     // End of variables declaration//GEN-END:variables
 }

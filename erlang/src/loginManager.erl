@@ -1,6 +1,6 @@
 -module(loginManager).
 
--export([create/0, login/2, create_account/2]).
+-export([create/0, create_account/2, login/2, logout/1]).
 
 -type username() :: string().
 -type password() :: string().
@@ -95,11 +95,14 @@ manager(State) ->
       end;
 
     {{logout, Username}, From} ->
+      io:fwrite('Searching username. ~p\n', [Username]),
       case maps:find(Username, State) of
         {ok, {P, true}} ->
+          io:fwrite('Found username.\n'),
           From ! ok,
           manager(maps:put(Username, {P, false}, State));
         error ->
+          io:fwrite('Username not found.\n'),
           From ! invalid,
           manager(State)
       end;

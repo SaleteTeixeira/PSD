@@ -45,6 +45,19 @@ public class ErlangBridge {
         } catch (Exception ex) {
             return false;
         }
-
+    }
+    
+    public void logout(String username) {
+        BufferedWriter writer;
+        BufferedReader reader;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(this.erlangServer.getOutputStream()));
+            reader = new BufferedReader(new InputStreamReader(this.erlangServer.getInputStream()));
+            writer.write("/logout " + username);
+            writer.newLine();
+            writer.flush();
+            reader.readLine();
+        } catch (Exception ex) {
+        }
     }
 }
