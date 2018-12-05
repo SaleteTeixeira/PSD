@@ -4,9 +4,9 @@
 
 -type username() :: string().
 -type password() :: string().
--type sessionstate() :: boolean().
--type userdata() :: {password(), sessionstate()}.
--type state() :: #{username() => userdata()}.
+-type session_state() :: boolean().
+-type user_data() :: {password(), session_state()}.
+-type state() :: #{username() => user_data()}.
 
 create() ->
   register(?MODULE, spawn(fun() -> manager(#{}) end)).
@@ -20,14 +20,10 @@ request(Request) ->
 
 create_account(Username, Password) ->
   request({create, Username, Password}).
-close_account(Username, Password) ->
-  request({close, Username, Password}).
 login(Username, Password) ->
   request({login, Username, Password}).
 logout(Username) ->
   request({logout, Username}).
-online() ->
-  request({online}).
 
 -spec manager(state()) -> ok.
 manager(State) ->
@@ -40,22 +36,6 @@ manager(State) ->
         _ ->
           From ! user_exists,
           manager(State)
-      end;
-
-    {{close, Username, Password}, From} ->
-      case maps:find(Username, State) of
-        error ->
-          From ! invalid,
-          manager(State);
-        {ok, {P, _}} ->
-          case P of
-            Password ->
-              From ! ok,
-              manager(maps:remove(Username, State));
-            _ ->
-              From ! invalid,
-              manager(State)
-          end
       end;
 
     {{login, Username, Password}, From} ->
@@ -105,11 +85,5 @@ manager(State) ->
           io:fwrite('Username not found.\n'),
           From ! invalid,
           manager(State)
-      end;
-    {{online}, From} ->
-      Res = [U || {U, {_, true}} <- maps:to_list(State)],
-      From ! Res,
-      manager(State);
-    _ ->
-      manager(State)
+      end
   end.

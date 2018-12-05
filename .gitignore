@@ -9,5 +9,6 @@ distributedkeyvaluestore.iml
 *.mf
 *.xml
 erlang/out
+out
 *erl_crash.dump
 /client/dist/
