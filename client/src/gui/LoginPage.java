@@ -140,8 +140,17 @@ public class LoginPage extends javax.swing.JFrame {
         String role = (String) rolesBox.getSelectedItem();
         boolean success = this.erlang.authenticate(username, password, role);
         if (success) {
-            this.setVisible(false);
-            this.dispose();
+            if (role.equals("Investor")) {
+                this.setVisible(false);
+                new InvestorPage().setVisible(true);
+                this.dispose();
+            } else if (role.equals("Company")) {
+                this.setVisible(false);
+                new CompanyPage().setVisible(true);
+                this.dispose();
+            }
+        } else {
+            
         }
     }//GEN-LAST:event_loginButtonMouseClicked
 
@@ -202,7 +211,7 @@ public class LoginPage extends javax.swing.JFrame {
                 try {
                     new LoginPage().setVisible(true);
                 } catch (IOException ex) {
-                    ex.getStackTrace();
+                    System.out.println("Could not connect socket. Is the erlang server on?");
                 }
             }
         });
