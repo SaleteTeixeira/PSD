@@ -18,8 +18,8 @@ public class ErlangBridge {
             try {
                 instance = new ErlangBridge();
             } catch (IOException ex) {
-                System.exit(1);
                 System.out.println("Could not connect socket. Is the erlang server on?");
+                System.exit(1);
             }
         }
         return instance;
@@ -29,6 +29,7 @@ public class ErlangBridge {
 
     private ErlangBridge() throws IOException {
         this.erlangServer = new Socket("localhost", 11111);
+        this.erlangServer.setSoTimeout(1000 * 60);
     }
 
     public boolean authenticate(String username, String password, String role) {
@@ -46,8 +47,8 @@ public class ErlangBridge {
             return false;
         }
     }
-    
-    public void logout(String username) {
+
+    public boolean logout(String username) {
         BufferedWriter writer;
         BufferedReader reader;
         try {
@@ -57,7 +58,9 @@ public class ErlangBridge {
             writer.newLine();
             writer.flush();
             reader.readLine();
+            return true;
         } catch (Exception ex) {
+            return false;
         }
     }
 }
