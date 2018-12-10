@@ -1,11 +1,15 @@
 package psd.client;
 
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 public class ErlangBridge {
 
@@ -30,9 +34,36 @@ public class ErlangBridge {
         this.erlangServer.setSoTimeout(1000 * 60);
     }
 
+    private byte[] intToByteArrayBigEndian(final int i) {
+        ByteBuffer b = ByteBuffer.allocate(4);
+        b.putInt(i);
+        byte[] bytes = b.array();
+        return bytes;
+    }
+
     public boolean authenticate(String username, String password, String role) {
-        Messages.Login login = Messages.Login.newBuilder().setUsername(username).setPassword(password).build();
         try {
+            CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            Messages.Login login = Messages.Login.newBuilder().setUsername(username).setPassword(password).build();
+            /*login.writeDelimitedTo(this.erlangServer.getOutputStream());
+            return false;*/
+            byte[] bytes = login.toByteArray();
+            byte[] delim = intToByteArrayBigEndian(bytes.length);
+            System.out.println("Writing login array length: " + bytes.length);
+            cos.writeRawBytes(delim);
+            System.out.println("Writing login bytes");
+            cos.writeRawBytes(bytes);
+            cos.flush();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        /*Messages.Login login = Messages.Login.newBuilder().setUsername(username).setPassword(password).build();
+        byte[] ba = login.toByteArray();
+        try {
+
             login.writeDelimitedTo(this.erlangServer.getOutputStream());
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -45,7 +76,7 @@ public class ErlangBridge {
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
-        }
+        }*/
     }
 
     public boolean logout(String username) {
