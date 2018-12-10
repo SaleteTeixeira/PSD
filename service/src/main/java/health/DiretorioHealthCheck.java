@@ -1,10 +1,13 @@
+package health;
+
+import business.Diretorio;
 import com.codahale.metrics.health.HealthCheck;
 
-public class RestStubCheck extends HealthCheck {
+public class DiretorioHealthCheck extends HealthCheck {
     private final String version;
     private Diretorio diretorio;
 
-    public RestStubCheck(String version, Diretorio diretorio) {
+    public DiretorioHealthCheck(String version, Diretorio diretorio) {
         this.version = version;
         this.diretorio = diretorio;
     }

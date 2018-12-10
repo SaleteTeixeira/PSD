@@ -1,18 +1,23 @@
+import resources.*;
+import business.*;
+import health.*;
 import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-public class DiretorioApp extends Application<RestStubConfiguration> {
-
+public class DiretorioApp extends Application<DiretorioConfiguration> {
     public static void main(String[] args) throws Exception {
         new DiretorioApp().run(args);
     }
 
     @Override
-    public void run(RestStubConfiguration config, Environment env) {
-        final DiretorioService personService = new DiretorioService(Diretorio.getInstance());
-        env.jersey().register(personService);
+    public void initialize(Bootstrap<DiretorioConfiguration> bootstrap) { }
 
-        env.healthChecks().register("template",
-                new RestStubCheck(config.getVersion(), Diretorio.getInstance()));
+    @Override
+    public void run(DiretorioConfiguration configuration, Environment environment) {
+        environment.jersey().register(
+                new DiretorioResource(Diretorio.getInstance()));
+        environment.healthChecks().register("template",
+                new DiretorioHealthCheck(configuration.getVersion(), Diretorio.getInstance()));
     }
 }
