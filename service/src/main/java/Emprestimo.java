@@ -1,14 +1,17 @@
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Emprestimo {
+    private String ID;
     private String empresa;
     private float montante;
     private float taxa;
     private float montanteOferecido;
     private Map<String, Float> investidores;
 
-    public Emprestimo(String empresa, float valor, float taxa){
+    public Emprestimo(String ID, String empresa, float valor, float taxa){
+        this.ID = ID;
         this.empresa = empresa;
         this.montante = valor;
         this.taxa = taxa;
@@ -16,22 +19,32 @@ public class Emprestimo {
         this.investidores = new HashMap<String, Float>();
     }
 
+    @JsonProperty
+    public String getID() {
+        return ID;
+    }
+
+    @JsonProperty
     public String getEmpresa() {
         return empresa;
     }
 
+    @JsonProperty
     public float getMontante() {
         return montante;
     }
 
+    @JsonProperty
     public float getTaxa() {
         return taxa;
     }
 
+    @JsonProperty
     public float getMontanteOferecido() {
         return montanteOferecido;
     }
 
+    @JsonProperty
     public Map<String, Float> getInvestidores() {
         return investidores;
     }

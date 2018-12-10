@@ -23,18 +23,44 @@ public class Diretorio {
     public Map<String, Leilao> getLeiloes() {
         return leiloes;
     }
-    
-    public void endEmprestimo(String emprestimo, boolean sucesso){
+
+    public Empresa getEmpresa(String empresa){
+        return this.empresas.get(empresa);
+    }
+
+    public Emprestimo getEmprestimo(String emprestimo){
+        return this.emprestimos.get(emprestimo);
+    }
+
+    public Leilao getLeilao(String leilao){
+        return this.leiloes.get(leilao);
+    }
+
+    public void addEmprestimo(Emprestimo e){
+        this.emprestimos.put(e.getID(), e);
+    }
+
+    public void addLeilao(Leilao l){
+        this.leiloes.put(l.getID(), l);
+    }
+
+    public void endEmprestimo(String emprestimo, Map<String, Float> investidores){
         Emprestimo e = this.emprestimos.get(emprestimo);
         this.emprestimos.remove(emprestimo);
 
-        if(sucesso) this.empresas.get(e.getEmpresa()).addEmprestimo(e);
+        if(investidores.size() > 0){
+            investidores.keySet().forEach(k -> e.addInvestidor(k, investidores.get(k)));
+            this.empresas.get(e.getEmpresa()).addEmprestimo(e);
+        }
     }
 
-    public void endLeilao(String leilao, boolean sucesso){
+    public void endLeilao(String leilao, Map<String, Oferta> investidores){
         Leilao l = this.leiloes.get(leilao);
         this.leiloes.remove(leilao);
 
-        if(sucesso) this.empresas.get(l.getEmpresa()).addLeilao(l);
+        if(investidores.size() > 0){
+            investidores.keySet().forEach(k -> l.addInvestidor(k, investidores.get(k)));
+            this.empresas.get(l.getEmpresa()).addLeilao(l);
+        }
     }
 }

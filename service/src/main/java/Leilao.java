@@ -1,56 +1,48 @@
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Leilao {
-
-    private class Oferta{
-        private float montante;
-        private float taxa;
-
-        public Oferta(float montante, float taxa){
-            this.montante = montante;
-            this.taxa = taxa;
-        }
-
-        public float getMontante() {
-            return montante;
-        }
-
-        public float getTaxa() {
-            return taxa;
-        }
-    }
-
+    private String ID;
     private String empresa;
     private float montante;
     private float taxaMaxima;
     private Map<String, Oferta> investidores;
 
-    public Leilao(String empresa, float montante, float taxaMaxima){
+    public Leilao(String ID, String empresa, float montante, float taxaMaxima){
+        this.ID = ID;
         this.empresa = empresa;
         this.montante = montante;
         this.taxaMaxima = taxaMaxima;
         this.investidores = new HashMap<>();
     }
 
+    @JsonProperty
+    public String getID() {
+        return ID;
+    }
+
+    @JsonProperty
     public String getEmpresa() {
         return empresa;
     }
 
+    @JsonProperty
     public float getMontante() {
         return montante;
     }
 
+    @JsonProperty
     public float getTaxaMaxima() {
         return taxaMaxima;
     }
 
+    @JsonProperty
     public Map<String, Oferta> getInvestidores() {
         return investidores;
     }
 
-    public void addInvestidor(String investidor, float montante, float taxa){
-        Oferta o = new Oferta(montante, taxa);
+    public void addInvestidor(String investidor, Oferta o){
         this.investidores.put(investidor,o);
     }
 }
