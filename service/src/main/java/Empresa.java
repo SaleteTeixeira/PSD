@@ -39,4 +39,12 @@ public class Empresa {
     public void addLeilao(Leilao l){
         this.historicoLeiloes.add(l);
     }
+
+    public Leilao lastLeilao(){
+        return this.historicoLeiloes.get(this.historicoLeiloes.size()-1);
+    }
+
+    public Emprestimo lastEmprestimo(){
+        return this.historicoEmprestimos.get(this.historicoEmprestimos.size()-1);
+    }
 }

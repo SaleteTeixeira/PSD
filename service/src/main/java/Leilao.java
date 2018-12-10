@@ -3,23 +3,20 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Leilao {
-    private String ID;
     private String empresa;
     private float montante;
     private float taxaMaxima;
     private Map<String, Oferta> investidores;
 
-    public Leilao(String ID, String empresa, float montante, float taxaMaxima){
-        this.ID = ID;
+    public Leilao(){
+
+    }
+
+    public Leilao(String empresa, float montante, float taxaMaxima){
         this.empresa = empresa;
         this.montante = montante;
         this.taxaMaxima = taxaMaxima;
         this.investidores = new HashMap<>();
-    }
-
-    @JsonProperty
-    public String getID() {
-        return ID;
     }
 
     @JsonProperty
