@@ -1,9 +1,15 @@
 package diretorio.resources;
 
 import diretorio.business.*;
+import diretorio.representations.EmpresaRepresentation;
+import diretorio.representations.EmprestimoRepresentation;
+import diretorio.representations.LeilaoRepresentation;
+import diretorio.representations.OfertaRepresentation;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,43 +24,130 @@ public class DiretorioResource {
     @GET
     @Path("get_empresas")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Empresa> getEmpresas() {
-        return this.diretorio.getEmpresas();
+    public List<EmpresaRepresentation> getEmpresas() {
+        List<EmpresaRepresentation> result = new ArrayList<>();
+        List<Empresa> empresas = this.diretorio.getEmpresas();
+
+        for(Empresa emp: empresas){
+            List<EmprestimoRepresentation> histEmp = new ArrayList<>();
+            List<LeilaoRepresentation> histLei = new ArrayList<>();
+
+            for(Emprestimo e: emp.getHistoricoEmprestimos()){
+                EmprestimoRepresentation auxEmp = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
+                        e.getMontanteOferecido(), e.getInvestidores());
+                histEmp.add(auxEmp);
+            }
+
+            for(Leilao l: emp.getHistoricoLeiloes()){
+                Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+                for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                    inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+                }
+
+                LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+                histLei.add(lr);
+            }
+
+            EmpresaRepresentation er = new EmpresaRepresentation(emp.getNome(), histEmp, histLei);
+            result.add(er);
+        }
+
+        return result;
     }
 
     @GET
     @Path("get_emprestimos")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Emprestimo> getEmprestimos() {
-        return this.diretorio.getEmprestimos();
+    public List<EmprestimoRepresentation> getEmprestimos() {
+        List<EmprestimoRepresentation> result = new ArrayList<>();
+        List<Emprestimo> emprestimos = this.diretorio.getEmprestimos();
+
+        for(Emprestimo e: emprestimos){
+            EmprestimoRepresentation auxEmp = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
+                    e.getMontanteOferecido(), e.getInvestidores());
+            result.add(auxEmp);
+        }
+
+        return result;
     }
 
     @GET
     @Path("get_leiloes")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Leilao> getLeiloes() {
-        return this.diretorio.getLeiloes();
+    public List<LeilaoRepresentation> getLeiloes() {
+        List<LeilaoRepresentation> result = new ArrayList<>();
+        List<Leilao> leiloes = this.diretorio.getLeiloes();
+
+        for(Leilao l: leiloes){
+            Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            }
+
+            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+            result.add(lr);
+        }
+
+        return result;
     }
 
     @GET
     @Path("get_empresa/{nome}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Empresa getEmpresa(@PathParam("nome") String nome) {
-        return this.diretorio.getEmpresa(nome);
+    public EmpresaRepresentation getEmpresa(@PathParam("nome") String nome) {
+        Empresa emp = this.diretorio.getEmpresa(nome);
+        List<EmprestimoRepresentation> histEmp = new ArrayList<>();
+        List<LeilaoRepresentation> histLei = new ArrayList<>();
+
+        for(Emprestimo e: emp.getHistoricoEmprestimos()){
+            EmprestimoRepresentation auxEmp = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
+                    e.getMontanteOferecido(), e.getInvestidores());
+            histEmp.add(auxEmp);
+        }
+
+        for(Leilao l: emp.getHistoricoLeiloes()){
+            Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            }
+
+            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+            histLei.add(lr);
+        }
+
+        EmpresaRepresentation er = new EmpresaRepresentation(emp.getNome(), histEmp, histLei);
+        return er;
     }
 
     @GET
     @Path("get_emprestimo/{empresa}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Emprestimo getEmprestimo(@PathParam("empresa") String empresa) {
-        return this.diretorio.getEmprestimo(empresa);
+    public EmprestimoRepresentation getEmprestimo(@PathParam("empresa") String empresa) {
+        Emprestimo e = this.diretorio.getEmprestimo(empresa);
+
+        EmprestimoRepresentation er = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
+                e.getMontanteOferecido(), e.getInvestidores());
+
+        return er;
     }
 
     @GET
     @Path("get_leilao/{empresa}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Leilao getLeilao(@PathParam("empresa") String empresa) {
-        return this.diretorio.getLeilao(empresa);
+    public LeilaoRepresentation getLeilao(@PathParam("empresa") String empresa) {
+        Leilao l = this.diretorio.getLeilao(empresa);
+        Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+        for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+            inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+        }
+
+        LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+
+        return lr;
     }
 
     @PUT
@@ -88,7 +181,8 @@ public class DiretorioResource {
 
     @POST
     @Path("end_leilao/{empresa}_{inv}_{montante}_{taxa}")
-    public Response endLeilao(@PathParam("empresa") String e, @PathParam("inv") List<String> inv, @PathParam("montante") List<Float> m, @PathParam("taxa") List<Float> t) {
+    public Response endLeilao(@PathParam("empresa") String e, @PathParam("inv") List<String> inv,
+                              @PathParam("montante") List<Float> m, @PathParam("taxa") List<Float> t) {
         Map<String, Oferta> invest = new HashMap<>();
 
         for(int i=0; i<inv.size(); i++){
@@ -100,16 +194,31 @@ public class DiretorioResource {
         return Response.ok().build();
     }
 
-    @POST
+    @GET
     @Path("last_leilao/{empresa}")
-    public Leilao lastLeilao(@PathParam("empresa") String e) {
-        return this.diretorio.lastLeilao(e);
+    public LeilaoRepresentation lastLeilao(@PathParam("empresa") String e) {
+        Leilao l = this.diretorio.lastLeilao(e);
+
+        Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+        for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+            inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+        }
+
+        LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+
+        return lr;
     }
 
-    @POST
+    @GET
     @Path("last_emprestimo/{empresa}")
-    public Emprestimo lastEmprestimo(@PathParam("empresa") String e) {
-        return this.diretorio.lastEmprestimo(e);
+    public EmprestimoRepresentation lastEmprestimo(@PathParam("empresa") String e) {
+        Emprestimo m = this.diretorio.lastEmprestimo(e);
+
+        EmprestimoRepresentation er = new EmprestimoRepresentation(m.getEmpresa(), m.getMontante(), m.getTaxa(),
+                m.getMontanteOferecido(), m.getInvestidores());
+
+        return er;
     }
 }
 
