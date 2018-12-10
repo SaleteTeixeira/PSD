@@ -3,13 +3,16 @@
 %% API
 -export([main/0]).
 
+%% Import
+-include("messages.hrl").
+
 %% Implementation
 main() ->
   loginManager:create(),
   loginManager:create_account(<<"diogo">>, <<"diogo">>),
   loginManager:create_account(<<"salete">>, <<"salete">>),
   loginManager:create_account(<<"sofia">>, <<"sofia">>),
-  {ok, ServerSocket} = gen_tcp:listen(11111, [binary, {packet, line}, {reuseaddr, true}]),
+  {ok, ServerSocket} = gen_tcp:listen(11111, [binary, {packet, 4}, {reuseaddr, true}]),
   acceptor(ServerSocket).
 
 acceptor(ServerSocket) ->
@@ -20,45 +23,9 @@ acceptor(ServerSocket) ->
 
 authenticate(Socket) ->
   receive
-    {tcp, _, <<"/login ", NameArg/binary>>} ->
-      [Username, Password] = string:split(string:trim(NameArg), " "),
-      io:fwrite('Login request. ~p ~p\n', [Username, Password]),
-      case loginManager:login(Username, Password) of
-        ok ->
-          io:fwrite('Login ok.\n'),
-          gen_tcp:send(Socket, <<"true\n">>),
-          authenticate(Socket);
-        _ ->
-          io:fwrite('Login not ok.\n'),
-          gen_tcp:send(Socket, <<"false\n">>),
-          authenticate(Socket)
-      end;
-    {tcp, _, <<"/logout ", NameArg/binary>>} ->
-      Username = string:trim(NameArg),
-      io:fwrite('Logout request. ~p\n', [Username]),
-      case loginManager:logout(Username) of
-        ok ->
-          io:fwrite('Logout ok.\n'),
-          gen_tcp:send(Socket, <<"true\n">>),
-          authenticate(Socket);
-        _ ->
-          io:fwrite('Logout not ok.\n'),
-          gen_tcp:send(Socket, <<"false\n">>),
-          authenticate(Socket)
-      end;
-    {tcp, _, <<"/register ", NameArg/binary>>} ->
-      io:fwrite('register'),
-      [Username, Password] = string:split(string:trim(NameArg), " "),
-      case loginManager:create_account(Username, Password) of
-        ok ->
-          io:fwrite('register ok\n'),
-          gen_tcp:send(Socket, <<"true\n">>),
-          authenticate(Socket);
-        _ ->
-          io:fwrite('register not ok\n'),
-          gen_tcp:send(Socket, <<"false\n">>),
-          authenticate(Socket)
-      end;
+    {tcp, _, Bin} ->
+      io:format("~p\n", [messages:decode_msg(Bin, 'Login')]),
+      io:format("received\n");
     {tcp, _, _} ->
       io:fwrite('wrong'),
       gen_tcp:send(Socket, <<"false\n">>),
