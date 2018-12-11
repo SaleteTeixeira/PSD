@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message Request {
+    string type = 1;
+    string username = 2;
+    string password = 3;
+}
+
+message Reply {
+    bool result = 1;
+    string message = 2;
+}
