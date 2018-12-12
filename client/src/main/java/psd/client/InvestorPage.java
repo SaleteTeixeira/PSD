@@ -6,7 +6,6 @@
 package psd.client;
 
 /**
- *
  * @author diogo
  */
 public class InvestorPage extends javax.swing.JFrame {
@@ -41,11 +40,12 @@ public class InvestorPage extends javax.swing.JFrame {
         fixedNotiPane = new javax.swing.JScrollPane();
         fixedNotiArea = new javax.swing.JTextArea();
         companyFieldAuction = new javax.swing.JTextField();
-        interestField = new javax.swing.JTextField();
+        interestFieldAuction = new javax.swing.JTextField();
         bidButton = new javax.swing.JButton();
         companyFieldFixed = new javax.swing.JTextField();
-        amountField = new javax.swing.JTextField();
-        subscribeButoon = new javax.swing.JButton();
+        amountFieldFixed = new javax.swing.JTextField();
+        subscribeButton = new javax.swing.JButton();
+        amountFieldAuction = new javax.swing.JTextField();
         menu = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
         refresh = new javax.swing.JMenuItem();
@@ -77,26 +77,63 @@ public class InvestorPage extends javax.swing.JFrame {
         fixedNotiPane.setViewportView(fixedNotiArea);
 
         companyFieldAuction.setText("Company");
+        companyFieldAuction.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                companyFieldAuctionFocusGained(evt);
+            }
+        });
         companyFieldAuction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 companyFieldAuctionActionPerformed(evt);
             }
         });
 
-        interestField.setText("Interest");
-
-        bidButton.setText("Bid");
-
-        companyFieldFixed.setText("Company");
-
-        amountField.setText("Amount");
-        amountField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                amountFieldActionPerformed(evt);
+        interestFieldAuction.setText("Interest");
+        interestFieldAuction.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                interestFieldAuctionFocusGained(evt);
             }
         });
 
-        subscribeButoon.setText("Subscribe");
+        bidButton.setText("Bid");
+        bidButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bidButtonMouseClicked(evt);
+            }
+        });
+
+        companyFieldFixed.setText("Company");
+        companyFieldFixed.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                companyFieldFixedFocusGained(evt);
+            }
+        });
+
+        amountFieldFixed.setText("Amount");
+        amountFieldFixed.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                amountFieldFixedFocusGained(evt);
+            }
+        });
+        amountFieldFixed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amountFieldFixedActionPerformed(evt);
+            }
+        });
+
+        subscribeButton.setText("Subscribe");
+        subscribeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subscribeButtonMouseClicked(evt);
+            }
+        });
+
+        amountFieldAuction.setText("Amount");
+        amountFieldAuction.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                amountFieldAuctionFocusGained(evt);
+            }
+        });
 
         file.setText("File");
 
@@ -156,10 +193,13 @@ public class InvestorPage extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(interestField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(interestFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(amountFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addComponent(bidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -179,9 +219,9 @@ public class InvestorPage extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addComponent(companyFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(amountField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(amountFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(subscribeButoon, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(subscribeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
@@ -205,15 +245,16 @@ public class InvestorPage extends javax.swing.JFrame {
                         .addGap(85, 85, 85)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(interestField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bidButton))
+                            .addComponent(interestFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bidButton)
+                            .addComponent(amountFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(84, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(companyFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(amountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(subscribeButoon))
+                            .addComponent(amountFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(subscribeButton))
                         .addGap(81, 81, 81))))
         );
 
@@ -222,7 +263,7 @@ public class InvestorPage extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
-        if(this.erlang.logout(this.username)) {
+        if (this.erlang.logout(this.username)) {
             this.setVisible(false);
             new LoginPage().setVisible(true);
             this.dispose();
@@ -242,15 +283,62 @@ public class InvestorPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_companyFieldAuctionActionPerformed
 
-    private void amountFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountFieldActionPerformed
+    private void amountFieldFixedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountFieldFixedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_amountFieldActionPerformed
+    }//GEN-LAST:event_amountFieldFixedActionPerformed
+
+    private void bidButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bidButtonMouseClicked
+        // TODO add your handling code here:
+        final String company = this.companyFieldAuction.getText();
+        final int amount = Integer.parseInt(this.amountFieldAuction.getText());
+        final double interest = Double.parseDouble(this.interestFieldAuction.getText());
+        final boolean success = this.erlang.bidAuction(company, amount, interest);
+        if (success) {
+
+        }
+    }//GEN-LAST:event_bidButtonMouseClicked
+
+    private void subscribeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subscribeButtonMouseClicked
+        // TODO add your handling code here:
+        final String company = this.companyFieldFixed.getText();
+        final int amount = Integer.parseInt(this.amountFieldFixed.getText());
+        final boolean success = this.erlang.subscribeFixed(company, amount);
+        if (success) {
+
+        }
+    }//GEN-LAST:event_subscribeButtonMouseClicked
+
+    private void companyFieldAuctionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_companyFieldAuctionFocusGained
+        // TODO add your handling code here:
+        companyFieldAuction.setText("");
+    }//GEN-LAST:event_companyFieldAuctionFocusGained
+
+    private void interestFieldAuctionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_interestFieldAuctionFocusGained
+        // TODO add your handling code here:
+        interestFieldAuction.setText("");
+    }//GEN-LAST:event_interestFieldAuctionFocusGained
+
+    private void amountFieldAuctionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountFieldAuctionFocusGained
+        // TODO add your handling code here:
+        amountFieldAuction.setText("");
+    }//GEN-LAST:event_amountFieldAuctionFocusGained
+
+    private void companyFieldFixedFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_companyFieldFixedFocusGained
+        // TODO add your handling code here:
+        companyFieldFixed.setText("");
+    }//GEN-LAST:event_companyFieldFixedFocusGained
+
+    private void amountFieldFixedFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountFieldFixedFocusGained
+        // TODO add your handling code here:
+        amountFieldFixed.setText("");
+    }//GEN-LAST:event_amountFieldFixedFocusGained
 
     private final String username;
     private final ErlangBridge erlang;
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField amountField;
+    private javax.swing.JTextField amountFieldAuction;
+    private javax.swing.JTextField amountFieldFixed;
     private javax.swing.JList<String> auctionsList;
     private javax.swing.JTextArea auctionsNotiArea;
     private javax.swing.JScrollPane auctionsNotiPane;
@@ -263,7 +351,7 @@ public class InvestorPage extends javax.swing.JFrame {
     private javax.swing.JTextArea fixedNotiArea;
     private javax.swing.JScrollPane fixedNotiPane;
     private javax.swing.JScrollPane fixedPane;
-    private javax.swing.JTextField interestField;
+    private javax.swing.JTextField interestFieldAuction;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
@@ -273,7 +361,7 @@ public class InvestorPage extends javax.swing.JFrame {
     private javax.swing.JMenuItem quit;
     private javax.swing.JMenuItem refresh;
     private javax.swing.JMenuItem subscribe;
-    private javax.swing.JButton subscribeButoon;
+    private javax.swing.JButton subscribeButton;
     private javax.swing.JMenuItem unsubscribe;
     // End of variables declaration//GEN-END:variables
 }

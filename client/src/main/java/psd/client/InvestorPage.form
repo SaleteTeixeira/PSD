@@ -104,13 +104,16 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="companyFieldAuction" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="companyFieldAuction" min="-2" pref="89" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="interestField" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="interestFieldAuction" min="-2" pref="89" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="amountFieldAuction" min="-2" pref="89" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="bidButton" min="-2" pref="110" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -137,9 +140,9 @@
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="companyFieldFixed" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="amountField" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Component id="amountFieldFixed" min="-2" pref="150" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="subscribeButoon" min="-2" pref="110" max="-2" attributes="0"/>
+                      <Component id="subscribeButton" min="-2" pref="110" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -170,8 +173,9 @@
                       <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="companyFieldAuction" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="interestField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="interestFieldAuction" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="bidButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="amountFieldAuction" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="84" max="32767" attributes="0"/>
                   </Group>
@@ -179,8 +183,8 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="companyFieldFixed" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="amountField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="subscribeButoon" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="amountFieldFixed" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="subscribeButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                   </Group>
@@ -278,36 +282,58 @@
         <Property name="text" type="java.lang.String" value="Company"/>
       </Properties>
       <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="companyFieldAuctionFocusGained"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="companyFieldAuctionActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="interestField">
+    <Component class="javax.swing.JTextField" name="interestFieldAuction">
       <Properties>
         <Property name="text" type="java.lang.String" value="Interest"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="interestFieldAuctionFocusGained"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bidButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Bid"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bidButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="companyFieldFixed">
       <Properties>
         <Property name="text" type="java.lang.String" value="Company"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="companyFieldFixedFocusGained"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="amountField">
+    <Component class="javax.swing.JTextField" name="amountFieldFixed">
       <Properties>
         <Property name="text" type="java.lang.String" value="Amount"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="amountFieldActionPerformed"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="amountFieldFixedFocusGained"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="amountFieldFixedActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="subscribeButoon">
+    <Component class="javax.swing.JButton" name="subscribeButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Subscribe"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="subscribeButtonMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="amountFieldAuction">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Amount"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="amountFieldAuctionFocusGained"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
