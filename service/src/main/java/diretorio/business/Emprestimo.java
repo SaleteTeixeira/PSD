@@ -19,7 +19,7 @@ public class Emprestimo {
         this.empresa = empresa;
         this.montante = valor;
         this.taxa = taxa;
-        this.montanteOferecido = -1;
+        this.montanteOferecido = 0;
         this.investidores = new HashMap<String, Float>();
     }
 

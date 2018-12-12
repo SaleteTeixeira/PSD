@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("")
+@Path("diretorio")
 public class DiretorioResource {
     private Diretorio diretorio;
 
@@ -23,7 +23,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("get_empresas")
+    @Path("/get_empresas")
     @Produces(MediaType.APPLICATION_JSON)
     public List<EmpresaRepresentation> getEmpresas() {
         List<EmpresaRepresentation> result = new ArrayList<>();
@@ -58,7 +58,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("get_emprestimos")
+    @Path("/get_emprestimos")
     @Produces(MediaType.APPLICATION_JSON)
     public List<EmprestimoRepresentation> getEmprestimos() {
         List<EmprestimoRepresentation> result = new ArrayList<>();
@@ -74,7 +74,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("get_leiloes")
+    @Path("/get_leiloes")
     @Produces(MediaType.APPLICATION_JSON)
     public List<LeilaoRepresentation> getLeiloes() {
         List<LeilaoRepresentation> result = new ArrayList<>();
@@ -95,7 +95,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("get_empresa/{nome}")
+    @Path("/get_empresa/{nome}")
     @Produces(MediaType.APPLICATION_JSON)
     public EmpresaRepresentation getEmpresa(@PathParam("nome") String nome) {
         Empresa emp = this.diretorio.getEmpresa(nome);
@@ -124,7 +124,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("get_emprestimo/{empresa}")
+    @Path("/get_emprestimo/{empresa}")
     @Produces(MediaType.APPLICATION_JSON)
     public EmprestimoRepresentation getEmprestimo(@PathParam("empresa") String empresa) {
         Emprestimo e = this.diretorio.getEmprestimo(empresa);
@@ -136,7 +136,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("get_leilao/{empresa}")
+    @Path("/get_leilao/{empresa}")
     @Produces(MediaType.APPLICATION_JSON)
     public LeilaoRepresentation getLeilao(@PathParam("empresa") String empresa) {
         Leilao l = this.diretorio.getLeilao(empresa);
@@ -152,7 +152,7 @@ public class DiretorioResource {
     }
 
     @PUT
-    @Path("add_emprestimo/{nome}_{valor}_{taxa}")
+    @Path("/add_emprestimo/{nome}/{valor}_{taxa}")
     public Response putEmprestimo(@PathParam("nome") String n, @PathParam("valor") float v, @PathParam("taxa") float t) {
         Emprestimo e = new Emprestimo(n, v, t);
         synchronized (this) {this.diretorio.addEmprestimo(e);}
@@ -160,7 +160,7 @@ public class DiretorioResource {
     }
 
     @PUT
-    @Path("add_leilao/{nome}_{valor}_{taxa}")
+    @Path("/add_leilao/{nome}/{valor}_{taxa}")
     public Response putLeilao(@PathParam("nome") String n, @PathParam("valor") float v, @PathParam("taxa") float t) {
         Leilao l = new Leilao(n, v, t);
         synchronized (this) {this.diretorio.addLeilao(l);}
@@ -168,7 +168,7 @@ public class DiretorioResource {
     }
 
     @POST
-    @Path("end_emprestimo/{empresa}_{inv}_{montante}")
+    @Path("/end_emprestimo/{empresa}/{inv}/{montante}")
     public Response endEmprestimo(@PathParam("empresa") String e, @PathParam("inv") List<String> inv, @PathParam("montante") List<Float> m) {
         Map<String, Float> invest = new HashMap<>();
 
@@ -181,7 +181,7 @@ public class DiretorioResource {
     }
 
     @POST
-    @Path("end_leilao/{empresa}_{inv}_{montante}_{taxa}")
+    @Path("/end_leilao/{empresa}/{inv}/{montante}_{taxa}")
     public Response endLeilao(@PathParam("empresa") String e, @PathParam("inv") List<String> inv,
                               @PathParam("montante") List<Float> m, @PathParam("taxa") List<Float> t) {
         Map<String, Oferta> invest = new HashMap<>();
@@ -196,7 +196,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("last_leilao/{empresa}")
+    @Path("/last_leilao/{empresa}")
     public LeilaoRepresentation lastLeilao(@PathParam("empresa") String e) {
         Leilao l = this.diretorio.lastLeilao(e);
 
@@ -212,7 +212,7 @@ public class DiretorioResource {
     }
 
     @GET
-    @Path("last_emprestimo/{empresa}")
+    @Path("/last_emprestimo/{empresa}")
     public EmprestimoRepresentation lastEmprestimo(@PathParam("empresa") String e) {
         Emprestimo m = this.diretorio.lastEmprestimo(e);
 

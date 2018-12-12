@@ -7,35 +7,25 @@ public class Leilao {
     private float taxaMaxima;
     private Map<String, Oferta> investidores;
 
-    public Leilao(String ID, String empresa, float montante, float taxaMaxima){
-        this.ID = ID;
+    public Leilao(String empresa, float montante, float taxaMaxima){
         this.empresa = empresa;
         this.montante = montante;
         this.taxaMaxima = taxaMaxima;
         this.investidores = new HashMap<>();
     }
 
-    @JsonProperty
-    public String getID() {
-        return ID;
-    }
-
-    @JsonProperty
     public String getEmpresa() {
         return empresa;
     }
 
-    @JsonProperty
     public float getMontante() {
         return montante;
     }
 
-    @JsonProperty
     public float getTaxaMaxima() {
         return taxaMaxima;
     }
 
-    @JsonProperty
     public Map<String, Oferta> getInvestidores() {
         return investidores;
     }

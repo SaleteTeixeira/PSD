@@ -1,10 +1,12 @@
-import java.net.Socket;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Exchange {
-
-    private Map<String, Emprestimo> emprestimos;
-    private Map<String, Leilao> leiloes;
 
     public boolean criar_leilao(String empresa, float montante, float taxaMaxima){
         //if(está no diretorio leilao ativo com essa empresa) return false; (mandar msg mais especifica ao servidor)
@@ -54,13 +56,20 @@ public class Exchange {
     }
 
 
-    public void leiloes_atuais(String empresa){
-        //mandar ao servidor o map de leiloes
+    public List<Leilao> leiloes_atuais(){
+        List<Leilao> leiloes = new ArrayList<>();
+        String s = sendGet("http://localhost:8080/diretorio/get_leiloes");
+        String aux;
+
+        /*TODO 3. para cada entrada aux na string s:*/
+            Leilao l = parseLeilao(aux);
+            leiloes.add(l);
+
+        return leiloes;
     }
 
-    public void info_emp(String empresa){
-        //pedir ao diretorio
-        //mandar ao servidor
+    public Empresa info_emp(String empresa){
+        return parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
     }
 
     public void his_emp(String empresa){
@@ -68,13 +77,92 @@ public class Exchange {
         //mandar ao servidor
     }
 
+    public String sendGet(String url){
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
 
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
 
+                in.close();
+                return response.toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "ERROR";
+    }
+
+    public String sendPost(String url){
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("POST");
+            int responseCode = con.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                return "OK";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "ERROR";
+    }
+
+    public String sendPut(String url){
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("PUT");
+            int responseCode = con.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                return "OK";
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "ERROR";
+    }
+
+    public Emprestimo parseEmprestimo(String result){
+        /*TODO 4. processar string para criar emprestimo*/
+
+        Emprestimo emp = new Emprestimo(...);
+        return emp;
+    }
+
+    public Leilao parseLeilao(String result){
+        /*TODO 5. processar string para criar leilao*/
+        Leilao l = new Leilao(...);
+
+        return l;
+    }
+
+    public Empresa parseEmpresa(String result){
+        /*TODO 6. processar string para criar empresa*/
+        Empresa emp = new Empresa(...);
+
+        return emp;
+    }
 
     public static void main(String args[]) throws Exception {
-
         /*TODO 1. protocol bufffers*/
         /*TODO 2. implementar subscrição pelo ZEROMQ*/
 
