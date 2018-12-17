@@ -80,7 +80,7 @@ public class Diretorio {
         this.emprestimos.remove(empresa);
 
         if(investidores.size() > 0){
-            investidores.keySet().forEach(k -> e.addInvestidor(k, investidores.get(k)));
+            e.setInvestidores(investidores);
             this.empresas.get(e.getEmpresa()).addEmprestimo(e);
         }
     }
@@ -90,7 +90,7 @@ public class Diretorio {
         this.leiloes.remove(empresa);
 
         if(investidores.size() > 0){
-            investidores.keySet().forEach(k -> l.addInvestidor(k, investidores.get(k)));
+            l.setInvestidores(investidores);
             this.empresas.get(l.getEmpresa()).addLeilao(l);
         }
     }

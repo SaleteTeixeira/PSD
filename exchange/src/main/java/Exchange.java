@@ -2,9 +2,12 @@
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Exchange {
 
@@ -55,26 +58,20 @@ public class Exchange {
         return true;
     }
 
+    public List<Emprestimo> emprestimos_atuais(){
+        String s = sendGet("http://localhost:8080/diretorio/get_emprestimos");
+        List<Emprestimo> emprestimos = parseEmprestimos(s);
+        return emprestimos;
+    }
 
     public List<Leilao> leiloes_atuais(){
-        List<Leilao> leiloes = new ArrayList<>();
         String s = sendGet("http://localhost:8080/diretorio/get_leiloes");
-        String aux;
-
-        /*TODO 3. para cada entrada aux na string s:*/
-            Leilao l = parseLeilao(aux);
-            leiloes.add(l);
-
+        List<Leilao> leiloes = parseLeiloes(s);
         return leiloes;
     }
 
     public Empresa info_emp(String empresa){
         return parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
-    }
-
-    public void his_emp(String empresa){
-        //pedir ao diretorio
-        //mandar ao servidor
     }
 
     public String sendGet(String url){
@@ -141,23 +138,100 @@ public class Exchange {
         return "ERROR";
     }
 
-    public Emprestimo parseEmprestimo(String result){
-        /*TODO 4. processar string para criar emprestimo*/
+    private List<Emprestimo> parseEmprestimos(String s) {
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        try {
+            JSONParser parser = new JSONParser();
+            JSONArray json = (JSONArray) parser.parse(s);
+            Iterator i = json.iterator();
 
-        Emprestimo emp = new Emprestimo(...);
+            while(i.hasNext()){
+                Emprestimo emp = parseEmprestimo(i.next().toString());
+                emprestimos.add(emp);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return emprestimos;
+    }
+
+    private List<Leilao> parseLeiloes(String s) {
+        List<Leilao> leiloes = new ArrayList<>();
+
+        try {
+            JSONParser parser = new JSONParser();
+            JSONArray json = (JSONArray) parser.parse(s);
+            Iterator i = json.iterator();
+
+            while(i.hasNext()){
+                Leilao l = parseLeilao(i.next().toString());
+                leiloes.add(l);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return leiloes;
+    }
+
+    public Emprestimo parseEmprestimo(String result){
+        Emprestimo emp = null;
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(result);
+
+            String empresa = (String) json.get("empresa");
+            double montante = (double) json.get("montante");
+            double taxa = (double) json.get("taxa");
+            double montanteOfer = (double) json.get("montanteOferecido");
+            Map<String, Float> investidores = (Map<String, Float>) json.get("investidores");
+
+            emp = new Emprestimo(empresa, montante, taxa, montanteOfer, investidores);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return emp;
     }
 
     public Leilao parseLeilao(String result){
-        /*TODO 5. processar string para criar leilao*/
-        Leilao l = new Leilao(...);
+        Leilao l = null;
+
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(result);
+
+            String empresa = (String) json.get("empresa");
+            float montante = (float) json.get("montante");
+            float taxaMaxima = (float) json.get("taxaMaxima");
+            Map<String, Oferta> investidores = new HashMap<>();     // MUDAR ISTOOOOOOOOOO
+
+            l = new Leilao(empresa, montante, taxaMaxima, investidores);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return l;
     }
 
     public Empresa parseEmpresa(String result){
-        /*TODO 6. processar string para criar empresa*/
-        Empresa emp = new Empresa(...);
+        Empresa emp = null;
+
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(result);
+
+            String nome = (String) json.get("nome");
+            List<Emprestimo> historicoEmprestimos = parseEmprestimos(json.get("historicoEmprestimos").toString());
+            List<Leilao> historicoLeiloes = parseLeiloes(json.get("historicoLeiloes").toString());
+
+            emp = new Empresa(nome, historicoEmprestimos, historicoLeiloes);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return emp;
     }
@@ -165,6 +239,17 @@ public class Exchange {
     public static void main(String args[]) throws Exception {
         /*TODO 1. protocol bufffers*/
         /*TODO 2. implementar subscrição pelo ZEROMQ*/
+
+        Exchange exchange = new Exchange();
+
+        System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_emprestimo/Mango/1000_2"));
+        System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_emprestimo/Mango/{joao,luis}/{500,500}"));
+        System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_emprestimo/Mango/1500_4"));
+        System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_emprestimo/Mango/{carla}/{1500}"));
+
+        String get = exchange.sendGet("http://localhost:8080/diretorio/get_empresa/Mango");
+
+        System.out.println(exchange.parseEmpresa(get).toString());
 
         /*Socket s = new Socket("127.0.0.1", 12345);
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());

@@ -41,6 +41,11 @@ public class Leilao {
         return investidores;
     }
 
+    @JsonProperty
+    public void setInvestidores(Map<String, Oferta> inv){
+        this.investidores = inv;
+    }
+
     public void addInvestidor(String investidor, Oferta o){
         this.investidores.put(investidor,o);
     }

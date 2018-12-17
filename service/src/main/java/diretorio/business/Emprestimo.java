@@ -44,13 +44,19 @@ public class Emprestimo {
     }
 
     @JsonProperty
+    public void setInvestidores(Map<String, Float> inv){
+        this.investidores = inv;
+        montanteOferecido();
+    }
+
+    @JsonProperty
     public Map<String, Float> getInvestidores() {
         return investidores;
     }
 
     public void addInvestidor(String investidor, float valor){
         this.investidores.put(investidor,valor);
-        montanteOferecido();
+        montanteOferecido += valor;
     }
 
     private void montanteOferecido() {

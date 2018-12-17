@@ -13,7 +13,7 @@ public class EmprestimoRepresentation {
 
     @JsonCreator
     public EmprestimoRepresentation(@JsonProperty("empresa") String e, @JsonProperty("montante") float m, @JsonProperty("taxa") float t,
-                                 @JsonProperty("montante_oferecido") float mo, @JsonProperty("investidores") Map<String, Float> i) {
+                                 @JsonProperty("montanteOferecido") float mo, @JsonProperty("investidores") Map<String, Float> i) {
         this.empresa = e;
         this.montante = m;
         this.taxa = t;
