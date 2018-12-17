@@ -168,21 +168,26 @@ public class DiretorioResource {
     }
 
     @POST
-    @Path("/end_emprestimo/{empresa}/{inv}/{montante}")
-    public Response endEmprestimo(@PathParam("empresa") String e, @PathParam("inv") List<String> inv, @PathParam("montante") List<Double> m) {
+    @Path("/end_emprestimo/{empresa}/investidores")
+    public Response endEmprestimo(@PathParam("empresa") String e, @QueryParam("inv") List<String> inv, @QueryParam("m") List<Double> m) {
         Map<String, Double> invest = new HashMap<>();
+
+        System.out.println("ENTREI");
 
         for(int i=0; i<inv.size(); i++){
             invest.put(inv.get(i), m.get(i));
         }
+
+        invest.keySet().forEach(k -> System.out.println(k));
+
         synchronized (this) {this.diretorio.endEmprestimo(e, invest);}
         return Response.ok().build();
     }
 
     @POST
-    @Path("/end_leilao/{empresa}/{inv}/{montante}_{taxa}")
-    public Response endLeilao(@PathParam("empresa") String e, @PathParam("inv") List<String> inv,
-                              @PathParam("montante") List<Double> m, @PathParam("taxa") List<Double> t) {
+    @Path("/end_leilao/{empresa}/investidores")
+    public Response endLeilao(@PathParam("empresa") String e, @QueryParam("inv") List<String> inv,
+                              @QueryParam("m") List<Double> m, @QueryParam("t") List<Double> t) {
         Map<String, Oferta> invest = new HashMap<>();
 
         for(int i=0; i<inv.size(); i++){

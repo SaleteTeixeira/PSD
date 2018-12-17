@@ -33,12 +33,13 @@ public class Empresa {
     public String toString(){
         StringBuilder sb = new StringBuilder();
 
-        sb.append("nome: ").append(this.nome).append("; ");
-        sb.append("historico_emprestimos:\n");
-        historicoEmprestimos.forEach(e -> sb.append("emprestimo: ").append(e.toString()).append("\n"));
-        sb.append("historico_leiloes:\n");
-        historicoLeiloes.forEach(l -> sb.append("leilao: ").append(l.toString()).append("\n"));
-        sb.append("\n");
+        sb.append("nome: ").append(this.nome).append("\n");
+        sb.append("historico_emprestimos -> [\n");
+        historicoEmprestimos.forEach(e -> sb.append("emprestimo: ").append(e.toString()));
+        sb.append("]\n");
+        sb.append("historico_leiloes -> [\n");
+        historicoLeiloes.forEach(l -> sb.append("leilao: ").append(l.toString()));
+        sb.append("]\n");
 
         return sb.toString();
     }

@@ -140,6 +140,7 @@ public class Exchange {
 
     private List<Emprestimo> parseEmprestimos(String s) {
         List<Emprestimo> emprestimos = new ArrayList<>();
+
         try {
             JSONParser parser = new JSONParser();
             JSONArray json = (JSONArray) parser.parse(s);
@@ -205,9 +206,21 @@ public class Exchange {
             String empresa = (String) json.get("empresa");
             double montante = (double) json.get("montante");
             double taxaMaxima = (double) json.get("taxaMaxima");
+            Map<String, Oferta> investidores = new HashMap<>();
 
-            /*TODO 3. ver como fazer parse deste map por causa da classe oferta*/
-            Map<String, Oferta> investidores = new HashMap<>();     // MUDAR ISTOOOOOOOOOO - INCOMPLETO
+            JSONObject jsonM = (JSONObject) json.get("investidores");
+            Iterator<?> i = (Iterator<String>) jsonM.keySet().iterator();
+
+            while(i.hasNext()){
+                String key = (String) i.next();
+                JSONObject value = (JSONObject) jsonM.get(key);
+
+                double m = (double) value.get("montante");
+                double t = (double) value.get("taxa");
+                Oferta oferta = new Oferta(m,t);
+
+                investidores.put(key,oferta);
+            }
 
             l = new Leilao(empresa, montante, taxaMaxima, investidores);
 
@@ -241,26 +254,9 @@ public class Exchange {
     public static void main(String args[]) throws Exception {
         Exchange exchange = new Exchange();
 
-        //PROBLEMA - NÃO CONSIGO FAZER O end_emprestimo OU end_leilao COM MAIS DO QUE UM INVESTIDOR - LIST NÃO FUNCIONA COMO EU PENSAVA
-
-        //TESTES
-
-        //System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_leilao/Mango/1000_2"));
-        //System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_leilao/Mango/joao/1000_1"));
-        System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_leilao/Mango/1500_4"));
-        System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_emprestimo/Mango/carla/1500"));
-        //System.out.println(exchange.parseLeiloes(exchange.sendGet("http://localhost:8080/diretorio/get_leiloes")));
-
-        String get = exchange.sendGet("http://localhost:8080/diretorio/get_empresa/Mango");
-        System.out.println(exchange.parseEmpresa(get).toString());
-
-
-
-
-
-
         /*TODO 1. protocol bufffers*/
         /*TODO 2. implementar subscrição pelo ZEROMQ*/
+        /*TODO 3. logica negocio (metodos acima)*/
 
         /*Socket s = new Socket("127.0.0.1", 12345);
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());

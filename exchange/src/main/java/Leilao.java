@@ -57,7 +57,7 @@ public class Leilao {
             sb.append(entry.getKey()).append(": ");
 
             Oferta o = entry.getValue();
-            sb.append("m- ").append(o.getMontante()).append("t- ").append(o.getTaxa()).append("  ");
+            sb.append("m-").append(o.getMontante()).append(" t-").append(o.getTaxa()).append("  ");
         }
         sb.append("\n");
 
