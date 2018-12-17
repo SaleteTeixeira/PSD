@@ -6,17 +6,17 @@ public class Emprestimo {
     private double montante;
     private double taxa;
     private double montanteOferecido;
-    private Map<String, Float> investidores;
+    private Map<String, Double> investidores;
 
-    public Emprestimo(String empresa, float valor, float taxa){
+    public Emprestimo(String empresa, double valor, double taxa){
         this.empresa = empresa;
         this.montante = valor;
         this.taxa = taxa;
         this.montanteOferecido = -1;
-        this.investidores = new HashMap<String, Float>();
+        this.investidores = new HashMap<>();
     }
 
-    public Emprestimo(String empresa, double valor, double taxa, double montanteOfer, Map<String, Float> inv){
+    public Emprestimo(String empresa, double valor, double taxa, double montanteOfer, Map<String, Double> inv){
         this.empresa = empresa;
         this.montante = valor;
         this.taxa = taxa;
@@ -40,15 +40,15 @@ public class Emprestimo {
         return montanteOferecido;
     }
 
-    public Map<String, Float> getInvestidores() {
+    public Map<String, Double> getInvestidores() {
         return investidores;
     }
 
-    public void setInvestidores(Map<String, Float> inv){
+    public void setInvestidores(Map<String, Double> inv){
         this.investidores = inv;
     }
 
-    public void addInvestidor(String investidor, float valor){
+    public void addInvestidor(String investidor, double valor){
         this.investidores.put(investidor,valor);
         montanteOferecido();
     }
@@ -66,7 +66,7 @@ public class Emprestimo {
         sb.append("montanteOferecido: ").append(this.montanteOferecido).append("; ");
         sb.append("investidores: ");
 
-        for(Map.Entry<String, Float> entry: this.investidores.entrySet()){
+        for(Map.Entry<String, Double> entry: this.investidores.entrySet()){
             sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("  ");
         }
         sb.append("\n");

@@ -6,14 +6,14 @@ import java.util.Map;
 
 public class EmprestimoRepresentation {
     public final String empresa;
-    public final float montante;
-    public final float taxa;
-    public final float montanteOferecido;
-    public final Map<String, Float> investidores;
+    public final double montante;
+    public final double taxa;
+    public final double montanteOferecido;
+    public final Map<String, Double> investidores;
 
     @JsonCreator
-    public EmprestimoRepresentation(@JsonProperty("empresa") String e, @JsonProperty("montante") float m, @JsonProperty("taxa") float t,
-                                 @JsonProperty("montanteOferecido") float mo, @JsonProperty("investidores") Map<String, Float> i) {
+    public EmprestimoRepresentation(@JsonProperty("empresa") String e, @JsonProperty("montante") double m, @JsonProperty("taxa") double t,
+                                    @JsonProperty("montanteOferecido") double mo, @JsonProperty("investidores") Map<String, Double> i) {
         this.empresa = e;
         this.montante = m;
         this.taxa = t;

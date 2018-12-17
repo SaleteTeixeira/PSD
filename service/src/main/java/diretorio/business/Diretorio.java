@@ -75,11 +75,11 @@ public class Diretorio {
         this.leiloes.put(l.getEmpresa(), l);
     }
 
-    public void endEmprestimo(String empresa, Map<String, Float> investidores){
+    public void endEmprestimo(String empresa, Map<String, Double> investidores){
         Emprestimo e = this.emprestimos.get(empresa);
         this.emprestimos.remove(empresa);
 
-        if(investidores.size() > 0){
+        if((investidores != null) && (investidores.size() > 0)){
             e.setInvestidores(investidores);
             this.empresas.get(e.getEmpresa()).addEmprestimo(e);
         }
@@ -89,7 +89,7 @@ public class Diretorio {
         Leilao l = this.leiloes.get(empresa);
         this.leiloes.remove(empresa);
 
-        if(investidores.size() > 0){
+        if((investidores != null) && (investidores.size() > 0)){
             l.setInvestidores(investidores);
             this.empresas.get(l.getEmpresa()).addLeilao(l);
         }

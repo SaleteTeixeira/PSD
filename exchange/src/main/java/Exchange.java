@@ -11,7 +11,7 @@ import org.json.simple.parser.ParseException;
 
 public class Exchange {
 
-    public boolean criar_leilao(String empresa, float montante, float taxaMaxima){
+    public boolean criar_leilao(String empresa, double montante, double taxaMaxima){
         //if(está no diretorio leilao ativo com essa empresa) return false; (mandar msg mais especifica ao servidor)
         //if(montante n for multiplo de 1000) return false; (mandar msg mais especifica ao servidor)
         //else
@@ -25,7 +25,7 @@ public class Exchange {
             return true;
     }
 
-    public boolean licitar_leilao(String investidor, String empresa, float montante, float taxa){
+    public boolean licitar_leilao(String investidor, String empresa, double montante, double taxa){
         //if(n está no diretorio leilao ativo com essa empresa) return false; (mandar msg mais especifica ao servidor)
         //if(montante n for multiplo de 100) return false; (mandar msg mais especifica ao servidor)
         //else
@@ -33,7 +33,7 @@ public class Exchange {
             return true;
     }
 
-    public boolean criar_emprestimo(String empresa, float montante, float taxa){
+    public boolean criar_emprestimo(String empresa, double montante, double taxa){
         //if (ja tem emissao a decorrer) return false (mandar msg mais especifica ao servidor)
         //if (leilao com sucesso ja feito)
             //ver qual o mais recente leilao acabado e a sua taxa mais alta alocada dos investidores
@@ -50,7 +50,7 @@ public class Exchange {
         //return false; (mandar msg mais especifica ao servidor)
     }
 
-    public boolean subscrever_emprestimo(String investido, String empresa, float montante){
+    public boolean subscrever_emprestimo(String investido, String empresa, double montante){
         //if(n está no diretorio emprestimo ativo com essa empresa) return false; (mandar msg mais especifica ao servidor)
         //if(montante n for multiplo de 100) return false; (mandar msg mais especifica ao servidor)
         //else
@@ -185,7 +185,7 @@ public class Exchange {
             double montante = (double) json.get("montante");
             double taxa = (double) json.get("taxa");
             double montanteOfer = (double) json.get("montanteOferecido");
-            Map<String, Float> investidores = (Map<String, Float>) json.get("investidores");
+            Map<String, Double> investidores = (Map<String, Double>) json.get("investidores");
 
             emp = new Emprestimo(empresa, montante, taxa, montanteOfer, investidores);
 
@@ -203,9 +203,11 @@ public class Exchange {
             JSONObject json = (JSONObject) parser.parse(result);
 
             String empresa = (String) json.get("empresa");
-            float montante = (float) json.get("montante");
-            float taxaMaxima = (float) json.get("taxaMaxima");
-            Map<String, Oferta> investidores = new HashMap<>();     // MUDAR ISTOOOOOOOOOO
+            double montante = (double) json.get("montante");
+            double taxaMaxima = (double) json.get("taxaMaxima");
+
+            /*TODO 3. ver como fazer parse deste map por causa da classe oferta*/
+            Map<String, Oferta> investidores = new HashMap<>();     // MUDAR ISTOOOOOOOOOO - INCOMPLETO
 
             l = new Leilao(empresa, montante, taxaMaxima, investidores);
 
@@ -237,19 +239,28 @@ public class Exchange {
     }
 
     public static void main(String args[]) throws Exception {
-        /*TODO 1. protocol bufffers*/
-        /*TODO 2. implementar subscrição pelo ZEROMQ*/
-
         Exchange exchange = new Exchange();
 
-        System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_emprestimo/Mango/1000_2"));
-        System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_emprestimo/Mango/{joao,luis}/{500,500}"));
-        System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_emprestimo/Mango/1500_4"));
-        System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_emprestimo/Mango/{carla}/{1500}"));
+        //PROBLEMA - NÃO CONSIGO FAZER O end_emprestimo OU end_leilao COM MAIS DO QUE UM INVESTIDOR - LIST NÃO FUNCIONA COMO EU PENSAVA
+
+        //TESTES
+
+        //System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_leilao/Mango/1000_2"));
+        //System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_leilao/Mango/joao/1000_1"));
+        System.out.println(exchange.sendPut("http://localhost:8080/diretorio/add_leilao/Mango/1500_4"));
+        System.out.println(exchange.sendPost("http://localhost:8080/diretorio/end_emprestimo/Mango/carla/1500"));
+        //System.out.println(exchange.parseLeiloes(exchange.sendGet("http://localhost:8080/diretorio/get_leiloes")));
 
         String get = exchange.sendGet("http://localhost:8080/diretorio/get_empresa/Mango");
-
         System.out.println(exchange.parseEmpresa(get).toString());
+
+
+
+
+
+
+        /*TODO 1. protocol bufffers*/
+        /*TODO 2. implementar subscrição pelo ZEROMQ*/
 
         /*Socket s = new Socket("127.0.0.1", 12345);
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());

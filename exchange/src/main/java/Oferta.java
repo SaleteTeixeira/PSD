@@ -1,17 +1,17 @@
 public class Oferta{
-    private float montante;
-    private float taxa;
+    private double montante;
+    private double taxa;
 
-    public Oferta(float montante, float taxa){
+    public Oferta(double montante, double taxa){
         this.montante = montante;
         this.taxa = taxa;
     }
 
-    public float getMontante() {
+    public double getMontante() {
         return montante;
     }
 
-    public float getTaxa() {
+    public double getTaxa() {
         return taxa;
     }
 }

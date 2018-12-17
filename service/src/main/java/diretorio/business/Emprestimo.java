@@ -6,21 +6,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Emprestimo {
     private String empresa;
-    private float montante;
-    private float taxa;
-    private float montanteOferecido;
-    private Map<String, Float> investidores;
+    private double montante;
+    private double taxa;
+    private double montanteOferecido;
+    private Map<String, Double> investidores;
 
     public Emprestimo(){
 
     }
 
-    public Emprestimo(String empresa, float valor, float taxa){
+    public Emprestimo(String empresa, double valor, double taxa){
         this.empresa = empresa;
         this.montante = valor;
         this.taxa = taxa;
         this.montanteOferecido = 0;
-        this.investidores = new HashMap<String, Float>();
+        this.investidores = new HashMap<>();
     }
 
     @JsonProperty
@@ -29,33 +29,34 @@ public class Emprestimo {
     }
 
     @JsonProperty
-    public float getMontante() {
+    public double getMontante() {
         return montante;
     }
 
     @JsonProperty
-    public float getTaxa() {
+    public double getTaxa() {
         return taxa;
     }
 
     @JsonProperty
-    public float getMontanteOferecido() {
+    public double getMontanteOferecido() {
         return montanteOferecido;
     }
 
     @JsonProperty
-    public void setInvestidores(Map<String, Float> inv){
+    public void setInvestidores(Map<String, Double> inv){
         this.investidores = inv;
         montanteOferecido();
     }
 
     @JsonProperty
-    public Map<String, Float> getInvestidores() {
+    public Map<String, Double> getInvestidores() {
         return investidores;
     }
 
-    public void addInvestidor(String investidor, float valor){
+    public void addInvestidor(String investidor, double valor){
         this.investidores.put(investidor,valor);
+        montanteOferecido += valor;
         montanteOferecido += valor;
     }
 

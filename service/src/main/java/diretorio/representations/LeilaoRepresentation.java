@@ -7,13 +7,13 @@ import java.util.Map;
 
 public class LeilaoRepresentation {
     public final String empresa;
-    public final float montante;
-    public final float taxaMaxima;
+    public final double montante;
+    public final double taxaMaxima;
     public final Map<String, OfertaRepresentation> investidores;
 
     @JsonCreator
-    public LeilaoRepresentation(@JsonProperty("empresa") String e, @JsonProperty("montante") float m,
-                                    @JsonProperty("taxaMaxima") float tm,
+    public LeilaoRepresentation(@JsonProperty("empresa") String e, @JsonProperty("montante") double m,
+                                    @JsonProperty("taxaMaxima") double tm,
                                     @JsonProperty("investidores") Map<String, OfertaRepresentation> i) {
         this.empresa = e;
         this.montante = m;

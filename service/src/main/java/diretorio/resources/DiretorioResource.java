@@ -153,7 +153,7 @@ public class DiretorioResource {
 
     @PUT
     @Path("/add_emprestimo/{nome}/{valor}_{taxa}")
-    public Response putEmprestimo(@PathParam("nome") String n, @PathParam("valor") float v, @PathParam("taxa") float t) {
+    public Response putEmprestimo(@PathParam("nome") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
         Emprestimo e = new Emprestimo(n, v, t);
         synchronized (this) {this.diretorio.addEmprestimo(e);}
         return Response.ok().build();
@@ -161,7 +161,7 @@ public class DiretorioResource {
 
     @PUT
     @Path("/add_leilao/{nome}/{valor}_{taxa}")
-    public Response putLeilao(@PathParam("nome") String n, @PathParam("valor") float v, @PathParam("taxa") float t) {
+    public Response putLeilao(@PathParam("nome") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
         Leilao l = new Leilao(n, v, t);
         synchronized (this) {this.diretorio.addLeilao(l);}
         return Response.ok().build();
@@ -169,13 +169,12 @@ public class DiretorioResource {
 
     @POST
     @Path("/end_emprestimo/{empresa}/{inv}/{montante}")
-    public Response endEmprestimo(@PathParam("empresa") String e, @PathParam("inv") List<String> inv, @PathParam("montante") List<Float> m) {
-        Map<String, Float> invest = new HashMap<>();
+    public Response endEmprestimo(@PathParam("empresa") String e, @PathParam("inv") List<String> inv, @PathParam("montante") List<Double> m) {
+        Map<String, Double> invest = new HashMap<>();
 
         for(int i=0; i<inv.size(); i++){
             invest.put(inv.get(i), m.get(i));
         }
-
         synchronized (this) {this.diretorio.endEmprestimo(e, invest);}
         return Response.ok().build();
     }
@@ -183,7 +182,7 @@ public class DiretorioResource {
     @POST
     @Path("/end_leilao/{empresa}/{inv}/{montante}_{taxa}")
     public Response endLeilao(@PathParam("empresa") String e, @PathParam("inv") List<String> inv,
-                              @PathParam("montante") List<Float> m, @PathParam("taxa") List<Float> t) {
+                              @PathParam("montante") List<Double> m, @PathParam("taxa") List<Double> t) {
         Map<String, Oferta> invest = new HashMap<>();
 
         for(int i=0; i<inv.size(); i++){

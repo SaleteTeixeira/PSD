@@ -6,15 +6,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Leilao {
     private String empresa;
-    private float montante;
-    private float taxaMaxima;
+    private double montante;
+    private double taxaMaxima;
     private Map<String, Oferta> investidores;
 
     public Leilao(){
 
     }
 
-    public Leilao(String empresa, float montante, float taxaMaxima){
+    public Leilao(String empresa, double montante, double taxaMaxima){
         this.empresa = empresa;
         this.montante = montante;
         this.taxaMaxima = taxaMaxima;
@@ -27,12 +27,12 @@ public class Leilao {
     }
 
     @JsonProperty
-    public float getMontante() {
+    public double getMontante() {
         return montante;
     }
 
     @JsonProperty
-    public float getTaxaMaxima() {
+    public double getTaxaMaxima() {
         return taxaMaxima;
     }
 
