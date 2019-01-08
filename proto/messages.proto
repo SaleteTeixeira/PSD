@@ -20,15 +20,34 @@ message LogoutRequest {
     string username = 2;
 }
 
+// Investor actions
+
 message AuctionBid {
+    string type = 1;
+    string username= 2;
+    string company = 3;
+    uint32 amount = 4;
+    double interest = 5;
+}
+
+message FixedSubscription {
+    string type = 1;
+    string username = 2;
+    string company = 3;
+    uint32 amount = 4;
+}
+
+// Company actions
+
+message Auction {
     string type = 1;
     string company = 2;
     uint32 amount = 3;
     double interest = 4;
 }
 
-message FixedSubscription {
+message FixedLoan {
     string type = 1;
-    string company = 2;
+    string username = 2;
     uint32 amount = 3;
 }

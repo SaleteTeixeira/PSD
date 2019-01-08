@@ -42,20 +42,24 @@
 
 -type 'FixedSubscription'() :: #'FixedSubscription'{}.
 
--export_type(['Reply'/0, 'LoginRequest'/0, 'Request'/0, 'LogoutRequest'/0, 'AuctionBid'/0, 'FixedSubscription'/0]).
+-type 'Auction'() :: #'Auction'{}.
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{}) -> binary().
+-type 'FixedLoan'() :: #'FixedLoan'{}.
+
+-export_type(['Reply'/0, 'LoginRequest'/0, 'Request'/0, 'LogoutRequest'/0, 'AuctionBid'/0, 'FixedSubscription'/0, 'Auction'/0, 'FixedLoan'/0]).
+
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{}) -> binary().
 encode_msg(Msg) when tuple_size(Msg) >= 1 ->
     encode_msg(Msg, element(1, Msg), []).
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{}, atom() | list()) -> binary().
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{}, atom() | list()) -> binary().
 encode_msg(Msg, MsgName) when is_atom(MsgName) ->
     encode_msg(Msg, MsgName, []);
 encode_msg(Msg, Opts)
     when tuple_size(Msg) >= 1, is_list(Opts) ->
     encode_msg(Msg, element(1, Msg), Opts).
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{}, atom(), list()) -> binary().
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{}, atom(), list()) -> binary().
 encode_msg(Msg, MsgName, Opts) ->
     case proplists:get_bool(verify, Opts) of
       true -> verify_msg(Msg, MsgName, Opts);
@@ -77,7 +81,11 @@ encode_msg(Msg, MsgName, Opts) ->
 	  encode_msg_AuctionBid(id(Msg, TrUserData), TrUserData);
       'FixedSubscription' ->
 	  encode_msg_FixedSubscription(id(Msg, TrUserData),
-				       TrUserData)
+				       TrUserData);
+      'Auction' ->
+	  encode_msg_Auction(id(Msg, TrUserData), TrUserData);
+      'FixedLoan' ->
+	  encode_msg_FixedLoan(id(Msg, TrUserData), TrUserData)
     end.
 
 
@@ -202,8 +210,121 @@ encode_msg_AuctionBid(Msg, TrUserData) ->
 
 
 encode_msg_AuctionBid(#'AuctionBid'{type = F1,
-				    company = F2, amount = F3, interest = F4},
+				    username = F2, company = F3, amount = F4,
+				    interest = F5},
 		      Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true ->
+		begin
+		  TrF2 = id(F2, TrUserData),
+		  case is_empty_string(TrF2) of
+		    true -> B1;
+		    false ->
+			e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+		  end
+		end
+	 end,
+    B3 = if F3 == undefined -> B2;
+	    true ->
+		begin
+		  TrF3 = id(F3, TrUserData),
+		  case is_empty_string(TrF3) of
+		    true -> B2;
+		    false ->
+			e_type_string(TrF3, <<B2/binary, 26>>, TrUserData)
+		  end
+		end
+	 end,
+    B4 = if F4 == undefined -> B3;
+	    true ->
+		begin
+		  TrF4 = id(F4, TrUserData),
+		  if TrF4 =:= 0 -> B3;
+		     true -> e_varint(TrF4, <<B3/binary, 32>>, TrUserData)
+		  end
+		end
+	 end,
+    if F5 == undefined -> B4;
+       true ->
+	   begin
+	     TrF5 = id(F5, TrUserData),
+	     if TrF5 =:= 0.0 -> B4;
+		true ->
+		    e_type_double(TrF5, <<B4/binary, 41>>, TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_FixedSubscription(Msg, TrUserData) ->
+    encode_msg_FixedSubscription(Msg, <<>>, TrUserData).
+
+
+encode_msg_FixedSubscription(#'FixedSubscription'{type =
+						      F1,
+						  username = F2, company = F3,
+						  amount = F4},
+			     Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true ->
+		begin
+		  TrF2 = id(F2, TrUserData),
+		  case is_empty_string(TrF2) of
+		    true -> B1;
+		    false ->
+			e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+		  end
+		end
+	 end,
+    B3 = if F3 == undefined -> B2;
+	    true ->
+		begin
+		  TrF3 = id(F3, TrUserData),
+		  case is_empty_string(TrF3) of
+		    true -> B2;
+		    false ->
+			e_type_string(TrF3, <<B2/binary, 26>>, TrUserData)
+		  end
+		end
+	 end,
+    if F4 == undefined -> B3;
+       true ->
+	   begin
+	     TrF4 = id(F4, TrUserData),
+	     if TrF4 =:= 0 -> B3;
+		true -> e_varint(TrF4, <<B3/binary, 32>>, TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_Auction(Msg, TrUserData) ->
+    encode_msg_Auction(Msg, <<>>, TrUserData).
+
+
+encode_msg_Auction(#'Auction'{type = F1, company = F2,
+			      amount = F3, interest = F4},
+		   Bin, TrUserData) ->
     B1 = if F1 == undefined -> Bin;
 	    true ->
 		begin
@@ -246,14 +367,13 @@ encode_msg_AuctionBid(#'AuctionBid'{type = F1,
 	   end
     end.
 
-encode_msg_FixedSubscription(Msg, TrUserData) ->
-    encode_msg_FixedSubscription(Msg, <<>>, TrUserData).
+encode_msg_FixedLoan(Msg, TrUserData) ->
+    encode_msg_FixedLoan(Msg, <<>>, TrUserData).
 
 
-encode_msg_FixedSubscription(#'FixedSubscription'{type =
-						      F1,
-						  company = F2, amount = F3},
-			     Bin, TrUserData) ->
+encode_msg_FixedLoan(#'FixedLoan'{type = F1,
+				  username = F2, amount = F3},
+		     Bin, TrUserData) ->
     B1 = if F1 == undefined -> Bin;
 	    true ->
 		begin
@@ -434,7 +554,11 @@ decode_msg_2_doit('AuctionBid', Bin, TrUserData) ->
 decode_msg_2_doit('FixedSubscription', Bin,
 		  TrUserData) ->
     id(decode_msg_FixedSubscription(Bin, TrUserData),
-       TrUserData).
+       TrUserData);
+decode_msg_2_doit('Auction', Bin, TrUserData) ->
+    id(decode_msg_Auction(Bin, TrUserData), TrUserData);
+decode_msg_2_doit('FixedLoan', Bin, TrUserData) ->
+    id(decode_msg_FixedLoan(Bin, TrUserData), TrUserData).
 
 
 
@@ -949,86 +1073,94 @@ skip_64_LogoutRequest(<<_:64, Rest/binary>>, Z1, Z2,
 decode_msg_AuctionBid(Bin, TrUserData) ->
     dfp_read_field_def_AuctionBid(Bin, 0, 0,
 				  id([], TrUserData), id([], TrUserData),
-				  id(0, TrUserData), id(0.0, TrUserData),
-				  TrUserData).
+				  id([], TrUserData), id(0, TrUserData),
+				  id(0.0, TrUserData), TrUserData).
 
 dfp_read_field_def_AuctionBid(<<10, Rest/binary>>, Z1,
-			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     d_field_AuctionBid_type(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			    F@_4, TrUserData);
+			    F@_4, F@_5, TrUserData);
 dfp_read_field_def_AuctionBid(<<18, Rest/binary>>, Z1,
-			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+    d_field_AuctionBid_username(Rest, Z1, Z2, F@_1, F@_2,
+				F@_3, F@_4, F@_5, TrUserData);
+dfp_read_field_def_AuctionBid(<<26, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     d_field_AuctionBid_company(Rest, Z1, Z2, F@_1, F@_2,
-			       F@_3, F@_4, TrUserData);
-dfp_read_field_def_AuctionBid(<<24, Rest/binary>>, Z1,
-			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			       F@_3, F@_4, F@_5, TrUserData);
+dfp_read_field_def_AuctionBid(<<32, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     d_field_AuctionBid_amount(Rest, Z1, Z2, F@_1, F@_2,
-			      F@_3, F@_4, TrUserData);
-dfp_read_field_def_AuctionBid(<<33, Rest/binary>>, Z1,
-			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			      F@_3, F@_4, F@_5, TrUserData);
+dfp_read_field_def_AuctionBid(<<41, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     d_field_AuctionBid_interest(Rest, Z1, Z2, F@_1, F@_2,
-				F@_3, F@_4, TrUserData);
+				F@_3, F@_4, F@_5, TrUserData);
 dfp_read_field_def_AuctionBid(<<>>, 0, 0, F@_1, F@_2,
-			      F@_3, F@_4, _) ->
-    #'AuctionBid'{type = F@_1, company = F@_2,
-		  amount = F@_3, interest = F@_4};
+			      F@_3, F@_4, F@_5, _) ->
+    #'AuctionBid'{type = F@_1, username = F@_2,
+		  company = F@_3, amount = F@_4, interest = F@_5};
 dfp_read_field_def_AuctionBid(Other, Z1, Z2, F@_1, F@_2,
-			      F@_3, F@_4, TrUserData) ->
+			      F@_3, F@_4, F@_5, TrUserData) ->
     dg_read_field_def_AuctionBid(Other, Z1, Z2, F@_1, F@_2,
-				 F@_3, F@_4, TrUserData).
+				 F@_3, F@_4, F@_5, TrUserData).
 
 dg_read_field_def_AuctionBid(<<1:1, X:7, Rest/binary>>,
-			     N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+			     N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
     when N < 32 - 7 ->
     dg_read_field_def_AuctionBid(Rest, N + 7, X bsl N + Acc,
-				 F@_1, F@_2, F@_3, F@_4, TrUserData);
+				 F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
 dg_read_field_def_AuctionBid(<<0:1, X:7, Rest/binary>>,
-			     N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+			     N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+			     TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
       10 ->
 	  d_field_AuctionBid_type(Rest, 0, 0, F@_1, F@_2, F@_3,
-				  F@_4, TrUserData);
+				  F@_4, F@_5, TrUserData);
       18 ->
+	  d_field_AuctionBid_username(Rest, 0, 0, F@_1, F@_2,
+				      F@_3, F@_4, F@_5, TrUserData);
+      26 ->
 	  d_field_AuctionBid_company(Rest, 0, 0, F@_1, F@_2, F@_3,
-				     F@_4, TrUserData);
-      24 ->
+				     F@_4, F@_5, TrUserData);
+      32 ->
 	  d_field_AuctionBid_amount(Rest, 0, 0, F@_1, F@_2, F@_3,
-				    F@_4, TrUserData);
-      33 ->
+				    F@_4, F@_5, TrUserData);
+      41 ->
 	  d_field_AuctionBid_interest(Rest, 0, 0, F@_1, F@_2,
-				      F@_3, F@_4, TrUserData);
+				      F@_3, F@_4, F@_5, TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 ->
 		skip_varint_AuctionBid(Rest, 0, 0, F@_1, F@_2, F@_3,
-				       F@_4, TrUserData);
+				       F@_4, F@_5, TrUserData);
 	    1 ->
 		skip_64_AuctionBid(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
-				   TrUserData);
+				   F@_5, TrUserData);
 	    2 ->
 		skip_length_delimited_AuctionBid(Rest, 0, 0, F@_1, F@_2,
-						 F@_3, F@_4, TrUserData);
+						 F@_3, F@_4, F@_5, TrUserData);
 	    3 ->
 		skip_group_AuctionBid(Rest, Key bsr 3, 0, F@_1, F@_2,
-				      F@_3, F@_4, TrUserData);
+				      F@_3, F@_4, F@_5, TrUserData);
 	    5 ->
 		skip_32_AuctionBid(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
-				   TrUserData)
+				   F@_5, TrUserData)
 	  end
     end;
 dg_read_field_def_AuctionBid(<<>>, 0, 0, F@_1, F@_2,
-			     F@_3, F@_4, _) ->
-    #'AuctionBid'{type = F@_1, company = F@_2,
-		  amount = F@_3, interest = F@_4}.
+			     F@_3, F@_4, F@_5, _) ->
+    #'AuctionBid'{type = F@_1, username = F@_2,
+		  company = F@_3, amount = F@_4, interest = F@_5}.
 
 d_field_AuctionBid_type(<<1:1, X:7, Rest/binary>>, N,
-			Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+			Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
     when N < 57 ->
     d_field_AuctionBid_type(Rest, N + 7, X bsl N + Acc,
-			    F@_1, F@_2, F@_3, F@_4, TrUserData);
+			    F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
 d_field_AuctionBid_type(<<0:1, X:7, Rest/binary>>, N,
-			Acc, _, F@_2, F@_3, F@_4, TrUserData) ->
+			Acc, _, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -1037,15 +1169,15 @@ d_field_AuctionBid_type(<<0:1, X:7, Rest/binary>>, N,
 			    Rest2}
 			 end,
     dfp_read_field_def_AuctionBid(RestF, 0, 0, NewFValue,
-				  F@_2, F@_3, F@_4, TrUserData).
+				  F@_2, F@_3, F@_4, F@_5, TrUserData).
 
-d_field_AuctionBid_company(<<1:1, X:7, Rest/binary>>, N,
-			   Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+d_field_AuctionBid_username(<<1:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
     when N < 57 ->
-    d_field_AuctionBid_company(Rest, N + 7, X bsl N + Acc,
-			       F@_1, F@_2, F@_3, F@_4, TrUserData);
-d_field_AuctionBid_company(<<0:1, X:7, Rest/binary>>, N,
-			   Acc, F@_1, _, F@_3, F@_4, TrUserData) ->
+    d_field_AuctionBid_username(Rest, N + 7, X bsl N + Acc,
+				F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
+d_field_AuctionBid_username(<<0:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, _, F@_3, F@_4, F@_5, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -1054,166 +1186,202 @@ d_field_AuctionBid_company(<<0:1, X:7, Rest/binary>>, N,
 			    Rest2}
 			 end,
     dfp_read_field_def_AuctionBid(RestF, 0, 0, F@_1,
-				  NewFValue, F@_3, F@_4, TrUserData).
+				  NewFValue, F@_3, F@_4, F@_5, TrUserData).
+
+d_field_AuctionBid_company(<<1:1, X:7, Rest/binary>>, N,
+			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+    when N < 57 ->
+    d_field_AuctionBid_company(Rest, N + 7, X bsl N + Acc,
+			       F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
+d_field_AuctionBid_company(<<0:1, X:7, Rest/binary>>, N,
+			   Acc, F@_1, F@_2, _, F@_4, F@_5, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_AuctionBid(RestF, 0, 0, F@_1, F@_2,
+				  NewFValue, F@_4, F@_5, TrUserData).
 
 d_field_AuctionBid_amount(<<1:1, X:7, Rest/binary>>, N,
-			  Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+			  Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
     when N < 57 ->
     d_field_AuctionBid_amount(Rest, N + 7, X bsl N + Acc,
-			      F@_1, F@_2, F@_3, F@_4, TrUserData);
+			      F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
 d_field_AuctionBid_amount(<<0:1, X:7, Rest/binary>>, N,
-			  Acc, F@_1, F@_2, _, F@_4, TrUserData) ->
+			  Acc, F@_1, F@_2, F@_3, _, F@_5, TrUserData) ->
     {NewFValue, RestF} = {id(X bsl N + Acc, TrUserData),
 			  Rest},
     dfp_read_field_def_AuctionBid(RestF, 0, 0, F@_1, F@_2,
-				  NewFValue, F@_4, TrUserData).
+				  F@_3, NewFValue, F@_5, TrUserData).
 
 d_field_AuctionBid_interest(<<0:48, 240, 127,
 			      Rest/binary>>,
-			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+			    Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, id(infinity, TrUserData), TrUserData);
+				  F@_3, F@_4, id(infinity, TrUserData),
+				  TrUserData);
 d_field_AuctionBid_interest(<<0:48, 240, 255,
 			      Rest/binary>>,
-			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+			    Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, id('-infinity', TrUserData),
+				  F@_3, F@_4, id('-infinity', TrUserData),
 				  TrUserData);
 d_field_AuctionBid_interest(<<_:48, 15:4, _:4, _:1,
 			      127:7, Rest/binary>>,
-			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+			    Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, id(nan, TrUserData), TrUserData);
+				  F@_3, F@_4, id(nan, TrUserData), TrUserData);
 d_field_AuctionBid_interest(<<Value:64/little-float,
 			      Rest/binary>>,
-			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+			    Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, id(Value, TrUserData), TrUserData).
+				  F@_3, F@_4, id(Value, TrUserData),
+				  TrUserData).
 
 skip_varint_AuctionBid(<<1:1, _:7, Rest/binary>>, Z1,
-		       Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+		       Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     skip_varint_AuctionBid(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			   F@_4, TrUserData);
+			   F@_4, F@_5, TrUserData);
 skip_varint_AuctionBid(<<0:1, _:7, Rest/binary>>, Z1,
-		       Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+		       Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, F@_4, TrUserData).
+				  F@_3, F@_4, F@_5, TrUserData).
 
 skip_length_delimited_AuctionBid(<<1:1, X:7,
 				   Rest/binary>>,
-				 N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+				 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+				 TrUserData)
     when N < 57 ->
     skip_length_delimited_AuctionBid(Rest, N + 7,
 				     X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
-				     TrUserData);
+				     F@_5, TrUserData);
 skip_length_delimited_AuctionBid(<<0:1, X:7,
 				   Rest/binary>>,
-				 N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+				 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+				 TrUserData) ->
     Length = X bsl N + Acc,
     <<_:Length/binary, Rest2/binary>> = Rest,
     dfp_read_field_def_AuctionBid(Rest2, 0, 0, F@_1, F@_2,
-				  F@_3, F@_4, TrUserData).
+				  F@_3, F@_4, F@_5, TrUserData).
 
 skip_group_AuctionBid(Bin, FNum, Z2, F@_1, F@_2, F@_3,
-		      F@_4, TrUserData) ->
+		      F@_4, F@_5, TrUserData) ->
     {_, Rest} = read_group(Bin, FNum),
     dfp_read_field_def_AuctionBid(Rest, 0, Z2, F@_1, F@_2,
-				  F@_3, F@_4, TrUserData).
+				  F@_3, F@_4, F@_5, TrUserData).
 
 skip_32_AuctionBid(<<_:32, Rest/binary>>, Z1, Z2, F@_1,
-		   F@_2, F@_3, F@_4, TrUserData) ->
+		   F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, F@_4, TrUserData).
+				  F@_3, F@_4, F@_5, TrUserData).
 
 skip_64_AuctionBid(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
-		   F@_2, F@_3, F@_4, TrUserData) ->
+		   F@_2, F@_3, F@_4, F@_5, TrUserData) ->
     dfp_read_field_def_AuctionBid(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, F@_4, TrUserData).
+				  F@_3, F@_4, F@_5, TrUserData).
 
 decode_msg_FixedSubscription(Bin, TrUserData) ->
     dfp_read_field_def_FixedSubscription(Bin, 0, 0,
 					 id([], TrUserData), id([], TrUserData),
-					 id(0, TrUserData), TrUserData).
+					 id([], TrUserData), id(0, TrUserData),
+					 TrUserData).
 
 dfp_read_field_def_FixedSubscription(<<10,
 				       Rest/binary>>,
-				     Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+				     Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData) ->
     d_field_FixedSubscription_type(Rest, Z1, Z2, F@_1, F@_2,
-				   F@_3, TrUserData);
+				   F@_3, F@_4, TrUserData);
 dfp_read_field_def_FixedSubscription(<<18,
 				       Rest/binary>>,
-				     Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
-    d_field_FixedSubscription_company(Rest, Z1, Z2, F@_1,
-				      F@_2, F@_3, TrUserData);
-dfp_read_field_def_FixedSubscription(<<24,
+				     Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData) ->
+    d_field_FixedSubscription_username(Rest, Z1, Z2, F@_1,
+				       F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_FixedSubscription(<<26,
 				       Rest/binary>>,
-				     Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+				     Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData) ->
+    d_field_FixedSubscription_company(Rest, Z1, Z2, F@_1,
+				      F@_2, F@_3, F@_4, TrUserData);
+dfp_read_field_def_FixedSubscription(<<32,
+				       Rest/binary>>,
+				     Z1, Z2, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData) ->
     d_field_FixedSubscription_amount(Rest, Z1, Z2, F@_1,
-				     F@_2, F@_3, TrUserData);
+				     F@_2, F@_3, F@_4, TrUserData);
 dfp_read_field_def_FixedSubscription(<<>>, 0, 0, F@_1,
-				     F@_2, F@_3, _) ->
-    #'FixedSubscription'{type = F@_1, company = F@_2,
-			 amount = F@_3};
+				     F@_2, F@_3, F@_4, _) ->
+    #'FixedSubscription'{type = F@_1, username = F@_2,
+			 company = F@_3, amount = F@_4};
 dfp_read_field_def_FixedSubscription(Other, Z1, Z2,
-				     F@_1, F@_2, F@_3, TrUserData) ->
+				     F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     dg_read_field_def_FixedSubscription(Other, Z1, Z2, F@_1,
-					F@_2, F@_3, TrUserData).
+					F@_2, F@_3, F@_4, TrUserData).
 
 dg_read_field_def_FixedSubscription(<<1:1, X:7,
 				      Rest/binary>>,
-				    N, Acc, F@_1, F@_2, F@_3, TrUserData)
+				    N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
     when N < 32 - 7 ->
     dg_read_field_def_FixedSubscription(Rest, N + 7,
-					X bsl N + Acc, F@_1, F@_2, F@_3,
+					X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
 					TrUserData);
 dg_read_field_def_FixedSubscription(<<0:1, X:7,
 				      Rest/binary>>,
-				    N, Acc, F@_1, F@_2, F@_3, TrUserData) ->
+				    N, Acc, F@_1, F@_2, F@_3, F@_4,
+				    TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
       10 ->
 	  d_field_FixedSubscription_type(Rest, 0, 0, F@_1, F@_2,
-					 F@_3, TrUserData);
+					 F@_3, F@_4, TrUserData);
       18 ->
+	  d_field_FixedSubscription_username(Rest, 0, 0, F@_1,
+					     F@_2, F@_3, F@_4, TrUserData);
+      26 ->
 	  d_field_FixedSubscription_company(Rest, 0, 0, F@_1,
-					    F@_2, F@_3, TrUserData);
-      24 ->
+					    F@_2, F@_3, F@_4, TrUserData);
+      32 ->
 	  d_field_FixedSubscription_amount(Rest, 0, 0, F@_1, F@_2,
-					   F@_3, TrUserData);
+					   F@_3, F@_4, TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 ->
 		skip_varint_FixedSubscription(Rest, 0, 0, F@_1, F@_2,
-					      F@_3, TrUserData);
+					      F@_3, F@_4, TrUserData);
 	    1 ->
 		skip_64_FixedSubscription(Rest, 0, 0, F@_1, F@_2, F@_3,
-					  TrUserData);
+					  F@_4, TrUserData);
 	    2 ->
 		skip_length_delimited_FixedSubscription(Rest, 0, 0,
-							F@_1, F@_2, F@_3,
+							F@_1, F@_2, F@_3, F@_4,
 							TrUserData);
 	    3 ->
 		skip_group_FixedSubscription(Rest, Key bsr 3, 0, F@_1,
-					     F@_2, F@_3, TrUserData);
+					     F@_2, F@_3, F@_4, TrUserData);
 	    5 ->
 		skip_32_FixedSubscription(Rest, 0, 0, F@_1, F@_2, F@_3,
-					  TrUserData)
+					  F@_4, TrUserData)
 	  end
     end;
 dg_read_field_def_FixedSubscription(<<>>, 0, 0, F@_1,
-				    F@_2, F@_3, _) ->
-    #'FixedSubscription'{type = F@_1, company = F@_2,
-			 amount = F@_3}.
+				    F@_2, F@_3, F@_4, _) ->
+    #'FixedSubscription'{type = F@_1, username = F@_2,
+			 company = F@_3, amount = F@_4}.
 
 d_field_FixedSubscription_type(<<1:1, X:7,
 				 Rest/binary>>,
-			       N, Acc, F@_1, F@_2, F@_3, TrUserData)
+			       N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
     when N < 57 ->
     d_field_FixedSubscription_type(Rest, N + 7,
-				   X bsl N + Acc, F@_1, F@_2, F@_3, TrUserData);
+				   X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				   TrUserData);
 d_field_FixedSubscription_type(<<0:1, X:7,
 				 Rest/binary>>,
-			       N, Acc, _, F@_2, F@_3, TrUserData) ->
+			       N, Acc, _, F@_2, F@_3, F@_4, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -1222,18 +1390,19 @@ d_field_FixedSubscription_type(<<0:1, X:7,
 			    Rest2}
 			 end,
     dfp_read_field_def_FixedSubscription(RestF, 0, 0,
-					 NewFValue, F@_2, F@_3, TrUserData).
+					 NewFValue, F@_2, F@_3, F@_4,
+					 TrUserData).
 
-d_field_FixedSubscription_company(<<1:1, X:7,
-				    Rest/binary>>,
-				  N, Acc, F@_1, F@_2, F@_3, TrUserData)
+d_field_FixedSubscription_username(<<1:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
     when N < 57 ->
-    d_field_FixedSubscription_company(Rest, N + 7,
-				      X bsl N + Acc, F@_1, F@_2, F@_3,
-				      TrUserData);
-d_field_FixedSubscription_company(<<0:1, X:7,
-				    Rest/binary>>,
-				  N, Acc, F@_1, _, F@_3, TrUserData) ->
+    d_field_FixedSubscription_username(Rest, N + 7,
+				       X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				       TrUserData);
+d_field_FixedSubscription_username(<<0:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, _, F@_3, F@_4, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -1242,62 +1411,419 @@ d_field_FixedSubscription_company(<<0:1, X:7,
 			    Rest2}
 			 end,
     dfp_read_field_def_FixedSubscription(RestF, 0, 0, F@_1,
-					 NewFValue, F@_3, TrUserData).
+					 NewFValue, F@_3, F@_4, TrUserData).
+
+d_field_FixedSubscription_company(<<1:1, X:7,
+				    Rest/binary>>,
+				  N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_FixedSubscription_company(Rest, N + 7,
+				      X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				      TrUserData);
+d_field_FixedSubscription_company(<<0:1, X:7,
+				    Rest/binary>>,
+				  N, Acc, F@_1, F@_2, _, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedSubscription(RestF, 0, 0, F@_1,
+					 F@_2, NewFValue, F@_4, TrUserData).
 
 d_field_FixedSubscription_amount(<<1:1, X:7,
 				   Rest/binary>>,
-				 N, Acc, F@_1, F@_2, F@_3, TrUserData)
+				 N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
     when N < 57 ->
     d_field_FixedSubscription_amount(Rest, N + 7,
-				     X bsl N + Acc, F@_1, F@_2, F@_3,
+				     X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
 				     TrUserData);
 d_field_FixedSubscription_amount(<<0:1, X:7,
 				   Rest/binary>>,
-				 N, Acc, F@_1, F@_2, _, TrUserData) ->
+				 N, Acc, F@_1, F@_2, F@_3, _, TrUserData) ->
     {NewFValue, RestF} = {id(X bsl N + Acc, TrUserData),
 			  Rest},
     dfp_read_field_def_FixedSubscription(RestF, 0, 0, F@_1,
-					 F@_2, NewFValue, TrUserData).
+					 F@_2, F@_3, NewFValue, TrUserData).
 
 skip_varint_FixedSubscription(<<1:1, _:7, Rest/binary>>,
-			      Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+			      Z1, Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     skip_varint_FixedSubscription(Rest, Z1, Z2, F@_1, F@_2,
-				  F@_3, TrUserData);
+				  F@_3, F@_4, TrUserData);
 skip_varint_FixedSubscription(<<0:1, _:7, Rest/binary>>,
-			      Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+			      Z1, Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     dfp_read_field_def_FixedSubscription(Rest, Z1, Z2, F@_1,
-					 F@_2, F@_3, TrUserData).
+					 F@_2, F@_3, F@_4, TrUserData).
 
 skip_length_delimited_FixedSubscription(<<1:1, X:7,
 					  Rest/binary>>,
-					N, Acc, F@_1, F@_2, F@_3, TrUserData)
+					N, Acc, F@_1, F@_2, F@_3, F@_4,
+					TrUserData)
     when N < 57 ->
     skip_length_delimited_FixedSubscription(Rest, N + 7,
 					    X bsl N + Acc, F@_1, F@_2, F@_3,
-					    TrUserData);
+					    F@_4, TrUserData);
 skip_length_delimited_FixedSubscription(<<0:1, X:7,
 					  Rest/binary>>,
-					N, Acc, F@_1, F@_2, F@_3, TrUserData) ->
+					N, Acc, F@_1, F@_2, F@_3, F@_4,
+					TrUserData) ->
     Length = X bsl N + Acc,
     <<_:Length/binary, Rest2/binary>> = Rest,
     dfp_read_field_def_FixedSubscription(Rest2, 0, 0, F@_1,
-					 F@_2, F@_3, TrUserData).
+					 F@_2, F@_3, F@_4, TrUserData).
 
 skip_group_FixedSubscription(Bin, FNum, Z2, F@_1, F@_2,
-			     F@_3, TrUserData) ->
+			     F@_3, F@_4, TrUserData) ->
     {_, Rest} = read_group(Bin, FNum),
     dfp_read_field_def_FixedSubscription(Rest, 0, Z2, F@_1,
-					 F@_2, F@_3, TrUserData).
+					 F@_2, F@_3, F@_4, TrUserData).
 
 skip_32_FixedSubscription(<<_:32, Rest/binary>>, Z1, Z2,
-			  F@_1, F@_2, F@_3, TrUserData) ->
+			  F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     dfp_read_field_def_FixedSubscription(Rest, Z1, Z2, F@_1,
-					 F@_2, F@_3, TrUserData).
+					 F@_2, F@_3, F@_4, TrUserData).
 
 skip_64_FixedSubscription(<<_:64, Rest/binary>>, Z1, Z2,
-			  F@_1, F@_2, F@_3, TrUserData) ->
+			  F@_1, F@_2, F@_3, F@_4, TrUserData) ->
     dfp_read_field_def_FixedSubscription(Rest, Z1, Z2, F@_1,
-					 F@_2, F@_3, TrUserData).
+					 F@_2, F@_3, F@_4, TrUserData).
+
+decode_msg_Auction(Bin, TrUserData) ->
+    dfp_read_field_def_Auction(Bin, 0, 0,
+			       id([], TrUserData), id([], TrUserData),
+			       id(0, TrUserData), id(0.0, TrUserData),
+			       TrUserData).
+
+dfp_read_field_def_Auction(<<10, Rest/binary>>, Z1, Z2,
+			   F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_Auction_type(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			 F@_4, TrUserData);
+dfp_read_field_def_Auction(<<18, Rest/binary>>, Z1, Z2,
+			   F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_Auction_company(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			    F@_4, TrUserData);
+dfp_read_field_def_Auction(<<24, Rest/binary>>, Z1, Z2,
+			   F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_Auction_amount(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			   F@_4, TrUserData);
+dfp_read_field_def_Auction(<<33, Rest/binary>>, Z1, Z2,
+			   F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_Auction_interest(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			     F@_4, TrUserData);
+dfp_read_field_def_Auction(<<>>, 0, 0, F@_1, F@_2, F@_3,
+			   F@_4, _) ->
+    #'Auction'{type = F@_1, company = F@_2, amount = F@_3,
+	       interest = F@_4};
+dfp_read_field_def_Auction(Other, Z1, Z2, F@_1, F@_2,
+			   F@_3, F@_4, TrUserData) ->
+    dg_read_field_def_Auction(Other, Z1, Z2, F@_1, F@_2,
+			      F@_3, F@_4, TrUserData).
+
+dg_read_field_def_Auction(<<1:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_Auction(Rest, N + 7, X bsl N + Acc,
+			      F@_1, F@_2, F@_3, F@_4, TrUserData);
+dg_read_field_def_Auction(<<0:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_Auction_type(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+			       TrUserData);
+      18 ->
+	  d_field_Auction_company(Rest, 0, 0, F@_1, F@_2, F@_3,
+				  F@_4, TrUserData);
+      24 ->
+	  d_field_Auction_amount(Rest, 0, 0, F@_1, F@_2, F@_3,
+				 F@_4, TrUserData);
+      33 ->
+	  d_field_Auction_interest(Rest, 0, 0, F@_1, F@_2, F@_3,
+				   F@_4, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_Auction(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				    TrUserData);
+	    1 ->
+		skip_64_Auction(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				TrUserData);
+	    2 ->
+		skip_length_delimited_Auction(Rest, 0, 0, F@_1, F@_2,
+					      F@_3, F@_4, TrUserData);
+	    3 ->
+		skip_group_Auction(Rest, Key bsr 3, 0, F@_1, F@_2, F@_3,
+				   F@_4, TrUserData);
+	    5 ->
+		skip_32_Auction(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				TrUserData)
+	  end
+    end;
+dg_read_field_def_Auction(<<>>, 0, 0, F@_1, F@_2, F@_3,
+			  F@_4, _) ->
+    #'Auction'{type = F@_1, company = F@_2, amount = F@_3,
+	       interest = F@_4}.
+
+d_field_Auction_type(<<1:1, X:7, Rest/binary>>, N, Acc,
+		     F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_Auction_type(Rest, N + 7, X bsl N + Acc, F@_1,
+			 F@_2, F@_3, F@_4, TrUserData);
+d_field_Auction_type(<<0:1, X:7, Rest/binary>>, N, Acc,
+		     _, F@_2, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_Auction(RestF, 0, 0, NewFValue, F@_2,
+			       F@_3, F@_4, TrUserData).
+
+d_field_Auction_company(<<1:1, X:7, Rest/binary>>, N,
+			Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_Auction_company(Rest, N + 7, X bsl N + Acc,
+			    F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_Auction_company(<<0:1, X:7, Rest/binary>>, N,
+			Acc, F@_1, _, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_Auction(RestF, 0, 0, F@_1, NewFValue,
+			       F@_3, F@_4, TrUserData).
+
+d_field_Auction_amount(<<1:1, X:7, Rest/binary>>, N,
+		       Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_Auction_amount(Rest, N + 7, X bsl N + Acc, F@_1,
+			   F@_2, F@_3, F@_4, TrUserData);
+d_field_Auction_amount(<<0:1, X:7, Rest/binary>>, N,
+		       Acc, F@_1, F@_2, _, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc, TrUserData),
+			  Rest},
+    dfp_read_field_def_Auction(RestF, 0, 0, F@_1, F@_2,
+			       NewFValue, F@_4, TrUserData).
+
+d_field_Auction_interest(<<0:48, 240, 127,
+			   Rest/binary>>,
+			 Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, id(infinity, TrUserData), TrUserData);
+d_field_Auction_interest(<<0:48, 240, 255,
+			   Rest/binary>>,
+			 Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, id('-infinity', TrUserData), TrUserData);
+d_field_Auction_interest(<<_:48, 15:4, _:4, _:1, 127:7,
+			   Rest/binary>>,
+			 Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, id(nan, TrUserData), TrUserData);
+d_field_Auction_interest(<<Value:64/little-float,
+			   Rest/binary>>,
+			 Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, id(Value, TrUserData), TrUserData).
+
+skip_varint_Auction(<<1:1, _:7, Rest/binary>>, Z1, Z2,
+		    F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    skip_varint_Auction(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			F@_4, TrUserData);
+skip_varint_Auction(<<0:1, _:7, Rest/binary>>, Z1, Z2,
+		    F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, F@_4, TrUserData).
+
+skip_length_delimited_Auction(<<1:1, X:7, Rest/binary>>,
+			      N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_Auction(Rest, N + 7,
+				  X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				  TrUserData);
+skip_length_delimited_Auction(<<0:1, X:7, Rest/binary>>,
+			      N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_Auction(Rest2, 0, 0, F@_1, F@_2,
+			       F@_3, F@_4, TrUserData).
+
+skip_group_Auction(Bin, FNum, Z2, F@_1, F@_2, F@_3,
+		   F@_4, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_Auction(Rest, 0, Z2, F@_1, F@_2,
+			       F@_3, F@_4, TrUserData).
+
+skip_32_Auction(<<_:32, Rest/binary>>, Z1, Z2, F@_1,
+		F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, F@_4, TrUserData).
+
+skip_64_Auction(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
+		F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_Auction(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, F@_4, TrUserData).
+
+decode_msg_FixedLoan(Bin, TrUserData) ->
+    dfp_read_field_def_FixedLoan(Bin, 0, 0,
+				 id([], TrUserData), id([], TrUserData),
+				 id(0, TrUserData), TrUserData).
+
+dfp_read_field_def_FixedLoan(<<10, Rest/binary>>, Z1,
+			     Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    d_field_FixedLoan_type(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			   TrUserData);
+dfp_read_field_def_FixedLoan(<<18, Rest/binary>>, Z1,
+			     Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    d_field_FixedLoan_username(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, TrUserData);
+dfp_read_field_def_FixedLoan(<<24, Rest/binary>>, Z1,
+			     Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    d_field_FixedLoan_amount(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			     TrUserData);
+dfp_read_field_def_FixedLoan(<<>>, 0, 0, F@_1, F@_2,
+			     F@_3, _) ->
+    #'FixedLoan'{type = F@_1, username = F@_2,
+		 amount = F@_3};
+dfp_read_field_def_FixedLoan(Other, Z1, Z2, F@_1, F@_2,
+			     F@_3, TrUserData) ->
+    dg_read_field_def_FixedLoan(Other, Z1, Z2, F@_1, F@_2,
+				F@_3, TrUserData).
+
+dg_read_field_def_FixedLoan(<<1:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_FixedLoan(Rest, N + 7, X bsl N + Acc,
+				F@_1, F@_2, F@_3, TrUserData);
+dg_read_field_def_FixedLoan(<<0:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, F@_3, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_FixedLoan_type(Rest, 0, 0, F@_1, F@_2, F@_3,
+				 TrUserData);
+      18 ->
+	  d_field_FixedLoan_username(Rest, 0, 0, F@_1, F@_2, F@_3,
+				     TrUserData);
+      24 ->
+	  d_field_FixedLoan_amount(Rest, 0, 0, F@_1, F@_2, F@_3,
+				   TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_FixedLoan(Rest, 0, 0, F@_1, F@_2, F@_3,
+				      TrUserData);
+	    1 ->
+		skip_64_FixedLoan(Rest, 0, 0, F@_1, F@_2, F@_3,
+				  TrUserData);
+	    2 ->
+		skip_length_delimited_FixedLoan(Rest, 0, 0, F@_1, F@_2,
+						F@_3, TrUserData);
+	    3 ->
+		skip_group_FixedLoan(Rest, Key bsr 3, 0, F@_1, F@_2,
+				     F@_3, TrUserData);
+	    5 ->
+		skip_32_FixedLoan(Rest, 0, 0, F@_1, F@_2, F@_3,
+				  TrUserData)
+	  end
+    end;
+dg_read_field_def_FixedLoan(<<>>, 0, 0, F@_1, F@_2,
+			    F@_3, _) ->
+    #'FixedLoan'{type = F@_1, username = F@_2,
+		 amount = F@_3}.
+
+d_field_FixedLoan_type(<<1:1, X:7, Rest/binary>>, N,
+		       Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_FixedLoan_type(Rest, N + 7, X bsl N + Acc, F@_1,
+			   F@_2, F@_3, TrUserData);
+d_field_FixedLoan_type(<<0:1, X:7, Rest/binary>>, N,
+		       Acc, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedLoan(RestF, 0, 0, NewFValue,
+				 F@_2, F@_3, TrUserData).
+
+d_field_FixedLoan_username(<<1:1, X:7, Rest/binary>>, N,
+			   Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_FixedLoan_username(Rest, N + 7, X bsl N + Acc,
+			       F@_1, F@_2, F@_3, TrUserData);
+d_field_FixedLoan_username(<<0:1, X:7, Rest/binary>>, N,
+			   Acc, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedLoan(RestF, 0, 0, F@_1,
+				 NewFValue, F@_3, TrUserData).
+
+d_field_FixedLoan_amount(<<1:1, X:7, Rest/binary>>, N,
+			 Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_FixedLoan_amount(Rest, N + 7, X bsl N + Acc,
+			     F@_1, F@_2, F@_3, TrUserData);
+d_field_FixedLoan_amount(<<0:1, X:7, Rest/binary>>, N,
+			 Acc, F@_1, F@_2, _, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc, TrUserData),
+			  Rest},
+    dfp_read_field_def_FixedLoan(RestF, 0, 0, F@_1, F@_2,
+				 NewFValue, TrUserData).
+
+skip_varint_FixedLoan(<<1:1, _:7, Rest/binary>>, Z1, Z2,
+		      F@_1, F@_2, F@_3, TrUserData) ->
+    skip_varint_FixedLoan(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			  TrUserData);
+skip_varint_FixedLoan(<<0:1, _:7, Rest/binary>>, Z1, Z2,
+		      F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_FixedLoan(Rest, Z1, Z2, F@_1, F@_2,
+				 F@_3, TrUserData).
+
+skip_length_delimited_FixedLoan(<<1:1, X:7,
+				  Rest/binary>>,
+				N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_FixedLoan(Rest, N + 7,
+				    X bsl N + Acc, F@_1, F@_2, F@_3,
+				    TrUserData);
+skip_length_delimited_FixedLoan(<<0:1, X:7,
+				  Rest/binary>>,
+				N, Acc, F@_1, F@_2, F@_3, TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_FixedLoan(Rest2, 0, 0, F@_1, F@_2,
+				 F@_3, TrUserData).
+
+skip_group_FixedLoan(Bin, FNum, Z2, F@_1, F@_2, F@_3,
+		     TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_FixedLoan(Rest, 0, Z2, F@_1, F@_2,
+				 F@_3, TrUserData).
+
+skip_32_FixedLoan(<<_:32, Rest/binary>>, Z1, Z2, F@_1,
+		  F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_FixedLoan(Rest, Z1, Z2, F@_1, F@_2,
+				 F@_3, TrUserData).
+
+skip_64_FixedLoan(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
+		  F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_FixedLoan(Rest, Z1, Z2, F@_1, F@_2,
+				 F@_3, TrUserData).
 
 read_group(Bin, FieldNum) ->
     {NumBytes, EndTagLen} = read_gr_b(Bin, 0, 0, 0, 0, FieldNum),
@@ -1380,7 +1906,10 @@ merge_msgs(Prev, New, MsgName, Opts) ->
       'AuctionBid' ->
 	  merge_msg_AuctionBid(Prev, New, TrUserData);
       'FixedSubscription' ->
-	  merge_msg_FixedSubscription(Prev, New, TrUserData)
+	  merge_msg_FixedSubscription(Prev, New, TrUserData);
+      'Auction' -> merge_msg_Auction(Prev, New, TrUserData);
+      'FixedLoan' ->
+	  merge_msg_FixedLoan(Prev, New, TrUserData)
     end.
 
 -compile({nowarn_unused_function,merge_msg_Reply/3}).
@@ -1440,14 +1969,19 @@ merge_msg_LogoutRequest(#'LogoutRequest'{type = PFtype,
 
 -compile({nowarn_unused_function,merge_msg_AuctionBid/3}).
 merge_msg_AuctionBid(#'AuctionBid'{type = PFtype,
-				   company = PFcompany, amount = PFamount,
-				   interest = PFinterest},
-		     #'AuctionBid'{type = NFtype, company = NFcompany,
-				   amount = NFamount, interest = NFinterest},
+				   username = PFusername, company = PFcompany,
+				   amount = PFamount, interest = PFinterest},
+		     #'AuctionBid'{type = NFtype, username = NFusername,
+				   company = NFcompany, amount = NFamount,
+				   interest = NFinterest},
 		     _) ->
     #'AuctionBid'{type =
 		      if NFtype =:= undefined -> PFtype;
 			 true -> NFtype
+		      end,
+		  username =
+		      if NFusername =:= undefined -> PFusername;
+			 true -> NFusername
 		      end,
 		  company =
 		      if NFcompany =:= undefined -> PFcompany;
@@ -1465,15 +1999,21 @@ merge_msg_AuctionBid(#'AuctionBid'{type = PFtype,
 -compile({nowarn_unused_function,merge_msg_FixedSubscription/3}).
 merge_msg_FixedSubscription(#'FixedSubscription'{type =
 						     PFtype,
+						 username = PFusername,
 						 company = PFcompany,
 						 amount = PFamount},
 			    #'FixedSubscription'{type = NFtype,
+						 username = NFusername,
 						 company = NFcompany,
 						 amount = NFamount},
 			    _) ->
     #'FixedSubscription'{type =
 			     if NFtype =:= undefined -> PFtype;
 				true -> NFtype
+			     end,
+			 username =
+			     if NFusername =:= undefined -> PFusername;
+				true -> NFusername
 			     end,
 			 company =
 			     if NFcompany =:= undefined -> PFcompany;
@@ -1483,6 +2023,49 @@ merge_msg_FixedSubscription(#'FixedSubscription'{type =
 			     if NFamount =:= undefined -> PFamount;
 				true -> NFamount
 			     end}.
+
+-compile({nowarn_unused_function,merge_msg_Auction/3}).
+merge_msg_Auction(#'Auction'{type = PFtype,
+			     company = PFcompany, amount = PFamount,
+			     interest = PFinterest},
+		  #'Auction'{type = NFtype, company = NFcompany,
+			     amount = NFamount, interest = NFinterest},
+		  _) ->
+    #'Auction'{type =
+		   if NFtype =:= undefined -> PFtype;
+		      true -> NFtype
+		   end,
+	       company =
+		   if NFcompany =:= undefined -> PFcompany;
+		      true -> NFcompany
+		   end,
+	       amount =
+		   if NFamount =:= undefined -> PFamount;
+		      true -> NFamount
+		   end,
+	       interest =
+		   if NFinterest =:= undefined -> PFinterest;
+		      true -> NFinterest
+		   end}.
+
+-compile({nowarn_unused_function,merge_msg_FixedLoan/3}).
+merge_msg_FixedLoan(#'FixedLoan'{type = PFtype,
+				 username = PFusername, amount = PFamount},
+		    #'FixedLoan'{type = NFtype, username = NFusername,
+				 amount = NFamount},
+		    _) ->
+    #'FixedLoan'{type =
+		     if NFtype =:= undefined -> PFtype;
+			true -> NFtype
+		     end,
+		 username =
+		     if NFusername =:= undefined -> PFusername;
+			true -> NFusername
+		     end,
+		 amount =
+		     if NFamount =:= undefined -> PFamount;
+			true -> NFamount
+		     end}.
 
 
 verify_msg(Msg) when tuple_size(Msg) >= 1 ->
@@ -1510,6 +2093,9 @@ verify_msg(Msg, MsgName, Opts) ->
 	  v_msg_AuctionBid(Msg, [MsgName], TrUserData);
       'FixedSubscription' ->
 	  v_msg_FixedSubscription(Msg, [MsgName], TrUserData);
+      'Auction' -> v_msg_Auction(Msg, [MsgName], TrUserData);
+      'FixedLoan' ->
+	  v_msg_FixedLoan(Msg, [MsgName], TrUserData);
       _ -> mk_type_error(not_a_known_message, Msg, [])
     end.
 
@@ -1574,9 +2160,56 @@ v_msg_LogoutRequest(X, Path, _TrUserData) ->
 
 -compile({nowarn_unused_function,v_msg_AuctionBid/3}).
 -dialyzer({nowarn_function,v_msg_AuctionBid/3}).
-v_msg_AuctionBid(#'AuctionBid'{type = F1, company = F2,
-			       amount = F3, interest = F4},
+v_msg_AuctionBid(#'AuctionBid'{type = F1, username = F2,
+			       company = F3, amount = F4, interest = F5},
 		 Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [username | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_type_string(F3, [company | Path], TrUserData)
+    end,
+    if F4 == undefined -> ok;
+       true -> v_type_uint32(F4, [amount | Path], TrUserData)
+    end,
+    if F5 == undefined -> ok;
+       true -> v_type_double(F5, [interest | Path], TrUserData)
+    end,
+    ok;
+v_msg_AuctionBid(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'AuctionBid'}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_FixedSubscription/3}).
+-dialyzer({nowarn_function,v_msg_FixedSubscription/3}).
+v_msg_FixedSubscription(#'FixedSubscription'{type = F1,
+					     username = F2, company = F3,
+					     amount = F4},
+			Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [username | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_type_string(F3, [company | Path], TrUserData)
+    end,
+    if F4 == undefined -> ok;
+       true -> v_type_uint32(F4, [amount | Path], TrUserData)
+    end,
+    ok;
+v_msg_FixedSubscription(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'FixedSubscription'}, X,
+		  Path).
+
+-compile({nowarn_unused_function,v_msg_Auction/3}).
+-dialyzer({nowarn_function,v_msg_Auction/3}).
+v_msg_Auction(#'Auction'{type = F1, company = F2,
+			 amount = F3, interest = F4},
+	      Path, TrUserData) ->
     if F1 == undefined -> ok;
        true -> v_type_string(F1, [type | Path], TrUserData)
     end,
@@ -1590,27 +2223,26 @@ v_msg_AuctionBid(#'AuctionBid'{type = F1, company = F2,
        true -> v_type_double(F4, [interest | Path], TrUserData)
     end,
     ok;
-v_msg_AuctionBid(X, Path, _TrUserData) ->
-    mk_type_error({expected_msg, 'AuctionBid'}, X, Path).
+v_msg_Auction(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'Auction'}, X, Path).
 
--compile({nowarn_unused_function,v_msg_FixedSubscription/3}).
--dialyzer({nowarn_function,v_msg_FixedSubscription/3}).
-v_msg_FixedSubscription(#'FixedSubscription'{type = F1,
-					     company = F2, amount = F3},
-			Path, TrUserData) ->
+-compile({nowarn_unused_function,v_msg_FixedLoan/3}).
+-dialyzer({nowarn_function,v_msg_FixedLoan/3}).
+v_msg_FixedLoan(#'FixedLoan'{type = F1, username = F2,
+			     amount = F3},
+		Path, TrUserData) ->
     if F1 == undefined -> ok;
        true -> v_type_string(F1, [type | Path], TrUserData)
     end,
     if F2 == undefined -> ok;
-       true -> v_type_string(F2, [company | Path], TrUserData)
+       true -> v_type_string(F2, [username | Path], TrUserData)
     end,
     if F3 == undefined -> ok;
        true -> v_type_uint32(F3, [amount | Path], TrUserData)
     end,
     ok;
-v_msg_FixedSubscription(X, Path, _TrUserData) ->
-    mk_type_error({expected_msg, 'FixedSubscription'}, X,
-		  Path).
+v_msg_FixedLoan(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'FixedLoan'}, X, Path).
 
 -compile({nowarn_unused_function,v_type_uint32/3}).
 -dialyzer({nowarn_function,v_type_uint32/3}).
@@ -1727,16 +2359,36 @@ get_msg_defs() ->
      {{msg, 'AuctionBid'},
       [#field{name = type, fnum = 1, rnum = 2, type = string,
 	      occurrence = optional, opts = []},
+       #field{name = username, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = company, fnum = 3, rnum = 4,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = amount, fnum = 4, rnum = 5, type = uint32,
+	      occurrence = optional, opts = []},
+       #field{name = interest, fnum = 5, rnum = 6,
+	      type = double, occurrence = optional, opts = []}]},
+     {{msg, 'FixedSubscription'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = username, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = company, fnum = 3, rnum = 4,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = amount, fnum = 4, rnum = 5, type = uint32,
+	      occurrence = optional, opts = []}]},
+     {{msg, 'Auction'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
        #field{name = company, fnum = 2, rnum = 3,
 	      type = string, occurrence = optional, opts = []},
        #field{name = amount, fnum = 3, rnum = 4, type = uint32,
 	      occurrence = optional, opts = []},
        #field{name = interest, fnum = 4, rnum = 5,
 	      type = double, occurrence = optional, opts = []}]},
-     {{msg, 'FixedSubscription'},
+     {{msg, 'FixedLoan'},
       [#field{name = type, fnum = 1, rnum = 2, type = string,
 	      occurrence = optional, opts = []},
-       #field{name = company, fnum = 2, rnum = 3,
+       #field{name = username, fnum = 2, rnum = 3,
 	      type = string, occurrence = optional, opts = []},
        #field{name = amount, fnum = 3, rnum = 4, type = uint32,
 	      occurrence = optional, opts = []}]}].
@@ -1744,7 +2396,8 @@ get_msg_defs() ->
 
 get_msg_names() ->
     ['Reply', 'LoginRequest', 'Request', 'LogoutRequest',
-     'AuctionBid', 'FixedSubscription'].
+     'AuctionBid', 'FixedSubscription', 'Auction',
+     'FixedLoan'].
 
 
 get_group_names() -> [].
@@ -1752,7 +2405,8 @@ get_group_names() -> [].
 
 get_msg_or_group_names() ->
     ['Reply', 'LoginRequest', 'Request', 'LogoutRequest',
-     'AuctionBid', 'FixedSubscription'].
+     'AuctionBid', 'FixedSubscription', 'Auction',
+     'FixedLoan'].
 
 
 get_enum_names() -> [].
@@ -1793,16 +2447,36 @@ find_msg_def('LogoutRequest') ->
 find_msg_def('AuctionBid') ->
     [#field{name = type, fnum = 1, rnum = 2, type = string,
 	    occurrence = optional, opts = []},
+     #field{name = username, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = company, fnum = 3, rnum = 4,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = amount, fnum = 4, rnum = 5, type = uint32,
+	    occurrence = optional, opts = []},
+     #field{name = interest, fnum = 5, rnum = 6,
+	    type = double, occurrence = optional, opts = []}];
+find_msg_def('FixedSubscription') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = username, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = company, fnum = 3, rnum = 4,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = amount, fnum = 4, rnum = 5, type = uint32,
+	    occurrence = optional, opts = []}];
+find_msg_def('Auction') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
      #field{name = company, fnum = 2, rnum = 3,
 	    type = string, occurrence = optional, opts = []},
      #field{name = amount, fnum = 3, rnum = 4, type = uint32,
 	    occurrence = optional, opts = []},
      #field{name = interest, fnum = 4, rnum = 5,
 	    type = double, occurrence = optional, opts = []}];
-find_msg_def('FixedSubscription') ->
+find_msg_def('FixedLoan') ->
     [#field{name = type, fnum = 1, rnum = 2, type = string,
 	    occurrence = optional, opts = []},
-     #field{name = company, fnum = 2, rnum = 3,
+     #field{name = username, fnum = 2, rnum = 3,
 	    type = string, occurrence = optional, opts = []},
      #field{name = amount, fnum = 3, rnum = 4, type = uint32,
 	    occurrence = optional, opts = []}];

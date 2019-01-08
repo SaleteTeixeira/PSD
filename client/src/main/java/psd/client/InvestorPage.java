@@ -292,7 +292,7 @@ public class InvestorPage extends javax.swing.JFrame {
         final String company = this.companyFieldAuction.getText();
         final int amount = Integer.parseInt(this.amountFieldAuction.getText());
         final double interest = Double.parseDouble(this.interestFieldAuction.getText());
-        final boolean success = this.erlang.bidAuction(company, amount, interest);
+        final boolean success = this.erlang.bidAuction(this.username, company, amount, interest);
         if (success) {
 
         }
@@ -302,7 +302,7 @@ public class InvestorPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final String company = this.companyFieldFixed.getText();
         final int amount = Integer.parseInt(this.amountFieldFixed.getText());
-        final boolean success = this.erlang.subscribeFixed(company, amount);
+        final boolean success = this.erlang.subscribeFixed(this.username, company, amount);
         if (success) {
 
         }

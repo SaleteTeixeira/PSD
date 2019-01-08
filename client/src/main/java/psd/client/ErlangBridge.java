@@ -86,7 +86,7 @@ class ErlangBridge {
         }
     }
 
-    boolean bidAuction(final String company, final int amount, final double interest) {
+    boolean bidAuction(final String username, final String company, final int amount, final double interest) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
@@ -101,7 +101,7 @@ class ErlangBridge {
         }
     }
 
-    boolean subscribeFixed(final String company, final int amount) {
+    boolean subscribeFixed(final String username, final String company, final int amount) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
@@ -114,5 +114,13 @@ class ErlangBridge {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    boolean createAuction(final String company, final int amount, final double interest) {
+        return false;
+    }
+    
+    boolean createLoan(final String company, final int amount) {
+        return false;
     }
 }

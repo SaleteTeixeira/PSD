@@ -43,9 +43,10 @@
 -define('AUCTIONBID_PB_H', true).
 -record('AuctionBid',
         {type = []              :: iolist() | undefined, % = 1
-         company = []           :: iolist() | undefined, % = 2
-         amount = 0             :: non_neg_integer() | undefined, % = 3, 32 bits
-         interest = 0.0         :: float() | integer() | infinity | '-infinity' | nan | undefined % = 4
+         username = []          :: iolist() | undefined, % = 2
+         company = []           :: iolist() | undefined, % = 3
+         amount = 0             :: non_neg_integer() | undefined, % = 4, 32 bits
+         interest = 0.0         :: float() | integer() | infinity | '-infinity' | nan | undefined % = 5
         }).
 -endif.
 
@@ -53,7 +54,27 @@
 -define('FIXEDSUBSCRIPTION_PB_H', true).
 -record('FixedSubscription',
         {type = []              :: iolist() | undefined, % = 1
+         username = []          :: iolist() | undefined, % = 2
+         company = []           :: iolist() | undefined, % = 3
+         amount = 0             :: non_neg_integer() | undefined % = 4, 32 bits
+        }).
+-endif.
+
+-ifndef('AUCTION_PB_H').
+-define('AUCTION_PB_H', true).
+-record('Auction',
+        {type = []              :: iolist() | undefined, % = 1
          company = []           :: iolist() | undefined, % = 2
+         amount = 0             :: non_neg_integer() | undefined, % = 3, 32 bits
+         interest = 0.0         :: float() | integer() | infinity | '-infinity' | nan | undefined % = 4
+        }).
+-endif.
+
+-ifndef('FIXEDLOAN_PB_H').
+-define('FIXEDLOAN_PB_H', true).
+-record('FixedLoan',
+        {type = []              :: iolist() | undefined, % = 1
+         username = []          :: iolist() | undefined, % = 2
          amount = 0             :: non_neg_integer() | undefined % = 3, 32 bits
         }).
 -endif.
