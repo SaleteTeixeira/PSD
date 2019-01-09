@@ -99,28 +99,33 @@ public class DiretorioResource {
     @Produces(MediaType.APPLICATION_JSON)
     public EmpresaRepresentation getEmpresa(@PathParam("nome") String nome) {
         Empresa emp = this.diretorio.getEmpresa(nome);
-        List<EmprestimoRepresentation> histEmp = new ArrayList<>();
-        List<LeilaoRepresentation> histLei = new ArrayList<>();
 
-        for(Emprestimo e: emp.getHistoricoEmprestimos()){
-            EmprestimoRepresentation auxEmp = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
-                    e.getMontanteOferecido(), e.getInvestidores());
-            histEmp.add(auxEmp);
-        }
+        if(emp != null){
+            List<EmprestimoRepresentation> histEmp = new ArrayList<>();
+            List<LeilaoRepresentation> histLei = new ArrayList<>();
 
-        for(Leilao l: emp.getHistoricoLeiloes()){
-            Map<String, OfertaRepresentation> inv = new HashMap<>();
-
-            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            for(Emprestimo e: emp.getHistoricoEmprestimos()){
+                EmprestimoRepresentation auxEmp = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
+                        e.getMontanteOferecido(), e.getInvestidores());
+                histEmp.add(auxEmp);
             }
 
-            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
-            histLei.add(lr);
+            for(Leilao l: emp.getHistoricoLeiloes()){
+                Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+                for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                    inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+                }
+
+                LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+                histLei.add(lr);
+            }
+
+            EmpresaRepresentation er = new EmpresaRepresentation(emp.getNome(), histEmp, histLei);
+            return er;
         }
 
-        EmpresaRepresentation er = new EmpresaRepresentation(emp.getNome(), histEmp, histLei);
-        return er;
+        return null;
     }
 
     @GET
@@ -129,10 +134,13 @@ public class DiretorioResource {
     public EmprestimoRepresentation getEmprestimo(@PathParam("empresa") String empresa) {
         Emprestimo e = this.diretorio.getEmprestimo(empresa);
 
-        EmprestimoRepresentation er = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
-                e.getMontanteOferecido(), e.getInvestidores());
+        if(e != null){
+            EmprestimoRepresentation er = new EmprestimoRepresentation(e.getEmpresa(), e.getMontante(), e.getTaxa(),
+                    e.getMontanteOferecido(), e.getInvestidores());
+            return er;
+        }
 
-        return er;
+        return null;
     }
 
     @GET
@@ -140,15 +148,20 @@ public class DiretorioResource {
     @Produces(MediaType.APPLICATION_JSON)
     public LeilaoRepresentation getLeilao(@PathParam("empresa") String empresa) {
         Leilao l = this.diretorio.getLeilao(empresa);
-        Map<String, OfertaRepresentation> inv = new HashMap<>();
 
-        for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-            inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+        if(l != null){
+            Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            }
+
+            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+
+            return lr;
         }
 
-        LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
-
-        return lr;
+       return null;
     }
 
     @PUT
@@ -204,15 +217,19 @@ public class DiretorioResource {
     public LeilaoRepresentation lastLeilao(@PathParam("empresa") String e) {
         Leilao l = this.diretorio.lastLeilao(e);
 
-        Map<String, OfertaRepresentation> inv = new HashMap<>();
+        if(l != null){
+            Map<String, OfertaRepresentation> inv = new HashMap<>();
 
-        for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-            inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            }
+
+            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+
+            return lr;
         }
 
-        LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
-
-        return lr;
+        return null;
     }
 
     @GET
@@ -220,10 +237,14 @@ public class DiretorioResource {
     public EmprestimoRepresentation lastEmprestimo(@PathParam("empresa") String e) {
         Emprestimo m = this.diretorio.lastEmprestimo(e);
 
-        EmprestimoRepresentation er = new EmprestimoRepresentation(m.getEmpresa(), m.getMontante(), m.getTaxa(),
-                m.getMontanteOferecido(), m.getInvestidores());
+        if(m != null){
+            EmprestimoRepresentation er = new EmprestimoRepresentation(m.getEmpresa(), m.getMontante(), m.getTaxa(),
+                    m.getMontanteOferecido(), m.getInvestidores());
 
-        return er;
+            return er;
+        }
+
+        return null;
     }
 }
 

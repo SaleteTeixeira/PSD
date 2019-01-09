@@ -43,10 +43,16 @@ public class Empresa {
     }
 
     public Leilao lastLeilao(){
-        return this.historicoLeiloes.get(this.historicoLeiloes.size()-1);
+        if(this.historicoLeiloes.size() > 0)
+            return this.historicoLeiloes.get(this.historicoLeiloes.size()-1);
+
+        return null;
     }
 
     public Emprestimo lastEmprestimo(){
-        return this.historicoEmprestimos.get(this.historicoEmprestimos.size()-1);
+        if(this.historicoEmprestimos.size() > 0)
+            return this.historicoEmprestimos.get(this.historicoEmprestimos.size()-1);
+
+        return null;
     }
 }

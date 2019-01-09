@@ -61,6 +61,7 @@ public class Emprestimo {
     }
 
     private void montanteOferecido() {
+        this.montanteOferecido = 0;
         this.investidores.values().forEach(v -> this.montanteOferecido += v);
     }
 }
