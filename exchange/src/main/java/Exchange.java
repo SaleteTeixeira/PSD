@@ -11,6 +11,12 @@ import org.json.simple.parser.ParseException;
 
 public class Exchange {
 
+    private Map<String,Thread> threadEmprestimo;
+
+    public Exchange(){
+        this.threadEmprestimo = new HashMap<>();
+    }
+
     public boolean criar_leilao(String empresa, double montante, double taxaMaxima){
         if((montante % 1000) != 0) return false;
 
@@ -26,11 +32,15 @@ public class Exchange {
     }
 
     public boolean licitar_leilao(String investidor, String empresa, double montante, double taxa){
-        //if(n está no diretorio leilao ativo com essa empresa) return false; (mandar msg mais especifica ao servidor)
-        //if(montante n for multiplo de 100) return false; (mandar msg mais especifica ao servidor)
-        //else
-            //ir buscar leilao ativo da empresa X e add string investidor com X oferta ao MAP desse leilao
-            return true;
+        if((montante % 100) != 0) return false;
+
+        Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
+        if(l == null) return false;
+
+        String result = sendPut("http://localhost:8080/diretorio/add_investidor_leilao/"+empresa+"/"+investidor+"/"+montante+"_"+taxa);
+
+        if(result.equals("ERROR")) return false;
+        return true;
     }
 
     public boolean end_leilao(String empresa){
@@ -66,6 +76,7 @@ public class Exchange {
             if(result.equals("ERROR")) return false;
 
             Thread t = new Thread(new EmprestimoTimer(this, empresa));
+            this.threadEmprestimo.put(empresa,t);
 
             return true;
         }
@@ -73,19 +84,31 @@ public class Exchange {
         return false;
     }
 
-    public boolean subscrever_emprestimo(String investido, String empresa, double montante){
-        //if(n está no diretorio emprestimo ativo com essa empresa) return false; (mandar msg mais especifica ao servidor)
-        //if(montante n for multiplo de 100) return false; (mandar msg mais especifica ao servidor)
-        //else
-            //ir buscar emprestimo ativo da empresa X e add string investidor com X montante ao MAP do emprestimo
+    public boolean subscrever_emprestimo(String investidor, String empresa, double montante){
+        if((montante % 100) != 0) return false;
+
+        Emprestimo e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
+        if(e == null) return false;
+
+        String result = sendPut("http://localhost:8080/diretorio/add_investidor_emprestimo/"+empresa+"/"+investidor+"/"+montante);
+        Emprestimo emp = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
+
+        if(emp.getMontanteOferecido() >= emp.getMontante()){
+            this.threadEmprestimo.get(empresa).interrupt();
+            this.threadEmprestimo.remove(empresa);
+            end_emprestimo(empresa);
+        }
+
+        if(result.equals("ERROR")) return false;
         return true;
     }
 
     public boolean end_emprestimo(String empresa){
-        //se for atingido valor antes de X -> terminar      -- VER ONDE INCORPORAR ISTO, TALVEZ NO subscrever_emprestimo
-        //verificar se emprestimo ainda está ativo, porque pode ter acabado e thread ainda estar a correr e depois voltar a chamar este metodo e eliminar o emprestimo errado
-        //se tempo acabar e montante de investidores nao atingir montante da empresa -> ENVIAR AO DIRETORIO MAP DOS INVESTIDORES
-        //terminar -> informar investidores e empresa de fim de leilao (msg para servidor)
+        String result = sendPost("http://localhost:8080/diretorio/end_emprestimo/"+empresa);
+        if(result.equals("ERROR")) return false;
+
+        //informar investidores e empresa de fim de leilao (msg para servidor)
+
         return true;
     }
 
@@ -295,7 +318,7 @@ public class Exchange {
 
         /*TODO 1. protocol bufffers*/
         /*TODO 2. implementar subscrição pelo ZEROMQ*/
-        /*TODO 3. logica negocio (metodos acima)*/
+        /*TODO 3. acabar métodos end_emprestimo e end_leilao (parte de informar os participantes)*/
 
         /*Socket s = new Socket("127.0.0.1", 12345);
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());

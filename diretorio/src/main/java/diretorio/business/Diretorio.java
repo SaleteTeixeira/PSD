@@ -75,31 +75,51 @@ public class Diretorio {
         this.leiloes.put(l.getEmpresa(), l);
     }
 
-    public void endEmprestimo(String empresa, Map<String, Double> investidores){
+    public void endEmprestimo(String empresa){
         Emprestimo e = this.emprestimos.get(empresa);
-        this.emprestimos.remove(empresa);
 
-        if((investidores != null) && (investidores.size() > 0)){
-            e.setInvestidores(investidores);
-            this.empresas.get(e.getEmpresa()).addEmprestimo(e);
+        if(e != null){
+            this.emprestimos.remove(empresa);
+
+            if((e.getInvestidores() != null) && (e.getInvestidores().size() > 0)){
+                this.empresas.get(empresa).addEmprestimo(e);
+            }
         }
     }
 
     public void endLeilao(String empresa, Map<String, Oferta> investidores){
         Leilao l = this.leiloes.get(empresa);
-        this.leiloes.remove(empresa);
 
-        if((investidores != null) && (investidores.size() > 0)){
-            l.setInvestidores(investidores);
-            this.empresas.get(l.getEmpresa()).addLeilao(l);
+        if(l != null){
+            this.leiloes.remove(empresa);
+
+            if((investidores != null) && (investidores.size() > 0)){
+                l.setInvestidores(investidores);
+                this.empresas.get(l.getEmpresa()).addLeilao(l);
+            }
         }
+    }
+
+    public Emprestimo lastEmprestimo(String empresa){
+        return this.empresas.get(empresa).lastEmprestimo();
     }
 
     public Leilao lastLeilao(String empresa){
         return this.empresas.get(empresa).lastLeilao();
     }
 
-    public Emprestimo lastEmprestimo(String empresa){
-        return this.empresas.get(empresa).lastEmprestimo();
+    public void addInvestidorEmprestimo(String empresa, String investidor, double montante){
+        Emprestimo e = this.emprestimos.get(empresa);
+
+        if(e != null) e.addInvestidor(investidor, montante);
+    }
+
+    public void addInvestidorLeilao(String empresa, String investidor, double montante, double taxa){
+        Leilao l = this.leiloes.get(empresa);
+
+        if(l != null){
+            Oferta o = new Oferta(montante, taxa);
+            l.addInvestidor(investidor, o);
+        }
     }
 }

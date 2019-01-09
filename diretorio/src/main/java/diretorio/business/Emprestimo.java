@@ -46,7 +46,7 @@ public class Emprestimo {
     @JsonProperty
     public void setInvestidores(Map<String, Double> inv){
         this.investidores = inv;
-        montanteOferecido();
+        this.montanteOferecido();
     }
 
     @JsonProperty
@@ -56,8 +56,7 @@ public class Emprestimo {
 
     public void addInvestidor(String investidor, double valor){
         this.investidores.put(investidor,valor);
-        montanteOferecido += valor;
-        montanteOferecido += valor;
+        this.montanteOferecido += valor;
     }
 
     private void montanteOferecido() {

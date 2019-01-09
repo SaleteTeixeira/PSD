@@ -164,54 +164,6 @@ public class DiretorioResource {
        return null;
     }
 
-    @PUT
-    @Path("/add_emprestimo/{nome}/{valor}_{taxa}")
-    public Response putEmprestimo(@PathParam("nome") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
-        Emprestimo e = new Emprestimo(n, v, t);
-        synchronized (this) {this.diretorio.addEmprestimo(e);}
-        return Response.ok().build();
-    }
-
-    @PUT
-    @Path("/add_leilao/{nome}/{valor}_{taxa}")
-    public Response putLeilao(@PathParam("nome") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
-        Leilao l = new Leilao(n, v, t);
-        synchronized (this) {this.diretorio.addLeilao(l);}
-        return Response.ok().build();
-    }
-
-    @POST
-    @Path("/end_emprestimo/{empresa}/investidores")
-    public Response endEmprestimo(@PathParam("empresa") String e, @QueryParam("inv") List<String> inv, @QueryParam("m") List<Double> m) {
-        Map<String, Double> invest = new HashMap<>();
-
-        System.out.println("ENTREI");
-
-        for(int i=0; i<inv.size(); i++){
-            invest.put(inv.get(i), m.get(i));
-        }
-
-        invest.keySet().forEach(k -> System.out.println(k));
-
-        synchronized (this) {this.diretorio.endEmprestimo(e, invest);}
-        return Response.ok().build();
-    }
-
-    @POST
-    @Path("/end_leilao/{empresa}/investidores")
-    public Response endLeilao(@PathParam("empresa") String e, @QueryParam("inv") List<String> inv,
-                              @QueryParam("m") List<Double> m, @QueryParam("t") List<Double> t) {
-        Map<String, Oferta> invest = new HashMap<>();
-
-        for(int i=0; i<inv.size(); i++){
-            Oferta o = new Oferta(m.get(i), t.get(i));
-            invest.put(inv.get(i), o);
-        }
-
-        synchronized (this) {this.diretorio.endLeilao(e, invest);}
-        return Response.ok().build();
-    }
-
     @GET
     @Path("/last_leilao/{empresa}")
     public LeilaoRepresentation lastLeilao(@PathParam("empresa") String e) {
@@ -245,6 +197,58 @@ public class DiretorioResource {
         }
 
         return null;
+    }
+
+    @PUT
+    @Path("/add_emprestimo/{nome}/{valor}_{taxa}")
+    public Response putEmprestimo(@PathParam("nome") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
+        Emprestimo e = new Emprestimo(n, v, t);
+        synchronized (this) {this.diretorio.addEmprestimo(e);}
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/add_leilao/{nome}/{valor}_{taxa}")
+    public Response putLeilao(@PathParam("nome") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
+        Leilao l = new Leilao(n, v, t);
+        synchronized (this) {this.diretorio.addLeilao(l);}
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/add_investidor_emprestimo/{empresa}/{investidor}/{valor}")
+    public Response putInvestidorEmprestimo(@PathParam("empresa") String e, @PathParam("investidor") String n, @PathParam("valor") double v) {
+        synchronized (this) {this.diretorio.addInvestidorEmprestimo(e, n, v);}
+        return Response.ok().build();
+    }
+
+    @PUT
+    @Path("/add_investidor_leilao/{empresa}/{investidor}/{valor}_{taxa}")
+    public Response putInvestidorLeilao(@PathParam("empresa") String e, @PathParam("investidor") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
+        synchronized (this) {this.diretorio.addInvestidorLeilao(e, n, v, t);}
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/end_emprestimo/{empresa}")
+    public Response endEmprestimo(@PathParam("empresa") String e) {
+        synchronized (this) {this.diretorio.endEmprestimo(e);}
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/end_leilao/{empresa}/investidores")
+    public Response endLeilao(@PathParam("empresa") String e, @QueryParam("inv") List<String> inv,
+                              @QueryParam("m") List<Double> m, @QueryParam("t") List<Double> t) {
+        Map<String, Oferta> invest = new HashMap<>();
+
+        for(int i=0; i<inv.size(); i++){
+            Oferta o = new Oferta(m.get(i), t.get(i));
+            invest.put(inv.get(i), o);
+        }
+
+        synchronized (this) {this.diretorio.endLeilao(e, invest);}
+        return Response.ok().build();
     }
 }
 
