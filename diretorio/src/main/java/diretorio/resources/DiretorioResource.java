@@ -242,7 +242,7 @@ public class DiretorioResource {
                               @QueryParam("m") List<Double> m, @QueryParam("t") List<Double> t) {
         Map<String, Oferta> invest = new HashMap<>();
 
-        for(int i=0; i<inv.size(); i++){
+        for(int i=0; i<inv.size() && i<m.size() && i<t.size(); i++){
             Oferta o = new Oferta(m.get(i), t.get(i));
             invest.put(inv.get(i), o);
         }

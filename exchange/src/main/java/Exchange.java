@@ -3,7 +3,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,7 +34,7 @@ public class Exchange {
         if((montante % 100) != 0) return false;
 
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
-        if(l == null) return false;
+        if((l == null) || (taxa > l.getTaxaMaxima())) return false;
 
         String result = sendPut("http://localhost:8080/diretorio/add_investidor_leilao/"+empresa+"/"+investidor+"/"+montante+"_"+taxa);
 
@@ -44,10 +43,67 @@ public class Exchange {
     }
 
     public boolean end_leilao(String empresa){
-        //se terminar e montante da empresa não tiver sido atingido pelos investidores -> LEILAO FALHA (colocar no diretorio com Map vazio)
-        //se terminar e montante atingido -> melhores ofertas (taxas de juro mais baixas) sao alocadas -> LEILAO SUCESSO (colocar no diretorio com Map preenchido)
+        List<String> investidores = new ArrayList<>();
+        List<Double> montantes = new ArrayList<>();
+        List<Double> taxas = new ArrayList<>();
+
+        Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
+
+        double montanteAtingido = 0;
+        for(Oferta o: l.getInvestidores().values()){
+            montanteAtingido += o.getMontante();
+        }
+
+        if(montanteAtingido >= l.getMontante()){
+            Map<String,Oferta> aux = melhores_ofertas(l.getInvestidores(), l.getMontante(), l.getTaxaMaxima());
+
+            for(Map.Entry<String,Oferta> tmp: aux.entrySet()){
+                investidores.add(tmp.getKey());
+                montantes.add(tmp.getValue().getMontante());
+                taxas.add(tmp.getValue().getTaxa());
+            }
+        }
+
+        String url = "http://localhost:8080/diretorio/end_leilao/"+empresa+"/investidores?";
+        for(int i=0; i<investidores.size(); i++){
+            url = url+"inv="+investidores.get(i)+"&m="+montantes.get(i)+"&t="+taxas.get(i);
+            if(i<investidores.size()-1) url = url+"&";
+        }
+
+        String result = sendPost(url);
+        if(result.equals("ERROR")) return false;
+
         //informar investidores e empresa de fim de leilao (msg para servidor)
+
         return true;
+    }
+
+    private Map<String,Oferta> melhores_ofertas(Map<String,Oferta> investidores, double montante, double taxaMaxima) {
+        Map<String,Oferta> result = new HashMap<>();
+        double acumulado = 0, taxa = taxaMaxima, atual=0;
+        String nome = "";
+
+        while(acumulado < montante){
+            for(Map.Entry<String,Oferta> tmp: investidores.entrySet()){
+                if(tmp.getValue().getTaxa() < taxa){
+                    taxa = tmp.getValue().getTaxa();
+                    atual = tmp.getValue().getMontante();
+                    nome = tmp.getKey();
+                }
+                else if(tmp.getValue().getTaxa() == taxa){
+                    if(tmp.getValue().getMontante() > atual){
+                        atual = tmp.getValue().getMontante();
+                        nome = tmp.getKey();
+                    }
+                }
+            }
+
+            result.put(nome,investidores.get(nome));
+            investidores.remove(nome);
+            acumulado += investidores.get(nome).getMontante();
+        }
+
+        return result;
     }
 
     public boolean criar_emprestimo(String empresa, double montante, double taxa){
@@ -319,6 +375,7 @@ public class Exchange {
         /*TODO 1. protocol bufffers*/
         /*TODO 2. implementar subscrição pelo ZEROMQ*/
         /*TODO 3. acabar métodos end_emprestimo e end_leilao (parte de informar os participantes)*/
+        /*TODO 4. concorrencia?*/
 
         /*Socket s = new Socket("127.0.0.1", 12345);
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());
