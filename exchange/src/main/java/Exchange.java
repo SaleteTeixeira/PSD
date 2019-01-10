@@ -3,6 +3,8 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,9 +13,11 @@ import org.json.simple.parser.ParseException;
 public class Exchange {
 
     private Map<String,Thread> threadEmprestimo;
+    private ReentrantLock lock;
 
     public Exchange(){
         this.threadEmprestimo = new HashMap<>();
+        this.lock = new ReentrantLock();
     }
 
     public boolean criar_leilao(String empresa, double montante, double taxaMaxima){
@@ -132,7 +136,10 @@ public class Exchange {
             if(result.equals("ERROR")) return false;
 
             Thread t = new Thread(new EmprestimoTimer(this, empresa));
+
+            this.lock.lock();
             this.threadEmprestimo.put(empresa,t);
+            this.lock.unlock();
 
             return true;
         }
@@ -150,8 +157,10 @@ public class Exchange {
         Emprestimo emp = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
 
         if(emp.getMontanteOferecido() >= emp.getMontante()){
+            this.lock.lock();
             this.threadEmprestimo.get(empresa).interrupt();
             this.threadEmprestimo.remove(empresa);
+            this.lock.unlock();
             end_emprestimo(empresa);
         }
 
