@@ -249,6 +249,7 @@
         <Property name="text" type="java.lang.String" value="Amount"/>
       </Properties>
       <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="amountAuctionFieldFocusGained"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="amountAuctionFieldActionPerformed"/>
       </Events>
     </Component>
@@ -256,17 +257,24 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Maximum Interest"/>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="maxInterestFieldFocusGained"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="createAuctionButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Create"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="createAuctionButtonMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="amountFixedField">
       <Properties>
         <Property name="text" type="java.lang.String" value="Amount"/>
       </Properties>
       <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="amountFixedFieldFocusGained"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="amountFixedFieldActionPerformed"/>
       </Events>
     </Component>
@@ -275,6 +283,7 @@
         <Property name="text" type="java.lang.String" value="Create"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="createFixedButtonMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createFixedButtonActionPerformed"/>
       </Events>
     </Component>

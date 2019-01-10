@@ -12,6 +12,7 @@ main() ->
   loginManager:create_account("diogo", "diogo", "Investor"),
   loginManager:create_account("salete", "salete", "Investor"),
   loginManager:create_account("sofia", "sofia", "Investor"),
+  loginManager:create_account("zara", "zara", "Company"),
   {ok, ServerSocket} = gen_tcp:listen(11111, [binary, {packet, 4}, {reuseaddr, true}]),
   acceptor(ServerSocket).
 
@@ -135,6 +136,7 @@ logout_company(Socket, Username, Bin) ->
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INVESTOR
+
 handle_investor(Socket, Username) ->
   receive
     {tcp, _, Bin} ->

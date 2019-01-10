@@ -167,7 +167,9 @@ public class LoginPage extends javax.swing.JFrame {
 
     private void userNameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userNameFieldFocusGained
         // TODO add your handling code here:
-        userNameField.setText("");
+        if (this.userNameField.getText().equals("Username")) {
+            userNameField.setText("");
+        }
     }//GEN-LAST:event_userNameFieldFocusGained
 
     private void passwordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFieldFocusGained

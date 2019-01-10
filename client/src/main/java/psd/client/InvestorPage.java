@@ -294,7 +294,21 @@ public class InvestorPage extends javax.swing.JFrame {
         final double interest = Double.parseDouble(this.interestFieldAuction.getText());
         final boolean success = this.erlang.bidAuction(this.username, company, amount, interest);
         if (success) {
-
+            this.auctionsNotiArea.append("Successfull bid in company "
+                    + company
+                    + " with amount "
+                    + amount
+                    + " at interest "
+                    + interest + "\n"
+            );
+        } else {
+            this.auctionsNotiArea.append("Error bidding in company "
+                    + company
+                    + " with amount "
+                    + amount
+                    + " at interest "
+                    + interest + "\n"
+            );
         }
     }//GEN-LAST:event_bidButtonMouseClicked
 
@@ -304,33 +318,55 @@ public class InvestorPage extends javax.swing.JFrame {
         final int amount = Integer.parseInt(this.amountFieldFixed.getText());
         final boolean success = this.erlang.subscribeFixed(this.username, company, amount);
         if (success) {
-
+            this.fixedNotiArea.append("Successfull subscription in company "
+                    + company
+                    + " with amount"
+                    + amount
+                    + "\n"
+            );
+        } else {
+            this.fixedNotiArea.append("Error subscribing in company "
+                    + company
+                    + " with amount "
+                    + amount
+                    + "\n"
+            );
         }
     }//GEN-LAST:event_subscribeButtonMouseClicked
 
     private void companyFieldAuctionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_companyFieldAuctionFocusGained
         // TODO add your handling code here:
-        companyFieldAuction.setText("");
+        if (this.companyFieldAuction.getText().equals("Company")) {
+            companyFieldAuction.setText("");
+        }
     }//GEN-LAST:event_companyFieldAuctionFocusGained
 
     private void interestFieldAuctionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_interestFieldAuctionFocusGained
         // TODO add your handling code here:
-        interestFieldAuction.setText("");
+        if (this.interestFieldAuction.getText().equals("Interest")) {
+            interestFieldAuction.setText("");
+        }
     }//GEN-LAST:event_interestFieldAuctionFocusGained
 
     private void amountFieldAuctionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountFieldAuctionFocusGained
         // TODO add your handling code here:
-        amountFieldAuction.setText("");
+        if (this.amountFieldAuction.getText().equals("Amount")) {
+            amountFieldAuction.setText("");
+        }
     }//GEN-LAST:event_amountFieldAuctionFocusGained
 
     private void companyFieldFixedFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_companyFieldFixedFocusGained
         // TODO add your handling code here:
-        companyFieldFixed.setText("");
+        if (this.companyFieldFixed.getText().equals("Company")) {
+            companyFieldFixed.setText("");
+        }
     }//GEN-LAST:event_companyFieldFixedFocusGained
 
     private void amountFieldFixedFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountFieldFixedFocusGained
         // TODO add your handling code here:
-        amountFieldFixed.setText("");
+        if (this.amountFieldFixed.getText().equals("Amount")) {
+            amountFieldFixed.setText("");
+        }
     }//GEN-LAST:event_amountFieldFixedFocusGained
 
     private final String username;

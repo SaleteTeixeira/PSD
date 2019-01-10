@@ -39,22 +39,31 @@ manager(State) ->
           manager(State)
       end;
     {{login, Username, Password, Role}, From} ->
-      io:fwrite('Searching username. ~p\n', [Username]),
+      io:fwrite('Searching username. ~p ~p\n', [Username, Role]),
       case maps:find(Username, State) of
-        {ok, {P, false, Role}} ->
+        {ok, {P, false, R}} ->
           io:fwrite('Found username.\n'),
-          io:fwrite('Checking password. ~p\n', [Password]),
-          case P of
-            Password ->
-              io:fwrite('Password ok.\n'),
-              From ! ok,
-              manager(maps:put(Username, {P, true, Role}, State));
+          io:fwrite('Checking Role\n'),
+          case R of
+            Role ->
+              io:fwrite('Role ok.\n'),
+              io:fwrite('Checking password. ~p\n', [Password]),
+              case P of
+                Password ->
+                  io:fwrite('Password ok.\n'),
+                  From ! ok,
+                  manager(maps:put(Username, {P, true, Role}, State));
+                _ ->
+                  io:fwrite('Wrong password.\n'),
+                  From ! invalid,
+                  manager(State)
+              end;
             _ ->
-              io:fwrite('Wrong password.\n'),
+              io:fwrite('Role not ok.\n'),
               From ! invalid,
               manager(State)
           end;
-        {ok, {P, true, Role}} ->
+        {ok, {P, true, R}} ->
           io:fwrite('Found username.\n'),
           io:fwrite('Checking password. ~p\n', [Password]),
           case P of

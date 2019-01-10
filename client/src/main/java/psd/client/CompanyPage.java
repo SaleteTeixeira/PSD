@@ -72,6 +72,11 @@ public class CompanyPage extends javax.swing.JFrame {
         fixedNotiPane.setViewportView(fixedNotiArea);
 
         amountAuctionField.setText("Amount");
+        amountAuctionField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                amountAuctionFieldFocusGained(evt);
+            }
+        });
         amountAuctionField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 amountAuctionFieldActionPerformed(evt);
@@ -79,10 +84,25 @@ public class CompanyPage extends javax.swing.JFrame {
         });
 
         maxInterestField.setText("Maximum Interest");
+        maxInterestField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                maxInterestFieldFocusGained(evt);
+            }
+        });
 
         createAuctionButton.setText("Create");
+        createAuctionButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                createAuctionButtonMouseClicked(evt);
+            }
+        });
 
         amountFixedField.setText("Amount");
+        amountFixedField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                amountFixedFieldFocusGained(evt);
+            }
+        });
         amountFixedField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 amountFixedFieldActionPerformed(evt);
@@ -90,6 +110,11 @@ public class CompanyPage extends javax.swing.JFrame {
         });
 
         createFixedButton.setText("Create");
+        createFixedButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                createFixedButtonMouseClicked(evt);
+            }
+        });
         createFixedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createFixedButtonActionPerformed(evt);
@@ -205,7 +230,7 @@ public class CompanyPage extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
-        if(this.erlang.logout(this.username)) {
+        if (this.erlang.logout(this.username)) {
             this.erlang.logout(this.username);
             this.setVisible(false);
             new LoginPage().setVisible(true);
@@ -233,6 +258,66 @@ public class CompanyPage extends javax.swing.JFrame {
     private void createFixedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createFixedButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_createFixedButtonActionPerformed
+
+    private void createAuctionButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createAuctionButtonMouseClicked
+        // TODO add your handling code here:
+        final int amount = Integer.parseInt(this.amountAuctionField.getText());
+        final double interest = Double.parseDouble(this.maxInterestField.getText());
+        final boolean success = this.erlang.createAuction(this.username, amount, interest);
+        if (success) {
+            this.auctionsNotiArea.append("Successfull creation of auction with amount "
+                    + amount
+                    + " and max interest "
+                    + interest
+                    + "\n"
+            );
+        } else {
+            this.auctionsNotiArea.append("Error creating auction with amount "
+                    + amount
+                    + " and max interest "
+                    + interest
+                    + "\n"
+            );
+        }
+    }//GEN-LAST:event_createAuctionButtonMouseClicked
+
+    private void createFixedButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createFixedButtonMouseClicked
+        // TODO add your handling code here:
+        final int amount = Integer.parseInt(this.amountFixedField.getText());
+        final boolean success = this.erlang.createLoan(this.username, amount);
+        if (success) {
+            this.fixedNotiArea.append("Successfull creation of fixed loan with amount "
+                    + amount
+                    + "\n"
+            );
+        } else {
+            this.fixedNotiArea.append("Error creating fixed loan with amount "
+                    + amount
+                    + "\n"
+            );
+        }
+    }//GEN-LAST:event_createFixedButtonMouseClicked
+
+    private void amountAuctionFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountAuctionFieldFocusGained
+        // TODO add your handling code here:
+        if (this.amountAuctionField.getText().equals("Amount")) {
+            this.amountAuctionField.setText("");
+        }
+    }//GEN-LAST:event_amountAuctionFieldFocusGained
+
+    private void maxInterestFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_maxInterestFieldFocusGained
+        // TODO add your handling code here:
+        if (this.maxInterestField.getText().equals("Maximum Interest")) {
+            this.maxInterestField.setText("");
+        }
+    }//GEN-LAST:event_maxInterestFieldFocusGained
+
+    private void amountFixedFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountFixedFieldFocusGained
+        // TODO add your handling code here:
+        if (this.amountFixedField.getText().equals("Amount")) {
+            this.amountFixedField.setText("");
+        }
+    }//GEN-LAST:event_amountFixedFieldFocusGained
 
     private final String username;
     private final ErlangBridge erlang;
