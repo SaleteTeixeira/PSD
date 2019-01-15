@@ -215,16 +215,16 @@ public class DiretorioResource {
         return Response.ok().build();
     }
 
-    @PUT
+    @POST
     @Path("/add_investidor_emprestimo/{empresa}/{investidor}/{valor}")
-    public Response putInvestidorEmprestimo(@PathParam("empresa") String e, @PathParam("investidor") String n, @PathParam("valor") double v) {
+    public Response addInvestidorEmprestimo(@PathParam("empresa") String e, @PathParam("investidor") String n, @PathParam("valor") double v) {
         synchronized (this) {this.diretorio.addInvestidorEmprestimo(e, n, v);}
         return Response.ok().build();
     }
 
-    @PUT
+    @POST
     @Path("/add_investidor_leilao/{empresa}/{investidor}/{valor}_{taxa}")
-    public Response putInvestidorLeilao(@PathParam("empresa") String e, @PathParam("investidor") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
+    public Response addInvestidorLeilao(@PathParam("empresa") String e, @PathParam("investidor") String n, @PathParam("valor") double v, @PathParam("taxa") double t) {
         synchronized (this) {this.diretorio.addInvestidorLeilao(e, n, v, t);}
         return Response.ok().build();
     }

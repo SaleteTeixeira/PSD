@@ -40,7 +40,7 @@ public class Exchange {
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
         if((l == null) || (taxa > l.getTaxaMaxima())) return false;
 
-        String result = sendPut("http://localhost:8080/diretorio/add_investidor_leilao/"+empresa+"/"+investidor+"/"+montante+"_"+taxa);
+        String result = sendPost("http://localhost:8080/diretorio/add_investidor_leilao/"+empresa+"/"+investidor+"/"+montante+"_"+taxa);
 
         if(result.equals("ERROR")) return false;
         return true;
@@ -153,7 +153,7 @@ public class Exchange {
         Emprestimo e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
         if(e == null) return false;
 
-        String result = sendPut("http://localhost:8080/diretorio/add_investidor_emprestimo/"+empresa+"/"+investidor+"/"+montante);
+        String result = sendPost("http://localhost:8080/diretorio/add_investidor_emprestimo/"+empresa+"/"+investidor+"/"+montante);
         Emprestimo emp = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
 
         if(emp.getMontanteOferecido() >= emp.getMontante()){
@@ -213,6 +213,8 @@ public class Exchange {
                 in.close();
                 return response.toString();
             }
+            else if (responseCode == HttpURLConnection.HTTP_NO_CONTENT) return null;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -247,7 +249,7 @@ public class Exchange {
             con.setRequestMethod("PUT");
             int responseCode = con.getResponseCode();
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                 return "OK";
             }
 
@@ -298,7 +300,7 @@ public class Exchange {
     public Emprestimo parseEmprestimo(String result){
         Emprestimo emp = null;
 
-        if(!result.equals("ERROR")){
+        if(result != null && !result.equals("ERROR")){
             try {
                 JSONParser parser = new JSONParser();
                 JSONObject json = (JSONObject) parser.parse(result);
@@ -322,7 +324,7 @@ public class Exchange {
     public Leilao parseLeilao(String result){
         Leilao l = null;
 
-        if(!result.equals("ERROR")){
+        if(result != null && !result.equals("ERROR")){
             try {
                 JSONParser parser = new JSONParser();
                 JSONObject json = (JSONObject) parser.parse(result);
@@ -359,7 +361,7 @@ public class Exchange {
     public Empresa parseEmpresa(String result){
         Empresa emp = null;
 
-        if(!result.equals("ERROR")){
+        if(result != null && !result.equals("ERROR")){
             try {
                 JSONParser parser = new JSONParser();
                 JSONObject json = (JSONObject) parser.parse(result);
