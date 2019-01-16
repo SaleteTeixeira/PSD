@@ -29,7 +29,7 @@ public class Exchange {
         String result = sendPut("http://localhost:8080/diretorio/add_leilao/"+empresa+"/"+montante+"_"+taxaMaxima);
         if(result.equals("ERROR")) return false;
 
-        Thread t = new Thread(new LeilaoTimer(this, l.getEmpresa()));
+        Thread t = new Thread(new LeilaoTimer(this, empresa));
 
         return true;
     }
@@ -87,7 +87,7 @@ public class Exchange {
         double acumulado = 0, taxa = taxaMaxima, atual=0;
         String nome = "";
 
-        while(acumulado < montante){
+        while(acumulado < montante && investidores.size()>0){
             for(Map.Entry<String,Oferta> tmp: investidores.entrySet()){
                 if(tmp.getValue().getTaxa() < taxa){
                     taxa = tmp.getValue().getTaxa();
@@ -102,9 +102,14 @@ public class Exchange {
                 }
             }
 
-            result.put(nome,investidores.get(nome));
-            investidores.remove(nome);
-            acumulado += investidores.get(nome).getMontante();
+            if(!nome.equals("")){
+                result.put(nome,investidores.get(nome));
+                acumulado += investidores.get(nome).getMontante();
+                investidores.remove(nome);
+                nome = "";
+                taxa = taxaMaxima;
+                atual = 0;
+            }
         }
 
         return result;
@@ -113,7 +118,7 @@ public class Exchange {
     public boolean criar_emprestimo(String empresa, double montante, double taxa){
         if((montante % 1000) != 0) return false;
 
-        Emprestimo emp = parseEmprestimo("http://localhost:8080/diretorio/get_emprestimo/"+empresa);
+        Emprestimo emp = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
         if(emp != null) return false;
 
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/last_leilao/"+empresa));
@@ -193,8 +198,15 @@ public class Exchange {
         return parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
     }
 
-    public List<Empresa> empresas(){
-        return parseEmpresas(sendGet("http://localhost:8080/diretorio/get_empresas/"));
+    public List<String> empresas(){
+        List<Empresa> empresas = parseEmpresas(sendGet("http://localhost:8080/diretorio/get_empresas/"));
+        List<String> nomes = new ArrayList<>();
+
+        for(Empresa emp: empresas){
+            nomes.add(emp.getNome());
+        }
+
+        return nomes;
     }
 
     public String sendGet(String url){
@@ -410,6 +422,35 @@ public class Exchange {
         /*TODO 2. implementar subscrição pelo ZEROMQ*/
         /*TODO 3. acabar métodos end_emprestimo e end_leilao (parte de informar os participantes)*/
         /*TODO 4. concorrencia?*/
+
+        //Testadas criar_leilao, licitar_leitao, end_leilao, leiloes_atuais, info_empresa, empresas
+        // last_leilao dá o código http 500, tenho que corrigir no diretorio
+        // NÃO TESTEI AS THREADS A FUNCIONAR, ERA COMPLICADO SEM O RESTO
+
+        //exchange.criar_leilao("Mango", 2000, 5);
+        //exchange.licitar_leilao("Rui","Mango", 500, 2);
+        //exchange.end_leilao("Mango");
+        //System.out.println(exchange.leiloes_atuais().toString());
+        //System.out.println(exchange.info_emp("Mango"));
+        //System.out.println(exchange.empresas().toString());
+
+
+
+
+        //exchange.criar_emprestimo("Mango", 1000, 5);
+        //System.out.println(exchange.emprestimos_atuais().toString());
+
+        //System.out.println(exchange.parseLeilao(exchange.sendGet("http://localhost:8080/diretorio/last_leilao/Mango")).toString());
+
+
+
+
+
+
+
+
+
+
 
         /*Socket s = new Socket("127.0.0.1", 12345);
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());

@@ -22,6 +22,10 @@ public class Empresa {
         this.historicoLeiloes = histLei;
     }
 
+    public String getNome(){
+        return this.nome;
+    }
+
     public void addEmprestimo(Emprestimo e){
         this.historicoEmprestimos.add(e);
     }
