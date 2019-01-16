@@ -81,13 +81,7 @@ public class DiretorioResource {
         List<Leilao> leiloes = this.diretorio.getLeiloes();
 
         for(Leilao l: leiloes){
-            Map<String, OfertaRepresentation> inv = new HashMap<>();
-
-            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
-            }
-
-            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+            LeilaoRepresentation lr = getLeilaoRepresentation(l);
             result.add(lr);
         }
 
@@ -111,13 +105,7 @@ public class DiretorioResource {
             }
 
             for(Leilao l: emp.getHistoricoLeiloes()){
-                Map<String, OfertaRepresentation> inv = new HashMap<>();
-
-                for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-                    inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
-                }
-
-                LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+                LeilaoRepresentation lr = getLeilaoRepresentation(l);
                 histLei.add(lr);
             }
 
@@ -149,37 +137,20 @@ public class DiretorioResource {
     public LeilaoRepresentation getLeilao(@PathParam("empresa") String empresa) {
         Leilao l = this.diretorio.getLeilao(empresa);
 
-        if(l != null){
-            Map<String, OfertaRepresentation> inv = new HashMap<>();
+        LeilaoRepresentation lr = getLeilaoRepresentation(l);
+        if (lr != null) return lr;
 
-            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
-            }
-
-            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
-
-            return lr;
-        }
-
-       return null;
+        return null;
     }
+
 
     @GET
     @Path("/last_leilao/{empresa}")
     public LeilaoRepresentation lastLeilao(@PathParam("empresa") String e) {
         Leilao l = this.diretorio.lastLeilao(e);
 
-        if(l != null){
-            Map<String, OfertaRepresentation> inv = new HashMap<>();
-
-            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
-                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
-            }
-
-            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
-
-            return lr;
-        }
+        LeilaoRepresentation leilaoR = getLeilaoRepresentation(l);
+        if(leilaoR != null) return leilaoR;
 
         return null;
     }
@@ -249,6 +220,21 @@ public class DiretorioResource {
 
         synchronized (this) {this.diretorio.endLeilao(e, invest);}
         return Response.ok().build();
+    }
+
+    private LeilaoRepresentation getLeilaoRepresentation(Leilao l) {
+        if(l != null){
+            Map<String, OfertaRepresentation> inv = new HashMap<>();
+
+            for(Map.Entry<String, Oferta> entry: l.getInvestidores().entrySet()){
+                inv.put(entry.getKey(), new OfertaRepresentation(entry.getValue().getMontante(), entry.getValue().getTaxa()));
+            }
+
+            LeilaoRepresentation lr = new LeilaoRepresentation(l.getEmpresa(), l.getMontante(), l.getTaxaMaxima(), inv);
+
+            return lr;
+        }
+        return null;
     }
 }
 

@@ -163,8 +163,10 @@ public class Exchange {
 
         if(emp.getMontanteOferecido() >= emp.getMontante()){
             this.lock.lock();
-            this.threadEmprestimo.get(empresa).interrupt();
-            this.threadEmprestimo.remove(empresa);
+            if(this.threadEmprestimo.containsKey(empresa)){
+                this.threadEmprestimo.get(empresa).interrupt();
+                this.threadEmprestimo.remove(empresa);
+            }
             this.lock.unlock();
             end_emprestimo(empresa);
         }
@@ -423,32 +425,14 @@ public class Exchange {
         /*TODO 3. acabar métodos end_emprestimo e end_leilao (parte de informar os participantes)*/
         /*TODO 4. concorrencia?*/
 
-        //Testadas criar_leilao, licitar_leitao, end_leilao, leiloes_atuais, info_empresa, empresas
-        // last_leilao dá o código http 500, tenho que corrigir no diretorio
+        // Não testei criar_emprestimo por causa do last_leilao não funcionar no diretorio
         // NÃO TESTEI AS THREADS A FUNCIONAR, ERA COMPLICADO SEM O RESTO
 
-        //exchange.criar_leilao("Mango", 2000, 5);
-        //exchange.licitar_leilao("Rui","Mango", 500, 2);
-        //exchange.end_leilao("Mango");
-        //System.out.println(exchange.leiloes_atuais().toString());
-        //System.out.println(exchange.info_emp("Mango"));
-        //System.out.println(exchange.empresas().toString());
-
-
-
-
-        //exchange.criar_emprestimo("Mango", 1000, 5);
-        //System.out.println(exchange.emprestimos_atuais().toString());
-
-        //System.out.println(exchange.parseLeilao(exchange.sendGet("http://localhost:8080/diretorio/last_leilao/Mango")).toString());
-
-
-
-
-
-
-
-
+        // Os comandos que se seguem servem para testar o last_leilao
+        exchange.criar_leilao("Mango", 2000, 5);
+        exchange.licitar_leilao("Rui","Mango", 2000, 2);
+        exchange.end_leilao("Mango");
+        System.out.println(exchange.parseLeilao(exchange.sendPost("http://localhost:8080/diretorio/last_leilao/Mango")).toString());
 
 
 
