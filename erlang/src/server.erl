@@ -63,6 +63,17 @@ handle(Socket, Username, Role) ->
       io:fwrite('Blimey\n')
   end.
 
+hash_string(String) -> hash_string(String, 0).
+hash_string([], Acc) -> Acc;
+hash_string([H | T], Acc) ->
+  hash_string(T, Acc + (H + ((1-rand:uniform()) * 100))).
+
+get_ip(Index) ->
+  0.
+
+get_exchange(Company) ->
+  get_ip(hash_string(Company)).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMPANY
 
