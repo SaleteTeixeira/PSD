@@ -193,6 +193,10 @@ public class Exchange {
         return parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
     }
 
+    public List<Empresa> empresas(){
+        return parseEmpresas(sendGet("http://localhost:8080/diretorio/get_empresas/"));
+    }
+
     public String sendGet(String url){
         try {
             URL obj = new URL(url);
@@ -295,6 +299,25 @@ public class Exchange {
         }
 
         return leiloes;
+    }
+
+    private List<Empresa> parseEmpresas(String s) {
+        List<Empresa> empresas = new ArrayList<>();
+
+        try {
+            JSONParser parser = new JSONParser();
+            JSONArray json = (JSONArray) parser.parse(s);
+            Iterator i = json.iterator();
+
+            while(i.hasNext()){
+                Empresa emp = parseEmpresa(i.next().toString());
+                empresas.add(emp);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return empresas;
     }
 
     public Emprestimo parseEmprestimo(String result){
