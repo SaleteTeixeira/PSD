@@ -137,8 +137,10 @@ public class DiretorioResource {
     public LeilaoRepresentation getLeilao(@PathParam("empresa") String empresa) {
         Leilao l = this.diretorio.getLeilao(empresa);
 
-        LeilaoRepresentation lr = getLeilaoRepresentation(l);
-        if (lr != null) return lr;
+        if (l != null) {
+            LeilaoRepresentation lr = getLeilaoRepresentation(l);
+            if (lr != null) return lr;
+        }
 
         return null;
     }
@@ -146,11 +148,14 @@ public class DiretorioResource {
 
     @GET
     @Path("/last_leilao/{empresa}")
+    @Produces(MediaType.APPLICATION_JSON)
     public LeilaoRepresentation lastLeilao(@PathParam("empresa") String e) {
         Leilao l = this.diretorio.lastLeilao(e);
 
-        LeilaoRepresentation leilaoR = getLeilaoRepresentation(l);
-        if(leilaoR != null) return leilaoR;
+        if (l != null) {
+            LeilaoRepresentation leilaoR = getLeilaoRepresentation(l);
+            if (leilaoR != null) return leilaoR;
+        }
 
         return null;
     }

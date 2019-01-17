@@ -1,4 +1,4 @@
-
+package main.java;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -429,10 +429,16 @@ public class Exchange {
         // NÃO TESTEI AS THREADS A FUNCIONAR, ERA COMPLICADO SEM O RESTO
 
         // Os comandos que se seguem servem para testar o last_leilao
-        exchange.criar_leilao("Mango", 2000, 5);
-        exchange.licitar_leilao("Rui","Mango", 2000, 2);
-        exchange.end_leilao("Mango");
-        System.out.println(exchange.parseLeilao(exchange.sendPost("http://localhost:8080/diretorio/last_leilao/Mango")).toString());
+        boolean result;
+        result = exchange.criar_leilao("Mango", 2000, 5);
+        System.out.println(result);
+        result = exchange.licitar_leilao("Rui","Mango", 2000, 2);
+        System.out.println(result);
+        result = exchange.end_leilao("Mango");
+        System.out.println(result);
+        Leilao l = exchange.parseLeilao(exchange.sendPost("http://localhost:8080/diretorio/last_leilao/Mango"));
+        System.out.println(l);
+        //System.out.println(exchange.parseLeilao(exchange.sendPost("http://localhost:8080/diretorio/last_leilao/Mango")).toString());
 
 
 
