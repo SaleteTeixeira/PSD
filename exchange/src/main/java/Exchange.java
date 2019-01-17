@@ -1,4 +1,3 @@
-package main.java;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -425,21 +424,7 @@ public class Exchange {
         /*TODO 3. acabar métodos end_emprestimo e end_leilao (parte de informar os participantes)*/
         /*TODO 4. concorrencia?*/
 
-        // Não testei criar_emprestimo por causa do last_leilao não funcionar no diretorio
         // NÃO TESTEI AS THREADS A FUNCIONAR, ERA COMPLICADO SEM O RESTO
-
-        // Os comandos que se seguem servem para testar o last_leilao
-        boolean result;
-        result = exchange.criar_leilao("Mango", 2000, 5);
-        System.out.println(result);
-        result = exchange.licitar_leilao("Rui","Mango", 2000, 2);
-        System.out.println(result);
-        result = exchange.end_leilao("Mango");
-        System.out.println(result);
-        Leilao l = exchange.parseLeilao(exchange.sendPost("http://localhost:8080/diretorio/last_leilao/Mango"));
-        System.out.println(l);
-        //System.out.println(exchange.parseLeilao(exchange.sendPost("http://localhost:8080/diretorio/last_leilao/Mango")).toString());
-
 
 
         /*Socket s = new Socket("127.0.0.1", 12345);
