@@ -1,5 +1,3 @@
-package main.java;
-
 public class Oferta{
     private double montante;
     private double taxa;
