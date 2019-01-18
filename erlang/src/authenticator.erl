@@ -30,8 +30,8 @@ login(Socket, Username, Password, Role) ->
       authenticate(Socket)
   end.
 
-handle(Socket, Username, "Investor") -> investor:handle_investor(Socket, Username);
-handle(Socket, Username, "Company") -> company:handle_company(Socket, Username).
+handle(Socket, Username, "Investor") -> investor:handle(Socket, Username);
+handle(Socket, Username, "Company") -> company:handle(Socket, Username).
 
 logout(Username) ->
   loginManager:logout(Username).

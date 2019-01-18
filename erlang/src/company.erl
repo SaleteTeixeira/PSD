@@ -1,17 +1,17 @@
 -module(company).
 
 %% API
--export([handle_company/2]).
+-export([handle/2]).
 
 %% Import
 -include("messages.hrl").
 
 %% Implementation
-handle_company(ClientSocket, Company) ->
+handle(ClientSocket, Company) ->
   {ok, ExchangeSocket} = gen_tcp:connect("localhost",
     util:get_exchange(Company), [binary, {packet, 4}, {reuseaddr, true}]),
-  handle_company(ClientSocket, Company, ExchangeSocket).
-handle_company(ClientSocket, Company, ExchangeSocket) ->
+  handle(ClientSocket, Company, ExchangeSocket).
+handle(ClientSocket, Company, ExchangeSocket) ->
   receive
     {tcp, _, Bin} ->
       io:fwrite("~p~n", [messages:decode_msg(Bin, 'Request')]),
@@ -24,8 +24,7 @@ handle_company(ClientSocket, Company, ExchangeSocket) ->
           request_reply(ClientSocket, Company, ExchangeSocket, Bin);
         _ -> authenticator:logout(Company)
       end;
-    _ ->
-      authenticator:logout(Company)
+    _ -> authenticator:logout(Company)
   end.
 
 request_reply(ClientSocket, Company, ExchangeSocket, Bin) ->
@@ -34,7 +33,6 @@ request_reply(ClientSocket, Company, ExchangeSocket, Bin) ->
   receive
     {tcp, _, Bin} ->
       gen_tcp:send(ClientSocket, Bin),
-      handle_company(ClientSocket, Company, ExchangeSocket);
-    _ ->
-      authenticator:logout(Company)
+      handle(ClientSocket, Company, ExchangeSocket);
+    _ -> authenticator:logout(Company)
   end.

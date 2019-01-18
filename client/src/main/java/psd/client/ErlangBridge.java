@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class ErlangBridge {
 
@@ -23,6 +25,10 @@ class ErlangBridge {
             }
         }
         return instance;
+    }
+    
+    static void clean() {
+        instance = null;
     }
 
     private final Socket erlangServer;
@@ -71,19 +77,17 @@ class ErlangBridge {
         }
     }
 
-    boolean logout(final String username) {
+    void logout(final String username) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
             final Messages.LogoutRequest logout = Messages.LogoutRequest.newBuilder().setType("LogoutRequest").setUsername(username).build();
             this.write(cos, logout.toByteArray());
-            final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
-            System.out.println(reply.getMessage());
-            return reply.getResult();
         } catch (final IOException e) {
             e.printStackTrace();
-            return false;
         }
+        ErlangBridge.clean();
+        
     }
 
     boolean bidAuction(final String username, final String company, final int amount, final double interest) {

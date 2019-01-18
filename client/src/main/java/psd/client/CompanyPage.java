@@ -230,12 +230,11 @@ public class CompanyPage extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
-        if (this.erlang.logout(this.username)) {
-            this.erlang.logout(this.username);
-            this.setVisible(false);
-            new LoginPage().setVisible(true);
-            this.dispose();
-        }
+        this.erlang.logout(this.username);
+        this.erlang.logout(this.username);
+        this.setVisible(false);
+        new LoginPage().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_logoutActionPerformed
 
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
