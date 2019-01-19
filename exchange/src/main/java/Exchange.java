@@ -1,4 +1,6 @@
 import com.google.protobuf.CodedOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import java.io.*;
 import java.net.*;
@@ -465,12 +467,19 @@ public class Exchange {
         return emp;
     }
 
+    private byte[] intToByteArrayBigEndian(final int i) {
+        final ByteBuffer b = ByteBuffer.allocate(4);
+        b.order(ByteOrder.BIG_ENDIAN);
+        b.putInt(i);
+        return b.array();
+    }
+
     void answerToServerRequest(CodedOutputStream cos, boolean bool, String msg) {
         try {
             Messages.Reply m = Messages.Reply.newBuilder().setResult(bool).setMessage(msg).build();
 
             byte ba[] = m.toByteArray();
-            cos.writeFixed32NoTag(ba.length);
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
             cos.writeRawBytes(ba);
             cos.flush();
 

@@ -3,6 +3,8 @@ import com.google.protobuf.CodedOutputStream;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class ThreadReply implements Runnable{
 
@@ -18,12 +20,18 @@ public class ThreadReply implements Runnable{
         this.exchange = exchange;
     }
 
+    private int ByteArrayBigEndianToInt(final byte[] bytes) {
+        final ByteBuffer b = ByteBuffer.wrap(bytes);
+        b.order(ByteOrder.BIG_ENDIAN);
+        return b.asIntBuffer().get();
+    }
+
     @Override
     public void run()  {
         try {
             while (true) {
-                int len = this.cis.readRawLittleEndian32();
-                byte[] ba = this.cis.readRawBytes(len);
+                final int count = this.ByteArrayBigEndianToInt(cis.readRawBytes(4));
+                byte[] ba = this.cis.readRawBytes(count);
 
                 Messages.Request m = Messages.Request.parseFrom(ba);
 
