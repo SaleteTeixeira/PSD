@@ -12,15 +12,15 @@ get_exchange_map(ExchangeMap, Accum) ->
   case Accum of
     N -> ExchangeMap;
     _ ->
-      %Port = util:get_port(Accum),
-      Port = 12345,
+      Port = util:get_port(Accum),
       {ok, Socket} = gen_tcp:connect("localhost", Port, [binary, {packet, 4}, {reuseaddr, true}]),
-      maps:put(Port, Socket, ExchangeMap),
-      get_exchange_map(ExchangeMap, Accum + 1)
+      UpdatedMap = maps:put(Port, Socket, ExchangeMap),
+      get_exchange_map(UpdatedMap, Accum + 1)
   end.
 
 handle(ClientSocket, Username) ->
   ExchangeMap = get_exchange_map(#{}, util:number_of_exchanges()),
+  io:fwrite("~p~n", [ExchangeMap]),
   handle(ClientSocket, Username, ExchangeMap).
 handle(ClientSocket, Username, ExchangeMap) ->
   receive
@@ -43,11 +43,12 @@ handle(ClientSocket, Username, ExchangeMap) ->
 request_reply(ClientSocket, Username, ExchangeMap, Bin, Company) ->
   Port = util:get_exchange(Company),
   {ok, ExchangeSocket} = maps:find(Port, ExchangeMap),
+  io:fwrite("Forwarding.~n"),
   gen_tcp:send(ExchangeSocket, Bin),
   receive
-    {tcp, _, Bin} ->
-      gen_tcp:send(ClientSocket, Bin),
-      handle(ClientSocket, Username, ExchangeMap);
-    _ ->
-      loginManager:logout(Username)
+    {tcp, _, Reply} ->
+      io:fwrite("~p~n", [messages:decode_msg(Reply,'Reply')]),
+      gen_tcp:send(ClientSocket, Reply),
+      handle(ClientSocket, Username, ExchangeMap)
+  after (60 * 1000) -> authenticator:logout(Company)
   end.

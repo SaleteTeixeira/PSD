@@ -241,7 +241,6 @@ public class CompanyPage extends javax.swing.JFrame {
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
         this.erlang.logout(this.username);
-        this.erlang.logout(this.username);
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();

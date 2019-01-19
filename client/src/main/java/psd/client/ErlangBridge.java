@@ -71,9 +71,9 @@ class ErlangBridge {
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
             System.out.println(reply.getMessage());
             return reply.getResult();
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
-            ErlangBridge.clean();
+            System.exit(1);
             return false;
         }
     }
@@ -84,8 +84,9 @@ class ErlangBridge {
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
             final Messages.LogoutRequest logout = Messages.LogoutRequest.newBuilder().setType("LogoutRequest").setUsername(username).build();
             this.write(cos, logout.toByteArray());
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
         ErlangBridge.clean();
         
@@ -95,14 +96,19 @@ class ErlangBridge {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
-            final Messages.AuctionBid bid = Messages.AuctionBid.newBuilder().setType("AuctionBid").setCompany(company).setAmount(amount).setInterest(interest).build();
+            final Messages.AuctionBid bid = Messages.AuctionBid.newBuilder()
+                    .setType("AuctionBid")
+                    .setUsername(username)
+                    .setCompany(company)
+                    .setAmount(amount)
+                    .setInterest(interest).build();
             this.write(cos, bid.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
             System.out.println(reply.getMessage());
             return reply.getResult();
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
-            ErlangBridge.clean();
+            System.exit(1);
             return false;
         }
     }
@@ -111,14 +117,18 @@ class ErlangBridge {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
-            final Messages.FixedSubscription bid = Messages.FixedSubscription.newBuilder().setType("FixedSubscription").setCompany(company).setAmount(amount).build();
+            final Messages.FixedSubscription bid = Messages.FixedSubscription.newBuilder()
+                    .setType("FixedSubscription")
+                    .setUsername(username)
+                    .setCompany(company)
+                    .setAmount(amount).build();
             this.write(cos, bid.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
             System.out.println(reply.getMessage());
             return reply.getResult();
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
-            ErlangBridge.clean();
+            System.exit(1);
             return false;
         }
     }
@@ -136,14 +146,30 @@ class ErlangBridge {
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
             System.out.println(reply.getMessage());
             return reply.getResult();
-        } catch (final IOException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
-            ErlangBridge.clean();
+            System.exit(1);
             return false;
         }
     }
     
     boolean createLoan(final String company, final int amount, final double interest) {
-        return false;
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.FixedLoan bid = Messages.FixedLoan.newBuilder()
+                    .setType("FixedLoan")
+                    .setUsername(company)
+                    .setAmount(amount)
+                    .setInterest(interest).build();
+            this.write(cos, bid.toByteArray());
+            final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
+            System.out.println(reply.getMessage());
+            return reply.getResult();
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+            return false;
+        }
     }
 }
