@@ -13,7 +13,9 @@ authenticate(Socket) ->
       {'LoginRequest', Username, Password, Role} = messages:decode_msg(Bin, 'LoginRequest'),
       io:fwrite("Login request. ~p ~p ~p\n", [Username, Password, Role]),
       login(Socket, Username, Password, Role);
-    _ -> bye
+    _ ->
+      io:fwrite("bye~n"),
+      bye
   end.
 
 login(Socket, Username, Password, Role) ->

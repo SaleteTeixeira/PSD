@@ -73,6 +73,7 @@ class ErlangBridge {
             return reply.getResult();
         } catch (final IOException e) {
             e.printStackTrace();
+            ErlangBridge.clean();
             return false;
         }
     }
@@ -101,6 +102,7 @@ class ErlangBridge {
             return reply.getResult();
         } catch (final IOException e) {
             e.printStackTrace();
+            ErlangBridge.clean();
             return false;
         }
     }
@@ -116,12 +118,29 @@ class ErlangBridge {
             return reply.getResult();
         } catch (final IOException e) {
             e.printStackTrace();
+            ErlangBridge.clean();
             return false;
         }
     }
     
     boolean createAuction(final String company, final int amount, final double interest) {
-        return false;
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.Auction bid = Messages.Auction.newBuilder()
+                    .setType("Auction")
+                    .setCompany(company)
+                    .setAmount(amount)
+                    .setInterest(interest).build();
+            this.write(cos, bid.toByteArray());
+            final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
+            System.out.println(reply.getMessage());
+            return reply.getResult();
+        } catch (final IOException e) {
+            e.printStackTrace();
+            ErlangBridge.clean();
+            return false;
+        }
     }
     
     boolean createLoan(final String company, final int amount, final double interest) {
