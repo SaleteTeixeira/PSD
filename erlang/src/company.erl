@@ -8,8 +8,10 @@
 
 %% Implementation
 handle(ClientSocket, Company) ->
+  %{ok, ExchangeSocket} = gen_tcp:connect("localhost",
+  %  util:get_exchange(Company), [binary, {packet, 4}, {reuseaddr, true}]),
   {ok, ExchangeSocket} = gen_tcp:connect("localhost",
-    util:get_exchange(Company), [binary, {packet, 4}, {reuseaddr, true}]),
+    12345, [binary, {packet, 4}, {reuseaddr, true}]),
   handle(ClientSocket, Company, ExchangeSocket).
 handle(ClientSocket, Company, ExchangeSocket) ->
   receive

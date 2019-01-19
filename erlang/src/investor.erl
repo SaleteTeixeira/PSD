@@ -12,7 +12,8 @@ get_exchange_map(ExchangeMap, Accum) ->
   case Accum of
     N -> ExchangeMap;
     _ ->
-      Port = util:get_port(Accum),
+      %Port = util:get_port(Accum),
+      Port = 12345,
       {ok, Socket} = gen_tcp:connect("localhost", Port, [binary, {packet, 4}, {reuseaddr, true}]),
       maps:put(Port, Socket, ExchangeMap),
       get_exchange_map(ExchangeMap, Accum + 1)
