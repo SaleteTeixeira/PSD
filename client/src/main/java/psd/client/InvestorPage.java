@@ -14,11 +14,37 @@ public class InvestorPage extends javax.swing.JFrame {
      * Creates new form InvestorPage
      */
     public InvestorPage(String username) {
-        this.erlang = ErlangBridge.getInstance();
         this.username = username;
         initComponents();
     }
 
+    private void refresh() {
+        Messages.AuctionList alist = ErlangBridge.getInstance().auctionList();
+        Messages.FixedList flist = ErlangBridge.getInstance().fixedList();
+        int count = alist.getEntryCount();
+        this.auctionsListArea.removeAll();
+        for (int i = 0; i < count; ++i) {
+            Messages.AuctionEntry entry = alist.getEntry(i);
+            this.auctionsListArea.append(entry.getCompany() 
+                    + '\t'
+                    + entry.getAmount()
+                    + '\t' 
+                    + entry.getInterest() 
+                    + '\n');
+        }
+        count = flist.getEntryCount();
+        this.fixedListArea.removeAll();
+        for (int i = 0; i < count; ++i) {
+            Messages.FixedEntry entry = flist.getEntry(i);
+            this.fixedListArea.append(entry.getCompany() 
+                    + '\t'
+                    + entry.getAmount()
+                    + '\t' 
+                    + entry.getInterest() 
+                    + '\n');
+        }
+    } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,10 +57,6 @@ public class InvestorPage extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        auctionsPane = new javax.swing.JScrollPane();
-        auctionsList = new javax.swing.JList<>();
-        fixedPane = new javax.swing.JScrollPane();
-        fixedList = new javax.swing.JList<>();
         auctionsNotiPane = new javax.swing.JScrollPane();
         auctionsNotiArea = new javax.swing.JTextArea();
         fixedNotiPane = new javax.swing.JScrollPane();
@@ -46,6 +68,10 @@ public class InvestorPage extends javax.swing.JFrame {
         amountFieldFixed = new javax.swing.JTextField();
         subscribeButton = new javax.swing.JButton();
         amountFieldAuction = new javax.swing.JTextField();
+        fixedListPane = new javax.swing.JScrollPane();
+        fixedListArea = new javax.swing.JTextArea();
+        auctionsListPane = new javax.swing.JScrollPane();
+        auctionsListArea = new javax.swing.JTextArea();
         menu = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
         refresh = new javax.swing.JMenuItem();
@@ -63,10 +89,6 @@ public class InvestorPage extends javax.swing.JFrame {
         jLabel1.setText("Loan Auctions");
 
         jLabel2.setText("Fixed Rate Loans");
-
-        auctionsPane.setViewportView(auctionsList);
-
-        fixedPane.setViewportView(fixedList);
 
         auctionsNotiArea.setColumns(20);
         auctionsNotiArea.setRows(5);
@@ -135,6 +157,14 @@ public class InvestorPage extends javax.swing.JFrame {
             }
         });
 
+        fixedListArea.setColumns(20);
+        fixedListArea.setRows(5);
+        fixedListPane.setViewportView(fixedListArea);
+
+        auctionsListArea.setColumns(20);
+        auctionsListArea.setRows(5);
+        auctionsListPane.setViewportView(auctionsListArea);
+
         file.setText("File");
 
         refresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
@@ -187,42 +217,37 @@ public class InvestorPage extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(auctionsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                     .addComponent(auctionsNotiPane)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(interestFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(amountFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 45, Short.MAX_VALUE)
+                        .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(interestFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(amountFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(auctionsListPane))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(372, 372, 372))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fixedPane)
-                                    .addComponent(fixedNotiPane))
-                                .addContainerGap())))
+                        .addComponent(jLabel2)
+                        .addGap(372, 378, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(companyFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(amountFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(subscribeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fixedNotiPane, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                            .addComponent(fixedListPane)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(companyFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(amountFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(subscribeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,27 +260,30 @@ public class InvestorPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(auctionsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fixedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(auctionsNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fixedNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(85, 85, 85)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(interestFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bidButton)
-                            .addComponent(amountFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(84, Short.MAX_VALUE))
+                        .addComponent(fixedListPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(auctionsListPane, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fixedNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(auctionsNotiPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bidButton)
+                            .addComponent(amountFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(interestFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(companyFieldAuction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(companyFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(amountFieldFixed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(subscribeButton))
-                        .addGap(81, 81, 81))))
+                            .addComponent(subscribeButton))))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         pack();
@@ -263,7 +291,7 @@ public class InvestorPage extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
-        this.erlang.logout(this.username);
+        ErlangBridge.getInstance().logout(this.username);
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();
@@ -276,6 +304,7 @@ public class InvestorPage extends javax.swing.JFrame {
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
+        refresh();
     }//GEN-LAST:event_refreshActionPerformed
 
     private void companyFieldAuctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_companyFieldAuctionActionPerformed
@@ -291,7 +320,7 @@ public class InvestorPage extends javax.swing.JFrame {
         final String company = this.companyFieldAuction.getText();
         final int amount = Integer.parseInt(this.amountFieldAuction.getText());
         final double interest = Double.parseDouble(this.interestFieldAuction.getText());
-        final boolean success = this.erlang.bidAuction(this.username, company, amount, interest);
+        final boolean success = ErlangBridge.getInstance().bidAuction(this.username, company, amount, interest);
         if (success) {
             this.auctionsNotiArea.append("Successfull bid in company "
                     + company
@@ -315,7 +344,7 @@ public class InvestorPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final String company = this.companyFieldFixed.getText();
         final int amount = Integer.parseInt(this.amountFieldFixed.getText());
-        final boolean success = this.erlang.subscribeFixed(this.username, company, amount);
+        final boolean success = ErlangBridge.getInstance().subscribeFixed(this.username, company, amount);
         if (success) {
             this.fixedNotiArea.append("Successfull subscription in company "
                     + company
@@ -369,23 +398,22 @@ public class InvestorPage extends javax.swing.JFrame {
     }//GEN-LAST:event_amountFieldFixedFocusGained
 
     private final String username;
-    private final ErlangBridge erlang;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amountFieldAuction;
     private javax.swing.JTextField amountFieldFixed;
-    private javax.swing.JList<String> auctionsList;
+    private javax.swing.JTextArea auctionsListArea;
+    private javax.swing.JScrollPane auctionsListPane;
     private javax.swing.JTextArea auctionsNotiArea;
     private javax.swing.JScrollPane auctionsNotiPane;
-    private javax.swing.JScrollPane auctionsPane;
     private javax.swing.JButton bidButton;
     private javax.swing.JTextField companyFieldAuction;
     private javax.swing.JTextField companyFieldFixed;
     private javax.swing.JMenu file;
-    private javax.swing.JList<String> fixedList;
+    private javax.swing.JTextArea fixedListArea;
+    private javax.swing.JScrollPane fixedListPane;
     private javax.swing.JTextArea fixedNotiArea;
     private javax.swing.JScrollPane fixedNotiPane;
-    private javax.swing.JScrollPane fixedPane;
     private javax.swing.JTextField interestFieldAuction;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

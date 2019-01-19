@@ -15,7 +15,6 @@ public class CompanyPage extends javax.swing.JFrame {
      * Creates new form InvestorPage
      */
     public CompanyPage(String username) {
-        this.erlang = ErlangBridge.getInstance();
         this.username = username;
         initComponents();
     }
@@ -240,7 +239,7 @@ public class CompanyPage extends javax.swing.JFrame {
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
-        this.erlang.logout(this.username);
+        ErlangBridge.getInstance().logout(this.username);
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();
@@ -271,7 +270,7 @@ public class CompanyPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final int amount = Integer.parseInt(this.amountAuctionField.getText());
         final double interest = Double.parseDouble(this.maxInterestField.getText());
-        final boolean success = this.erlang.createAuction(this.username, amount, interest);
+        final boolean success = ErlangBridge.getInstance().createAuction(this.username, amount, interest);
         if (success) {
             this.auctionsNotiArea.append("Successfull creation of auction with amount "
                     + amount
@@ -293,7 +292,7 @@ public class CompanyPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final int amount = Integer.parseInt(this.amountFixedField.getText());
         final double interest = Double.parseDouble(this.maxInterestField.getText());
-        final boolean success = this.erlang.createLoan(this.username, amount, interest);
+        final boolean success = ErlangBridge.getInstance().createLoan(this.username, amount, interest);
         if (success) {
             this.fixedNotiArea.append("Successfull creation of fixed loan with amount "
                     + amount
@@ -336,7 +335,6 @@ public class CompanyPage extends javax.swing.JFrame {
     }//GEN-LAST:event_interestFieldFocusGained
 
     private final String username;
-    private final ErlangBridge erlang;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amountAuctionField;

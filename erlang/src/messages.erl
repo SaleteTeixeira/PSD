@@ -52,20 +52,28 @@
 
 -type 'FixedLoan'() :: #'FixedLoan'{}.
 
--export_type(['Reply'/0, 'LoginRequest'/0, 'Request'/0, 'LogoutRequest'/0, 'AuctionBid'/0, 'FixedSubscription'/0, 'Auction'/0, 'FixedLoan'/0]).
+-type 'AuctionEntry'() :: #'AuctionEntry'{}.
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{}) -> binary().
+-type 'AuctionList'() :: #'AuctionList'{}.
+
+-type 'FixedEntry'() :: #'FixedEntry'{}.
+
+-type 'FixedList'() :: #'FixedList'{}.
+
+-export_type(['Reply'/0, 'LoginRequest'/0, 'Request'/0, 'LogoutRequest'/0, 'AuctionBid'/0, 'FixedSubscription'/0, 'Auction'/0, 'FixedLoan'/0, 'AuctionEntry'/0, 'AuctionList'/0, 'FixedEntry'/0, 'FixedList'/0]).
+
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{}) -> binary().
 encode_msg(Msg) when tuple_size(Msg) >= 1 ->
     encode_msg(Msg, element(1, Msg), []).
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{}, atom() | list()) -> binary().
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{}, atom() | list()) -> binary().
 encode_msg(Msg, MsgName) when is_atom(MsgName) ->
     encode_msg(Msg, MsgName, []);
 encode_msg(Msg, Opts)
     when tuple_size(Msg) >= 1, is_list(Opts) ->
     encode_msg(Msg, element(1, Msg), Opts).
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{}, atom(), list()) -> binary().
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{}, atom(), list()) -> binary().
 encode_msg(Msg, MsgName, Opts) ->
     case proplists:get_bool(verify, Opts) of
       true -> verify_msg(Msg, MsgName, Opts);
@@ -91,7 +99,16 @@ encode_msg(Msg, MsgName, Opts) ->
       'Auction' ->
 	  encode_msg_Auction(id(Msg, TrUserData), TrUserData);
       'FixedLoan' ->
-	  encode_msg_FixedLoan(id(Msg, TrUserData), TrUserData)
+	  encode_msg_FixedLoan(id(Msg, TrUserData), TrUserData);
+      'AuctionEntry' ->
+	  encode_msg_AuctionEntry(id(Msg, TrUserData),
+				  TrUserData);
+      'AuctionList' ->
+	  encode_msg_AuctionList(id(Msg, TrUserData), TrUserData);
+      'FixedEntry' ->
+	  encode_msg_FixedEntry(id(Msg, TrUserData), TrUserData);
+      'FixedList' ->
+	  encode_msg_FixedList(id(Msg, TrUserData), TrUserData)
     end.
 
 
@@ -422,6 +439,181 @@ encode_msg_FixedLoan(#'FixedLoan'{type = F1,
 	   end
     end.
 
+encode_msg_AuctionEntry(Msg, TrUserData) ->
+    encode_msg_AuctionEntry(Msg, <<>>, TrUserData).
+
+
+encode_msg_AuctionEntry(#'AuctionEntry'{type = F1,
+					company = F2, amount = F3,
+					interest = F4},
+			Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true ->
+		begin
+		  TrF2 = id(F2, TrUserData),
+		  case is_empty_string(TrF2) of
+		    true -> B1;
+		    false ->
+			e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+		  end
+		end
+	 end,
+    B3 = if F3 == undefined -> B2;
+	    true ->
+		begin
+		  TrF3 = id(F3, TrUserData),
+		  if TrF3 =:= 0 -> B2;
+		     true -> e_varint(TrF3, <<B2/binary, 24>>, TrUserData)
+		  end
+		end
+	 end,
+    if F4 == undefined -> B3;
+       true ->
+	   begin
+	     TrF4 = id(F4, TrUserData),
+	     if TrF4 =:= 0.0 -> B3;
+		true ->
+		    e_type_double(TrF4, <<B3/binary, 33>>, TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_AuctionList(Msg, TrUserData) ->
+    encode_msg_AuctionList(Msg, <<>>, TrUserData).
+
+
+encode_msg_AuctionList(#'AuctionList'{type = F1,
+				      entry = F2},
+		       Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    begin
+      TrF2 = id(F2, TrUserData),
+      if TrF2 == [] -> B1;
+	 true -> e_field_AuctionList_entry(TrF2, B1, TrUserData)
+      end
+    end.
+
+encode_msg_FixedEntry(Msg, TrUserData) ->
+    encode_msg_FixedEntry(Msg, <<>>, TrUserData).
+
+
+encode_msg_FixedEntry(#'FixedEntry'{type = F1,
+				    company = F2, amount = F3, interest = F4},
+		      Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true ->
+		begin
+		  TrF2 = id(F2, TrUserData),
+		  case is_empty_string(TrF2) of
+		    true -> B1;
+		    false ->
+			e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+		  end
+		end
+	 end,
+    B3 = if F3 == undefined -> B2;
+	    true ->
+		begin
+		  TrF3 = id(F3, TrUserData),
+		  if TrF3 =:= 0 -> B2;
+		     true -> e_varint(TrF3, <<B2/binary, 24>>, TrUserData)
+		  end
+		end
+	 end,
+    if F4 == undefined -> B3;
+       true ->
+	   begin
+	     TrF4 = id(F4, TrUserData),
+	     if TrF4 =:= 0.0 -> B3;
+		true ->
+		    e_type_double(TrF4, <<B3/binary, 33>>, TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_FixedList(Msg, TrUserData) ->
+    encode_msg_FixedList(Msg, <<>>, TrUserData).
+
+
+encode_msg_FixedList(#'FixedList'{type = F1,
+				  entry = F2},
+		     Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    begin
+      TrF2 = id(F2, TrUserData),
+      if TrF2 == [] -> B1;
+	 true -> e_field_FixedList_entry(TrF2, B1, TrUserData)
+      end
+    end.
+
+e_mfield_AuctionList_entry(Msg, Bin, TrUserData) ->
+    SubBin = encode_msg_AuctionEntry(Msg, <<>>, TrUserData),
+    Bin2 = e_varint(byte_size(SubBin), Bin),
+    <<Bin2/binary, SubBin/binary>>.
+
+e_field_AuctionList_entry([Elem | Rest], Bin,
+			  TrUserData) ->
+    Bin2 = <<Bin/binary, 18>>,
+    Bin3 = e_mfield_AuctionList_entry(id(Elem, TrUserData),
+				      Bin2, TrUserData),
+    e_field_AuctionList_entry(Rest, Bin3, TrUserData);
+e_field_AuctionList_entry([], Bin, _TrUserData) -> Bin.
+
+e_mfield_FixedList_entry(Msg, Bin, TrUserData) ->
+    SubBin = encode_msg_FixedEntry(Msg, <<>>, TrUserData),
+    Bin2 = e_varint(byte_size(SubBin), Bin),
+    <<Bin2/binary, SubBin/binary>>.
+
+e_field_FixedList_entry([Elem | Rest], Bin,
+			TrUserData) ->
+    Bin2 = <<Bin/binary, 18>>,
+    Bin3 = e_mfield_FixedList_entry(id(Elem, TrUserData),
+				    Bin2, TrUserData),
+    e_field_FixedList_entry(Rest, Bin3, TrUserData);
+e_field_FixedList_entry([], Bin, _TrUserData) -> Bin.
+
 -compile({nowarn_unused_function,e_type_sint/3}).
 e_type_sint(Value, Bin, _TrUserData) when Value >= 0 ->
     e_varint(Value * 2, Bin);
@@ -574,7 +766,16 @@ decode_msg_2_doit('FixedSubscription', Bin,
 decode_msg_2_doit('Auction', Bin, TrUserData) ->
     id(decode_msg_Auction(Bin, TrUserData), TrUserData);
 decode_msg_2_doit('FixedLoan', Bin, TrUserData) ->
-    id(decode_msg_FixedLoan(Bin, TrUserData), TrUserData).
+    id(decode_msg_FixedLoan(Bin, TrUserData), TrUserData);
+decode_msg_2_doit('AuctionEntry', Bin, TrUserData) ->
+    id(decode_msg_AuctionEntry(Bin, TrUserData),
+       TrUserData);
+decode_msg_2_doit('AuctionList', Bin, TrUserData) ->
+    id(decode_msg_AuctionList(Bin, TrUserData), TrUserData);
+decode_msg_2_doit('FixedEntry', Bin, TrUserData) ->
+    id(decode_msg_FixedEntry(Bin, TrUserData), TrUserData);
+decode_msg_2_doit('FixedList', Bin, TrUserData) ->
+    id(decode_msg_FixedList(Bin, TrUserData), TrUserData).
 
 
 
@@ -1870,6 +2071,647 @@ skip_64_FixedLoan(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
     dfp_read_field_def_FixedLoan(Rest, Z1, Z2, F@_1, F@_2,
 				 F@_3, F@_4, TrUserData).
 
+decode_msg_AuctionEntry(Bin, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Bin, 0, 0,
+				    id([], TrUserData), id([], TrUserData),
+				    id(0, TrUserData), id(0.0, TrUserData),
+				    TrUserData).
+
+dfp_read_field_def_AuctionEntry(<<10, Rest/binary>>, Z1,
+				Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_AuctionEntry_type(Rest, Z1, Z2, F@_1, F@_2,
+			      F@_3, F@_4, TrUserData);
+dfp_read_field_def_AuctionEntry(<<18, Rest/binary>>, Z1,
+				Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_AuctionEntry_company(Rest, Z1, Z2, F@_1, F@_2,
+				 F@_3, F@_4, TrUserData);
+dfp_read_field_def_AuctionEntry(<<24, Rest/binary>>, Z1,
+				Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_AuctionEntry_amount(Rest, Z1, Z2, F@_1, F@_2,
+				F@_3, F@_4, TrUserData);
+dfp_read_field_def_AuctionEntry(<<33, Rest/binary>>, Z1,
+				Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_AuctionEntry_interest(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, F@_4, TrUserData);
+dfp_read_field_def_AuctionEntry(<<>>, 0, 0, F@_1, F@_2,
+				F@_3, F@_4, _) ->
+    #'AuctionEntry'{type = F@_1, company = F@_2,
+		    amount = F@_3, interest = F@_4};
+dfp_read_field_def_AuctionEntry(Other, Z1, Z2, F@_1,
+				F@_2, F@_3, F@_4, TrUserData) ->
+    dg_read_field_def_AuctionEntry(Other, Z1, Z2, F@_1,
+				   F@_2, F@_3, F@_4, TrUserData).
+
+dg_read_field_def_AuctionEntry(<<1:1, X:7,
+				 Rest/binary>>,
+			       N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_AuctionEntry(Rest, N + 7,
+				   X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				   TrUserData);
+dg_read_field_def_AuctionEntry(<<0:1, X:7,
+				 Rest/binary>>,
+			       N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_AuctionEntry_type(Rest, 0, 0, F@_1, F@_2, F@_3,
+				    F@_4, TrUserData);
+      18 ->
+	  d_field_AuctionEntry_company(Rest, 0, 0, F@_1, F@_2,
+				       F@_3, F@_4, TrUserData);
+      24 ->
+	  d_field_AuctionEntry_amount(Rest, 0, 0, F@_1, F@_2,
+				      F@_3, F@_4, TrUserData);
+      33 ->
+	  d_field_AuctionEntry_interest(Rest, 0, 0, F@_1, F@_2,
+					F@_3, F@_4, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_AuctionEntry(Rest, 0, 0, F@_1, F@_2, F@_3,
+					 F@_4, TrUserData);
+	    1 ->
+		skip_64_AuctionEntry(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData);
+	    2 ->
+		skip_length_delimited_AuctionEntry(Rest, 0, 0, F@_1,
+						   F@_2, F@_3, F@_4,
+						   TrUserData);
+	    3 ->
+		skip_group_AuctionEntry(Rest, Key bsr 3, 0, F@_1, F@_2,
+					F@_3, F@_4, TrUserData);
+	    5 ->
+		skip_32_AuctionEntry(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData)
+	  end
+    end;
+dg_read_field_def_AuctionEntry(<<>>, 0, 0, F@_1, F@_2,
+			       F@_3, F@_4, _) ->
+    #'AuctionEntry'{type = F@_1, company = F@_2,
+		    amount = F@_3, interest = F@_4}.
+
+d_field_AuctionEntry_type(<<1:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_AuctionEntry_type(Rest, N + 7, X bsl N + Acc,
+			      F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_AuctionEntry_type(<<0:1, X:7, Rest/binary>>, N,
+			  Acc, _, F@_2, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_AuctionEntry(RestF, 0, 0, NewFValue,
+				    F@_2, F@_3, F@_4, TrUserData).
+
+d_field_AuctionEntry_company(<<1:1, X:7, Rest/binary>>,
+			     N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_AuctionEntry_company(Rest, N + 7, X bsl N + Acc,
+				 F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_AuctionEntry_company(<<0:1, X:7, Rest/binary>>,
+			     N, Acc, F@_1, _, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_AuctionEntry(RestF, 0, 0, F@_1,
+				    NewFValue, F@_3, F@_4, TrUserData).
+
+d_field_AuctionEntry_amount(<<1:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_AuctionEntry_amount(Rest, N + 7, X bsl N + Acc,
+				F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_AuctionEntry_amount(<<0:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, _, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc, TrUserData),
+			  Rest},
+    dfp_read_field_def_AuctionEntry(RestF, 0, 0, F@_1, F@_2,
+				    NewFValue, F@_4, TrUserData).
+
+d_field_AuctionEntry_interest(<<0:48, 240, 127,
+				Rest/binary>>,
+			      Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, id(infinity, TrUserData),
+				    TrUserData);
+d_field_AuctionEntry_interest(<<0:48, 240, 255,
+				Rest/binary>>,
+			      Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, id('-infinity', TrUserData),
+				    TrUserData);
+d_field_AuctionEntry_interest(<<_:48, 15:4, _:4, _:1,
+				127:7, Rest/binary>>,
+			      Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, id(nan, TrUserData),
+				    TrUserData);
+d_field_AuctionEntry_interest(<<Value:64/little-float,
+				Rest/binary>>,
+			      Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, id(Value, TrUserData),
+				    TrUserData).
+
+skip_varint_AuctionEntry(<<1:1, _:7, Rest/binary>>, Z1,
+			 Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    skip_varint_AuctionEntry(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			     F@_4, TrUserData);
+skip_varint_AuctionEntry(<<0:1, _:7, Rest/binary>>, Z1,
+			 Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, F@_4, TrUserData).
+
+skip_length_delimited_AuctionEntry(<<1:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_AuctionEntry(Rest, N + 7,
+				       X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				       TrUserData);
+skip_length_delimited_AuctionEntry(<<0:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, F@_2, F@_3, F@_4,
+				   TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_AuctionEntry(Rest2, 0, 0, F@_1, F@_2,
+				    F@_3, F@_4, TrUserData).
+
+skip_group_AuctionEntry(Bin, FNum, Z2, F@_1, F@_2, F@_3,
+			F@_4, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_AuctionEntry(Rest, 0, Z2, F@_1, F@_2,
+				    F@_3, F@_4, TrUserData).
+
+skip_32_AuctionEntry(<<_:32, Rest/binary>>, Z1, Z2,
+		     F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, F@_4, TrUserData).
+
+skip_64_AuctionEntry(<<_:64, Rest/binary>>, Z1, Z2,
+		     F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_AuctionEntry(Rest, Z1, Z2, F@_1,
+				    F@_2, F@_3, F@_4, TrUserData).
+
+decode_msg_AuctionList(Bin, TrUserData) ->
+    dfp_read_field_def_AuctionList(Bin, 0, 0,
+				   id([], TrUserData), id([], TrUserData),
+				   TrUserData).
+
+dfp_read_field_def_AuctionList(<<10, Rest/binary>>, Z1,
+			       Z2, F@_1, F@_2, TrUserData) ->
+    d_field_AuctionList_type(Rest, Z1, Z2, F@_1, F@_2,
+			     TrUserData);
+dfp_read_field_def_AuctionList(<<18, Rest/binary>>, Z1,
+			       Z2, F@_1, F@_2, TrUserData) ->
+    d_field_AuctionList_entry(Rest, Z1, Z2, F@_1, F@_2,
+			      TrUserData);
+dfp_read_field_def_AuctionList(<<>>, 0, 0, F@_1, R1,
+			       TrUserData) ->
+    #'AuctionList'{type = F@_1,
+		   entry = lists_reverse(R1, TrUserData)};
+dfp_read_field_def_AuctionList(Other, Z1, Z2, F@_1,
+			       F@_2, TrUserData) ->
+    dg_read_field_def_AuctionList(Other, Z1, Z2, F@_1, F@_2,
+				  TrUserData).
+
+dg_read_field_def_AuctionList(<<1:1, X:7, Rest/binary>>,
+			      N, Acc, F@_1, F@_2, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_AuctionList(Rest, N + 7,
+				  X bsl N + Acc, F@_1, F@_2, TrUserData);
+dg_read_field_def_AuctionList(<<0:1, X:7, Rest/binary>>,
+			      N, Acc, F@_1, F@_2, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_AuctionList_type(Rest, 0, 0, F@_1, F@_2,
+				   TrUserData);
+      18 ->
+	  d_field_AuctionList_entry(Rest, 0, 0, F@_1, F@_2,
+				    TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_AuctionList(Rest, 0, 0, F@_1, F@_2,
+					TrUserData);
+	    1 ->
+		skip_64_AuctionList(Rest, 0, 0, F@_1, F@_2, TrUserData);
+	    2 ->
+		skip_length_delimited_AuctionList(Rest, 0, 0, F@_1,
+						  F@_2, TrUserData);
+	    3 ->
+		skip_group_AuctionList(Rest, Key bsr 3, 0, F@_1, F@_2,
+				       TrUserData);
+	    5 ->
+		skip_32_AuctionList(Rest, 0, 0, F@_1, F@_2, TrUserData)
+	  end
+    end;
+dg_read_field_def_AuctionList(<<>>, 0, 0, F@_1, R1,
+			      TrUserData) ->
+    #'AuctionList'{type = F@_1,
+		   entry = lists_reverse(R1, TrUserData)}.
+
+d_field_AuctionList_type(<<1:1, X:7, Rest/binary>>, N,
+			 Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_AuctionList_type(Rest, N + 7, X bsl N + Acc,
+			     F@_1, F@_2, TrUserData);
+d_field_AuctionList_type(<<0:1, X:7, Rest/binary>>, N,
+			 Acc, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_AuctionList(RestF, 0, 0, NewFValue,
+				   F@_2, TrUserData).
+
+d_field_AuctionList_entry(<<1:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_AuctionList_entry(Rest, N + 7, X bsl N + Acc,
+			      F@_1, F@_2, TrUserData);
+d_field_AuctionList_entry(<<0:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, Prev, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Bs:Len/binary, Rest2/binary>> = Rest,
+			   {id(decode_msg_AuctionEntry(Bs, TrUserData),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_AuctionList(RestF, 0, 0, F@_1,
+				   cons(NewFValue, Prev, TrUserData),
+				   TrUserData).
+
+skip_varint_AuctionList(<<1:1, _:7, Rest/binary>>, Z1,
+			Z2, F@_1, F@_2, TrUserData) ->
+    skip_varint_AuctionList(Rest, Z1, Z2, F@_1, F@_2,
+			    TrUserData);
+skip_varint_AuctionList(<<0:1, _:7, Rest/binary>>, Z1,
+			Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_AuctionList(Rest, Z1, Z2, F@_1, F@_2,
+				   TrUserData).
+
+skip_length_delimited_AuctionList(<<1:1, X:7,
+				    Rest/binary>>,
+				  N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_AuctionList(Rest, N + 7,
+				      X bsl N + Acc, F@_1, F@_2, TrUserData);
+skip_length_delimited_AuctionList(<<0:1, X:7,
+				    Rest/binary>>,
+				  N, Acc, F@_1, F@_2, TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_AuctionList(Rest2, 0, 0, F@_1, F@_2,
+				   TrUserData).
+
+skip_group_AuctionList(Bin, FNum, Z2, F@_1, F@_2,
+		       TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_AuctionList(Rest, 0, Z2, F@_1, F@_2,
+				   TrUserData).
+
+skip_32_AuctionList(<<_:32, Rest/binary>>, Z1, Z2, F@_1,
+		    F@_2, TrUserData) ->
+    dfp_read_field_def_AuctionList(Rest, Z1, Z2, F@_1, F@_2,
+				   TrUserData).
+
+skip_64_AuctionList(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
+		    F@_2, TrUserData) ->
+    dfp_read_field_def_AuctionList(Rest, Z1, Z2, F@_1, F@_2,
+				   TrUserData).
+
+decode_msg_FixedEntry(Bin, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Bin, 0, 0,
+				  id([], TrUserData), id([], TrUserData),
+				  id(0, TrUserData), id(0.0, TrUserData),
+				  TrUserData).
+
+dfp_read_field_def_FixedEntry(<<10, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_FixedEntry_type(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			    F@_4, TrUserData);
+dfp_read_field_def_FixedEntry(<<18, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_FixedEntry_company(Rest, Z1, Z2, F@_1, F@_2,
+			       F@_3, F@_4, TrUserData);
+dfp_read_field_def_FixedEntry(<<24, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_FixedEntry_amount(Rest, Z1, Z2, F@_1, F@_2,
+			      F@_3, F@_4, TrUserData);
+dfp_read_field_def_FixedEntry(<<33, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    d_field_FixedEntry_interest(Rest, Z1, Z2, F@_1, F@_2,
+				F@_3, F@_4, TrUserData);
+dfp_read_field_def_FixedEntry(<<>>, 0, 0, F@_1, F@_2,
+			      F@_3, F@_4, _) ->
+    #'FixedEntry'{type = F@_1, company = F@_2,
+		  amount = F@_3, interest = F@_4};
+dfp_read_field_def_FixedEntry(Other, Z1, Z2, F@_1, F@_2,
+			      F@_3, F@_4, TrUserData) ->
+    dg_read_field_def_FixedEntry(Other, Z1, Z2, F@_1, F@_2,
+				 F@_3, F@_4, TrUserData).
+
+dg_read_field_def_FixedEntry(<<1:1, X:7, Rest/binary>>,
+			     N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_FixedEntry(Rest, N + 7, X bsl N + Acc,
+				 F@_1, F@_2, F@_3, F@_4, TrUserData);
+dg_read_field_def_FixedEntry(<<0:1, X:7, Rest/binary>>,
+			     N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_FixedEntry_type(Rest, 0, 0, F@_1, F@_2, F@_3,
+				  F@_4, TrUserData);
+      18 ->
+	  d_field_FixedEntry_company(Rest, 0, 0, F@_1, F@_2, F@_3,
+				     F@_4, TrUserData);
+      24 ->
+	  d_field_FixedEntry_amount(Rest, 0, 0, F@_1, F@_2, F@_3,
+				    F@_4, TrUserData);
+      33 ->
+	  d_field_FixedEntry_interest(Rest, 0, 0, F@_1, F@_2,
+				      F@_3, F@_4, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_FixedEntry(Rest, 0, 0, F@_1, F@_2, F@_3,
+				       F@_4, TrUserData);
+	    1 ->
+		skip_64_FixedEntry(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				   TrUserData);
+	    2 ->
+		skip_length_delimited_FixedEntry(Rest, 0, 0, F@_1, F@_2,
+						 F@_3, F@_4, TrUserData);
+	    3 ->
+		skip_group_FixedEntry(Rest, Key bsr 3, 0, F@_1, F@_2,
+				      F@_3, F@_4, TrUserData);
+	    5 ->
+		skip_32_FixedEntry(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
+				   TrUserData)
+	  end
+    end;
+dg_read_field_def_FixedEntry(<<>>, 0, 0, F@_1, F@_2,
+			     F@_3, F@_4, _) ->
+    #'FixedEntry'{type = F@_1, company = F@_2,
+		  amount = F@_3, interest = F@_4}.
+
+d_field_FixedEntry_type(<<1:1, X:7, Rest/binary>>, N,
+			Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_FixedEntry_type(Rest, N + 7, X bsl N + Acc,
+			    F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_FixedEntry_type(<<0:1, X:7, Rest/binary>>, N,
+			Acc, _, F@_2, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedEntry(RestF, 0, 0, NewFValue,
+				  F@_2, F@_3, F@_4, TrUserData).
+
+d_field_FixedEntry_company(<<1:1, X:7, Rest/binary>>, N,
+			   Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_FixedEntry_company(Rest, N + 7, X bsl N + Acc,
+			       F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_FixedEntry_company(<<0:1, X:7, Rest/binary>>, N,
+			   Acc, F@_1, _, F@_3, F@_4, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedEntry(RestF, 0, 0, F@_1,
+				  NewFValue, F@_3, F@_4, TrUserData).
+
+d_field_FixedEntry_amount(<<1:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    d_field_FixedEntry_amount(Rest, N + 7, X bsl N + Acc,
+			      F@_1, F@_2, F@_3, F@_4, TrUserData);
+d_field_FixedEntry_amount(<<0:1, X:7, Rest/binary>>, N,
+			  Acc, F@_1, F@_2, _, F@_4, TrUserData) ->
+    {NewFValue, RestF} = {id(X bsl N + Acc, TrUserData),
+			  Rest},
+    dfp_read_field_def_FixedEntry(RestF, 0, 0, F@_1, F@_2,
+				  NewFValue, F@_4, TrUserData).
+
+d_field_FixedEntry_interest(<<0:48, 240, 127,
+			      Rest/binary>>,
+			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, id(infinity, TrUserData), TrUserData);
+d_field_FixedEntry_interest(<<0:48, 240, 255,
+			      Rest/binary>>,
+			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, id('-infinity', TrUserData),
+				  TrUserData);
+d_field_FixedEntry_interest(<<_:48, 15:4, _:4, _:1,
+			      127:7, Rest/binary>>,
+			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, id(nan, TrUserData), TrUserData);
+d_field_FixedEntry_interest(<<Value:64/little-float,
+			      Rest/binary>>,
+			    Z1, Z2, F@_1, F@_2, F@_3, _, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, id(Value, TrUserData), TrUserData).
+
+skip_varint_FixedEntry(<<1:1, _:7, Rest/binary>>, Z1,
+		       Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    skip_varint_FixedEntry(Rest, Z1, Z2, F@_1, F@_2, F@_3,
+			   F@_4, TrUserData);
+skip_varint_FixedEntry(<<0:1, _:7, Rest/binary>>, Z1,
+		       Z2, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, F@_4, TrUserData).
+
+skip_length_delimited_FixedEntry(<<1:1, X:7,
+				   Rest/binary>>,
+				 N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_FixedEntry(Rest, N + 7,
+				     X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+				     TrUserData);
+skip_length_delimited_FixedEntry(<<0:1, X:7,
+				   Rest/binary>>,
+				 N, Acc, F@_1, F@_2, F@_3, F@_4, TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_FixedEntry(Rest2, 0, 0, F@_1, F@_2,
+				  F@_3, F@_4, TrUserData).
+
+skip_group_FixedEntry(Bin, FNum, Z2, F@_1, F@_2, F@_3,
+		      F@_4, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_FixedEntry(Rest, 0, Z2, F@_1, F@_2,
+				  F@_3, F@_4, TrUserData).
+
+skip_32_FixedEntry(<<_:32, Rest/binary>>, Z1, Z2, F@_1,
+		   F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, F@_4, TrUserData).
+
+skip_64_FixedEntry(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
+		   F@_2, F@_3, F@_4, TrUserData) ->
+    dfp_read_field_def_FixedEntry(Rest, Z1, Z2, F@_1, F@_2,
+				  F@_3, F@_4, TrUserData).
+
+decode_msg_FixedList(Bin, TrUserData) ->
+    dfp_read_field_def_FixedList(Bin, 0, 0,
+				 id([], TrUserData), id([], TrUserData),
+				 TrUserData).
+
+dfp_read_field_def_FixedList(<<10, Rest/binary>>, Z1,
+			     Z2, F@_1, F@_2, TrUserData) ->
+    d_field_FixedList_type(Rest, Z1, Z2, F@_1, F@_2,
+			   TrUserData);
+dfp_read_field_def_FixedList(<<18, Rest/binary>>, Z1,
+			     Z2, F@_1, F@_2, TrUserData) ->
+    d_field_FixedList_entry(Rest, Z1, Z2, F@_1, F@_2,
+			    TrUserData);
+dfp_read_field_def_FixedList(<<>>, 0, 0, F@_1, R1,
+			     TrUserData) ->
+    #'FixedList'{type = F@_1,
+		 entry = lists_reverse(R1, TrUserData)};
+dfp_read_field_def_FixedList(Other, Z1, Z2, F@_1, F@_2,
+			     TrUserData) ->
+    dg_read_field_def_FixedList(Other, Z1, Z2, F@_1, F@_2,
+				TrUserData).
+
+dg_read_field_def_FixedList(<<1:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_FixedList(Rest, N + 7, X bsl N + Acc,
+				F@_1, F@_2, TrUserData);
+dg_read_field_def_FixedList(<<0:1, X:7, Rest/binary>>,
+			    N, Acc, F@_1, F@_2, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_FixedList_type(Rest, 0, 0, F@_1, F@_2,
+				 TrUserData);
+      18 ->
+	  d_field_FixedList_entry(Rest, 0, 0, F@_1, F@_2,
+				  TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_FixedList(Rest, 0, 0, F@_1, F@_2,
+				      TrUserData);
+	    1 ->
+		skip_64_FixedList(Rest, 0, 0, F@_1, F@_2, TrUserData);
+	    2 ->
+		skip_length_delimited_FixedList(Rest, 0, 0, F@_1, F@_2,
+						TrUserData);
+	    3 ->
+		skip_group_FixedList(Rest, Key bsr 3, 0, F@_1, F@_2,
+				     TrUserData);
+	    5 ->
+		skip_32_FixedList(Rest, 0, 0, F@_1, F@_2, TrUserData)
+	  end
+    end;
+dg_read_field_def_FixedList(<<>>, 0, 0, F@_1, R1,
+			    TrUserData) ->
+    #'FixedList'{type = F@_1,
+		 entry = lists_reverse(R1, TrUserData)}.
+
+d_field_FixedList_type(<<1:1, X:7, Rest/binary>>, N,
+		       Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_FixedList_type(Rest, N + 7, X bsl N + Acc, F@_1,
+			   F@_2, TrUserData);
+d_field_FixedList_type(<<0:1, X:7, Rest/binary>>, N,
+		       Acc, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedList(RestF, 0, 0, NewFValue,
+				 F@_2, TrUserData).
+
+d_field_FixedList_entry(<<1:1, X:7, Rest/binary>>, N,
+			Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_FixedList_entry(Rest, N + 7, X bsl N + Acc,
+			    F@_1, F@_2, TrUserData);
+d_field_FixedList_entry(<<0:1, X:7, Rest/binary>>, N,
+			Acc, F@_1, Prev, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Bs:Len/binary, Rest2/binary>> = Rest,
+			   {id(decode_msg_FixedEntry(Bs, TrUserData),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_FixedList(RestF, 0, 0, F@_1,
+				 cons(NewFValue, Prev, TrUserData), TrUserData).
+
+skip_varint_FixedList(<<1:1, _:7, Rest/binary>>, Z1, Z2,
+		      F@_1, F@_2, TrUserData) ->
+    skip_varint_FixedList(Rest, Z1, Z2, F@_1, F@_2,
+			  TrUserData);
+skip_varint_FixedList(<<0:1, _:7, Rest/binary>>, Z1, Z2,
+		      F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_FixedList(Rest, Z1, Z2, F@_1, F@_2,
+				 TrUserData).
+
+skip_length_delimited_FixedList(<<1:1, X:7,
+				  Rest/binary>>,
+				N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_FixedList(Rest, N + 7,
+				    X bsl N + Acc, F@_1, F@_2, TrUserData);
+skip_length_delimited_FixedList(<<0:1, X:7,
+				  Rest/binary>>,
+				N, Acc, F@_1, F@_2, TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_FixedList(Rest2, 0, 0, F@_1, F@_2,
+				 TrUserData).
+
+skip_group_FixedList(Bin, FNum, Z2, F@_1, F@_2,
+		     TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_FixedList(Rest, 0, Z2, F@_1, F@_2,
+				 TrUserData).
+
+skip_32_FixedList(<<_:32, Rest/binary>>, Z1, Z2, F@_1,
+		  F@_2, TrUserData) ->
+    dfp_read_field_def_FixedList(Rest, Z1, Z2, F@_1, F@_2,
+				 TrUserData).
+
+skip_64_FixedList(<<_:64, Rest/binary>>, Z1, Z2, F@_1,
+		  F@_2, TrUserData) ->
+    dfp_read_field_def_FixedList(Rest, Z1, Z2, F@_1, F@_2,
+				 TrUserData).
+
 read_group(Bin, FieldNum) ->
     {NumBytes, EndTagLen} = read_gr_b(Bin, 0, 0, 0, 0, FieldNum),
     <<Group:NumBytes/binary, _:EndTagLen/binary, Rest/binary>> = Bin,
@@ -1954,7 +2796,15 @@ merge_msgs(Prev, New, MsgName, Opts) ->
 	  merge_msg_FixedSubscription(Prev, New, TrUserData);
       'Auction' -> merge_msg_Auction(Prev, New, TrUserData);
       'FixedLoan' ->
-	  merge_msg_FixedLoan(Prev, New, TrUserData)
+	  merge_msg_FixedLoan(Prev, New, TrUserData);
+      'AuctionEntry' ->
+	  merge_msg_AuctionEntry(Prev, New, TrUserData);
+      'AuctionList' ->
+	  merge_msg_AuctionList(Prev, New, TrUserData);
+      'FixedEntry' ->
+	  merge_msg_FixedEntry(Prev, New, TrUserData);
+      'FixedList' ->
+	  merge_msg_FixedList(Prev, New, TrUserData)
     end.
 
 -compile({nowarn_unused_function,merge_msg_Reply/3}).
@@ -2117,6 +2967,87 @@ merge_msg_FixedLoan(#'FixedLoan'{type = PFtype,
 			true -> NFinterest
 		     end}.
 
+-compile({nowarn_unused_function,merge_msg_AuctionEntry/3}).
+merge_msg_AuctionEntry(#'AuctionEntry'{type = PFtype,
+				       company = PFcompany, amount = PFamount,
+				       interest = PFinterest},
+		       #'AuctionEntry'{type = NFtype, company = NFcompany,
+				       amount = NFamount,
+				       interest = NFinterest},
+		       _) ->
+    #'AuctionEntry'{type =
+			if NFtype =:= undefined -> PFtype;
+			   true -> NFtype
+			end,
+		    company =
+			if NFcompany =:= undefined -> PFcompany;
+			   true -> NFcompany
+			end,
+		    amount =
+			if NFamount =:= undefined -> PFamount;
+			   true -> NFamount
+			end,
+		    interest =
+			if NFinterest =:= undefined -> PFinterest;
+			   true -> NFinterest
+			end}.
+
+-compile({nowarn_unused_function,merge_msg_AuctionList/3}).
+merge_msg_AuctionList(#'AuctionList'{type = PFtype,
+				     entry = PFentry},
+		      #'AuctionList'{type = NFtype, entry = NFentry},
+		      TrUserData) ->
+    #'AuctionList'{type =
+		       if NFtype =:= undefined -> PFtype;
+			  true -> NFtype
+		       end,
+		   entry =
+		       if PFentry /= undefined, NFentry /= undefined ->
+			      'erlang_++'(PFentry, NFentry, TrUserData);
+			  PFentry == undefined -> NFentry;
+			  NFentry == undefined -> PFentry
+		       end}.
+
+-compile({nowarn_unused_function,merge_msg_FixedEntry/3}).
+merge_msg_FixedEntry(#'FixedEntry'{type = PFtype,
+				   company = PFcompany, amount = PFamount,
+				   interest = PFinterest},
+		     #'FixedEntry'{type = NFtype, company = NFcompany,
+				   amount = NFamount, interest = NFinterest},
+		     _) ->
+    #'FixedEntry'{type =
+		      if NFtype =:= undefined -> PFtype;
+			 true -> NFtype
+		      end,
+		  company =
+		      if NFcompany =:= undefined -> PFcompany;
+			 true -> NFcompany
+		      end,
+		  amount =
+		      if NFamount =:= undefined -> PFamount;
+			 true -> NFamount
+		      end,
+		  interest =
+		      if NFinterest =:= undefined -> PFinterest;
+			 true -> NFinterest
+		      end}.
+
+-compile({nowarn_unused_function,merge_msg_FixedList/3}).
+merge_msg_FixedList(#'FixedList'{type = PFtype,
+				 entry = PFentry},
+		    #'FixedList'{type = NFtype, entry = NFentry},
+		    TrUserData) ->
+    #'FixedList'{type =
+		     if NFtype =:= undefined -> PFtype;
+			true -> NFtype
+		     end,
+		 entry =
+		     if PFentry /= undefined, NFentry /= undefined ->
+			    'erlang_++'(PFentry, NFentry, TrUserData);
+			PFentry == undefined -> NFentry;
+			NFentry == undefined -> PFentry
+		     end}.
+
 
 verify_msg(Msg) when tuple_size(Msg) >= 1 ->
     verify_msg(Msg, element(1, Msg), []);
@@ -2146,6 +3077,14 @@ verify_msg(Msg, MsgName, Opts) ->
       'Auction' -> v_msg_Auction(Msg, [MsgName], TrUserData);
       'FixedLoan' ->
 	  v_msg_FixedLoan(Msg, [MsgName], TrUserData);
+      'AuctionEntry' ->
+	  v_msg_AuctionEntry(Msg, [MsgName], TrUserData);
+      'AuctionList' ->
+	  v_msg_AuctionList(Msg, [MsgName], TrUserData);
+      'FixedEntry' ->
+	  v_msg_FixedEntry(Msg, [MsgName], TrUserData);
+      'FixedList' ->
+	  v_msg_FixedList(Msg, [MsgName], TrUserData);
       _ -> mk_type_error(not_a_known_message, Msg, [])
     end.
 
@@ -2297,6 +3236,87 @@ v_msg_FixedLoan(#'FixedLoan'{type = F1, username = F2,
 v_msg_FixedLoan(X, Path, _TrUserData) ->
     mk_type_error({expected_msg, 'FixedLoan'}, X, Path).
 
+-compile({nowarn_unused_function,v_msg_AuctionEntry/3}).
+-dialyzer({nowarn_function,v_msg_AuctionEntry/3}).
+v_msg_AuctionEntry(#'AuctionEntry'{type = F1,
+				   company = F2, amount = F3, interest = F4},
+		   Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [company | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_type_uint32(F3, [amount | Path], TrUserData)
+    end,
+    if F4 == undefined -> ok;
+       true -> v_type_double(F4, [interest | Path], TrUserData)
+    end,
+    ok;
+v_msg_AuctionEntry(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'AuctionEntry'}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_AuctionList/3}).
+-dialyzer({nowarn_function,v_msg_AuctionList/3}).
+v_msg_AuctionList(#'AuctionList'{type = F1, entry = F2},
+		  Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if is_list(F2) ->
+	   _ = [v_msg_AuctionEntry(Elem, [entry | Path],
+				   TrUserData)
+		|| Elem <- F2],
+	   ok;
+       true ->
+	   mk_type_error({invalid_list_of, {msg, 'AuctionEntry'}},
+			 F2, [entry | Path])
+    end,
+    ok;
+v_msg_AuctionList(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'AuctionList'}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_FixedEntry/3}).
+-dialyzer({nowarn_function,v_msg_FixedEntry/3}).
+v_msg_FixedEntry(#'FixedEntry'{type = F1, company = F2,
+			       amount = F3, interest = F4},
+		 Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [company | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_type_uint32(F3, [amount | Path], TrUserData)
+    end,
+    if F4 == undefined -> ok;
+       true -> v_type_double(F4, [interest | Path], TrUserData)
+    end,
+    ok;
+v_msg_FixedEntry(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'FixedEntry'}, X, Path).
+
+-compile({nowarn_unused_function,v_msg_FixedList/3}).
+-dialyzer({nowarn_function,v_msg_FixedList/3}).
+v_msg_FixedList(#'FixedList'{type = F1, entry = F2},
+		Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if is_list(F2) ->
+	   _ = [v_msg_FixedEntry(Elem, [entry | Path], TrUserData)
+		|| Elem <- F2],
+	   ok;
+       true ->
+	   mk_type_error({invalid_list_of, {msg, 'FixedEntry'}},
+			 F2, [entry | Path])
+    end,
+    ok;
+v_msg_FixedList(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'FixedList'}, X, Path).
+
 -compile({nowarn_unused_function,v_type_uint32/3}).
 -dialyzer({nowarn_function,v_type_uint32/3}).
 v_type_uint32(N, _Path, _TrUserData)
@@ -2446,13 +3466,44 @@ get_msg_defs() ->
        #field{name = amount, fnum = 3, rnum = 4, type = uint32,
 	      occurrence = optional, opts = []},
        #field{name = interest, fnum = 4, rnum = 5,
-	      type = double, occurrence = optional, opts = []}]}].
+	      type = double, occurrence = optional, opts = []}]},
+     {{msg, 'AuctionEntry'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = company, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = amount, fnum = 3, rnum = 4, type = uint32,
+	      occurrence = optional, opts = []},
+       #field{name = interest, fnum = 4, rnum = 5,
+	      type = double, occurrence = optional, opts = []}]},
+     {{msg, 'AuctionList'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = entry, fnum = 2, rnum = 3,
+	      type = {msg, 'AuctionEntry'}, occurrence = repeated,
+	      opts = []}]},
+     {{msg, 'FixedEntry'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = company, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = amount, fnum = 3, rnum = 4, type = uint32,
+	      occurrence = optional, opts = []},
+       #field{name = interest, fnum = 4, rnum = 5,
+	      type = double, occurrence = optional, opts = []}]},
+     {{msg, 'FixedList'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = entry, fnum = 2, rnum = 3,
+	      type = {msg, 'FixedEntry'}, occurrence = repeated,
+	      opts = []}]}].
 
 
 get_msg_names() ->
     ['Reply', 'LoginRequest', 'Request', 'LogoutRequest',
      'AuctionBid', 'FixedSubscription', 'Auction',
-     'FixedLoan'].
+     'FixedLoan', 'AuctionEntry', 'AuctionList',
+     'FixedEntry', 'FixedList'].
 
 
 get_group_names() -> [].
@@ -2461,7 +3512,8 @@ get_group_names() -> [].
 get_msg_or_group_names() ->
     ['Reply', 'LoginRequest', 'Request', 'LogoutRequest',
      'AuctionBid', 'FixedSubscription', 'Auction',
-     'FixedLoan'].
+     'FixedLoan', 'AuctionEntry', 'AuctionList',
+     'FixedEntry', 'FixedList'].
 
 
 get_enum_names() -> [].
@@ -2537,6 +3589,36 @@ find_msg_def('FixedLoan') ->
 	    occurrence = optional, opts = []},
      #field{name = interest, fnum = 4, rnum = 5,
 	    type = double, occurrence = optional, opts = []}];
+find_msg_def('AuctionEntry') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = company, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = amount, fnum = 3, rnum = 4, type = uint32,
+	    occurrence = optional, opts = []},
+     #field{name = interest, fnum = 4, rnum = 5,
+	    type = double, occurrence = optional, opts = []}];
+find_msg_def('AuctionList') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = entry, fnum = 2, rnum = 3,
+	    type = {msg, 'AuctionEntry'}, occurrence = repeated,
+	    opts = []}];
+find_msg_def('FixedEntry') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = company, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = amount, fnum = 3, rnum = 4, type = uint32,
+	    occurrence = optional, opts = []},
+     #field{name = interest, fnum = 4, rnum = 5,
+	    type = double, occurrence = optional, opts = []}];
+find_msg_def('FixedList') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = entry, fnum = 2, rnum = 3,
+	    type = {msg, 'FixedEntry'}, occurrence = repeated,
+	    opts = []}];
 find_msg_def(_) -> error.
 
 

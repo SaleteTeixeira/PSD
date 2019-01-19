@@ -80,4 +80,40 @@
         }).
 -endif.
 
+-ifndef('AUCTIONENTRY_PB_H').
+-define('AUCTIONENTRY_PB_H', true).
+-record('AuctionEntry',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined, % = 2
+         amount = 0             :: non_neg_integer() | undefined, % = 3, 32 bits
+         interest = 0.0         :: float() | integer() | infinity | '-infinity' | nan | undefined % = 4
+        }).
+-endif.
+
+-ifndef('AUCTIONLIST_PB_H').
+-define('AUCTIONLIST_PB_H', true).
+-record('AuctionList',
+        {type = []              :: iolist() | undefined, % = 1
+         entry = []             :: [messages:'AuctionEntry'()] | undefined % = 2
+        }).
+-endif.
+
+-ifndef('FIXEDENTRY_PB_H').
+-define('FIXEDENTRY_PB_H', true).
+-record('FixedEntry',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined, % = 2
+         amount = 0             :: non_neg_integer() | undefined, % = 3, 32 bits
+         interest = 0.0         :: float() | integer() | infinity | '-infinity' | nan | undefined % = 4
+        }).
+-endif.
+
+-ifndef('FIXEDLIST_PB_H').
+-define('FIXEDLIST_PB_H', true).
+-record('FixedList',
+        {type = []              :: iolist() | undefined, % = 1
+         entry = []             :: [messages:'FixedEntry'()] | undefined % = 2
+        }).
+-endif.
+
 -endif.

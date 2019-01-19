@@ -172,4 +172,36 @@ class ErlangBridge {
             return false;
         }
     }
+    
+    Messages.AuctionList auctionList() {
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.Request req = Messages.Request.newBuilder()
+                    .setType("AuctionList").build();
+            this.write(cos, req.toByteArray());
+            final Messages.AuctionList reply = Messages.AuctionList.parseFrom(this.read(cis));
+            return reply;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
+    }
+    
+    Messages.FixedList fixedList() {
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.Request req = Messages.Request.newBuilder()
+                    .setType("FixedList").build();
+            this.write(cos, req.toByteArray());
+            final Messages.FixedList reply = Messages.FixedList.parseFrom(this.read(cis));
+            return reply;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
+    }
 }

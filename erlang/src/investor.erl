@@ -35,6 +35,12 @@ handle(ClientSocket, Username, ExchangeMap) ->
           io:fwrite("Fixed subscription request. ~p~n", [Username]),
           {_, _, _, Company, _} = messages:decode_msg(Bin, 'FixedSubscription'),
           request_reply(ClientSocket, Username, ExchangeMap, Bin, Company);
+        {'Request', "AuctionList"} ->
+          io:fwrite("Auction list request. ~p~n", [Username]),
+          request_reply(ClientSocket, Username, ExchangeMap, Bin, "a");
+        {'Request', "FixedList"} ->
+          io:fwrite("Fixed loan list request. ~p~n", [Username]),
+          request_reply(ClientSocket, Username, ExchangeMap, Bin, "a");
         _ -> authenticator:logout(Username)
       end;
     _ -> authenticator:logout(Username)
