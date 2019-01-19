@@ -1,11 +1,7 @@
-import com.google.protobuf.CodedInputStream;
 import com.google.protobuf.CodedOutputStream;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.URL;
+import java.net.*;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,62 +12,60 @@ import org.json.simple.parser.ParseException;
 
 public class Exchange {
 
-    private final CodedOutputStream cos;
     private Map<String,Thread> threadEmprestimo;
     private ReentrantLock lock;
 
-    public Exchange(CodedOutputStream cos){
-        this.cos = cos;
+    public Exchange(){
         this.threadEmprestimo = new HashMap<>();
         this.lock = new ReentrantLock();
     }
 
-    public boolean criar_leilao(String empresa, double montante, double taxaMaxima) {
+    public boolean criar_leilao(CodedOutputStream cos, String empresa, double montante, double taxaMaxima) {
         if((montante % 1000) != 0) {
-            answerToServerRequest(false,"Failure: your amount is not multiple of 1000.");
+            answerToServerRequest(cos, false,"Failure: your amount is not multiple of 1000.");
             return false;
         }
 
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
         if(l != null) {
-            answerToServerRequest(false,"Failure: your company already has an active auction.");
+            answerToServerRequest(cos, false,"Failure: your company already has an active auction.");
             return false;
         }
 
         String result = sendPut("http://localhost:8080/diretorio/add_leilao/"+empresa+"/"+montante+"_"+taxaMaxima);
         if(result.equals("ERROR")) {
-            answerToServerRequest(false,"Failure: error creating the auction.");
+            answerToServerRequest(cos, false,"Failure: error creating the auction.");
             return false;
         }
 
         new Thread(new LeilaoTimer(this, empresa)).start();
-        answerToServerRequest(true,"Success: auction created with success.");
+        answerToServerRequest(cos, true,"Success: auction created with success.");
         return true;
     }
 
-    public boolean licitar_leilao(String investidor, String empresa, double montante, double taxa){
+    public boolean licitar_leilao(CodedOutputStream cos, String investidor, String empresa, double montante, double taxa){
         if((montante % 100) != 0) {
-            answerToServerRequest(false,"Failure: your amount is not multiple of 100.");
+            answerToServerRequest(cos, false,"Failure: your amount is not multiple of 100.");
             return false;
         }
 
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
         if(l == null) {
-            answerToServerRequest(false,"Failure: this company does not have an active auction.");
+            answerToServerRequest(cos, false,"Failure: this company does not have an active auction.");
             return false;
         }
         if (taxa > l.getTaxaMaxima()) {
-            answerToServerRequest(false,"Failure: your interest is higher than the allowed in the auction ("+l.getTaxaMaxima()+").");
+            answerToServerRequest(cos, false,"Failure: your interest is higher than the allowed in the auction ("+l.getTaxaMaxima()+").");
             return false;
         }
 
         String result = sendPost("http://localhost:8080/diretorio/add_investidor_leilao/"+empresa+"/"+investidor+"/"+montante+"_"+taxa);
         if(result.equals("ERROR")) {
-            answerToServerRequest(false,"Failure: error adding you to the auction.");
+            answerToServerRequest(cos, false,"Failure: error adding you to the auction.");
             return false;
         }
 
-        answerToServerRequest(true,"Success: you were added to the auction.");
+        answerToServerRequest(cos, true,"Success: you were added to the auction.");
         return true;
     }
 
@@ -144,21 +138,21 @@ public class Exchange {
         return result;
     }
 
-    public boolean criar_emprestimo(String empresa, double montante, double taxa){
+    public boolean criar_emprestimo(CodedOutputStream cos, String empresa, double montante, double taxa){
         if((montante % 1000) != 0) {
-            answerToServerRequest(false, "Failure: your amount is not multiple of 1000.");
+            answerToServerRequest(cos, false, "Failure: your amount is not multiple of 1000.");
             return false;
         }
 
         Emprestimo emp = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
         if(emp != null) {
-            answerToServerRequest(false,"Failure: your company already has an active loan.");
+            answerToServerRequest(cos, false,"Failure: your company already has an active loan.");
             return false;
         }
 
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/last_leilao/"+empresa));
         if(l == null) {
-            answerToServerRequest(false,"Failure: your company does not have a successful auction.");
+            answerToServerRequest(cos, false,"Failure: your company does not have a successful auction.");
             return false;
         }
 
@@ -177,7 +171,7 @@ public class Exchange {
         if((desejado && (taxa >= maiorTaxa)) || (!desejado && (taxa == (1.1 * last.getTaxa())))){
             String result = sendPut("http://localhost:8080/diretorio/add_emprestimo/"+empresa+"/"+montante+"_"+taxa);
             if(result.equals("ERROR")) {
-                answerToServerRequest(false,"Failure: error creating the loan.");
+                answerToServerRequest(cos, false,"Failure: error creating the loan.");
                 return false;
             }
 
@@ -187,23 +181,23 @@ public class Exchange {
             this.threadEmprestimo.put(empresa,t);
             this.lock.unlock();
 
-            answerToServerRequest(true,"Success: loan created with success.");
+            answerToServerRequest(cos, true,"Success: loan created with success.");
             return true;
         }
 
-        answerToServerRequest(false,"Failure: your interest does not correspond to the requirements, compared to the last loan.");
+        answerToServerRequest(cos, false,"Failure: your interest does not correspond to the requirements, compared to the last loan.");
         return false;
     }
 
-    public boolean subscrever_emprestimo(String investidor, String empresa, double montante){
+    public boolean subscrever_emprestimo(CodedOutputStream cos, String investidor, String empresa, double montante){
         if((montante % 100) != 0) {
-            answerToServerRequest(false, "Failure: your amount is not multiple of 100.");
+            answerToServerRequest(cos, false, "Failure: your amount is not multiple of 100.");
             return false;
         }
 
         Emprestimo e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
         if(e == null) {
-            answerToServerRequest(false,"Failure: this company does not have an active fixed loan.");
+            answerToServerRequest(cos, false,"Failure: this company does not have an active fixed loan.");
             return false;
         }
 
@@ -221,11 +215,11 @@ public class Exchange {
         }
 
         if(result.equals("ERROR")) {
-            answerToServerRequest(false,"Failure: error adding your subscription to the loan.");
+            answerToServerRequest(cos, false,"Failure: error adding your subscription to the loan.");
             return false;
         }
 
-        answerToServerRequest(true,"Success: your subscription was added to the loan.");
+        answerToServerRequest(cos, true,"Success: your subscription was added to the loan.");
         return true;
     }
 
@@ -471,36 +465,42 @@ public class Exchange {
         return emp;
     }
 
-    void answerToServerRequest(boolean bool, String msg) {
+    void answerToServerRequest(CodedOutputStream cos, boolean bool, String msg) {
         try {
             Messages.Reply m = Messages.Reply.newBuilder().setResult(bool).setMessage(msg).build();
 
             byte ba[] = m.toByteArray();
-            this.cos.writeFixed32NoTag(ba.length);
-            this.cos.writeRawBytes(ba);
-            this.cos.flush();
+            cos.writeFixed32NoTag(ba.length);
+            cos.writeRawBytes(ba);
+            cos.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String args[]) {
 
         /*TODO 1. implementar subscrição pelo ZEROMQ -> end_emprestimo e end_leilao */
         /*TODO 2. avisar vencedores */
 
-        Socket s = new Socket(InetAddress.getLocalHost(), 11111, InetAddress.getLocalHost(), Integer.parseInt(args[0]));
-        CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());
-        CodedOutputStream cos = CodedOutputStream.newInstance(s.getOutputStream());
+        final ServerSocket ss;
 
-        Exchange exchange = new Exchange(cos);
+        try {
+            ss = new ServerSocket(Integer.parseInt(args[0]));
+            Exchange exchange = new Exchange();
 
-        while (true) {
-            int len = cis.readRawLittleEndian32();
-            byte[] ba = cis.readRawBytes(len);
-
-            new Thread(new ThreadReply(exchange, ba)).start();
+            while (true) {
+                Socket cliS = null;
+                try {
+                    cliS = ss.accept();
+                    new Thread(new ThreadReply(cliS, exchange)).start();
+                } catch (IOException e) {
+                    System.out.println("Error in CliSocket.");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error in ServerSocket.");
         }
     }
 }
