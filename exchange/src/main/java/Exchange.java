@@ -44,7 +44,7 @@ public class Exchange {
             return false;
         }
 
-        new Thread(new LeilaoTimer(this, empresa));
+        new Thread(new LeilaoTimer(this, empresa)).start();
         answerToServerRequest(true,"Success: auction created with success.");
         return true;
     }
@@ -181,9 +181,9 @@ public class Exchange {
                 return false;
             }
 
-            Thread t = new Thread(new EmprestimoTimer(this, empresa));
-
             this.lock.lock();
+            Thread t = new Thread(new EmprestimoTimer(this, empresa));
+            t.start();
             this.threadEmprestimo.put(empresa,t);
             this.lock.unlock();
 
@@ -488,7 +488,7 @@ public class Exchange {
     public static void main(String args[]) throws Exception {
 
         /*TODO 1. implementar subscrição pelo ZEROMQ -> end_emprestimo e end_leilao */
-        /*TODO 2. NÃO TESTEI AS THREADS DO TEMPO A FUNCIONAR, ERA COMPLICADO SEM O RESTO */
+        /*TODO 2. avisar vencedores */
 
         Socket s = new Socket(InetAddress.getLocalHost(), 11111, InetAddress.getLocalHost(), Integer.parseInt(args[0]));
         CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());

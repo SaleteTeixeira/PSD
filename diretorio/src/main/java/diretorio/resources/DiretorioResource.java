@@ -162,6 +162,7 @@ public class DiretorioResource {
 
     @GET
     @Path("/last_emprestimo/{empresa}")
+    @Produces(MediaType.APPLICATION_JSON)
     public EmprestimoRepresentation lastEmprestimo(@PathParam("empresa") String e) {
         Emprestimo m = this.diretorio.lastEmprestimo(e);
 

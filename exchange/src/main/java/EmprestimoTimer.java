@@ -14,7 +14,7 @@ public class EmprestimoTimer implements Runnable {
             sleep(30000);
             exchange.end_emprestimo(empresa);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 }

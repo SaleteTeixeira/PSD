@@ -134,7 +134,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         message_ = s;
@@ -148,7 +148,7 @@ public final class Messages {
         getMessageBytes() {
       java.lang.Object ref = message_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         message_ = b;
@@ -490,7 +490,7 @@ public final class Messages {
        * <code>bool result = 1;</code>
        */
       public Builder setResult(boolean value) {
-        
+
         result_ = value;
         onChanged();
         return this;
@@ -499,7 +499,7 @@ public final class Messages {
        * <code>bool result = 1;</code>
        */
       public Builder clearResult() {
-        
+
         result_ = false;
         onChanged();
         return this;
@@ -528,7 +528,7 @@ public final class Messages {
           getMessageBytes() {
         java.lang.Object ref = message_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           message_ = b;
@@ -545,7 +545,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         message_ = value;
         onChanged();
         return this;
@@ -554,7 +554,7 @@ public final class Messages {
        * <code>string message = 2;</code>
        */
       public Builder clearMessage() {
-        
+
         message_ = getDefaultInstance().getMessage();
         onChanged();
         return this;
@@ -568,7 +568,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         message_ = value;
         onChanged();
         return this;
@@ -762,7 +762,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         username_ = s;
@@ -776,7 +776,7 @@ public final class Messages {
         getUsernameBytes() {
       java.lang.Object ref = username_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         username_ = b;
@@ -796,7 +796,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         password_ = s;
@@ -810,7 +810,7 @@ public final class Messages {
         getPasswordBytes() {
       java.lang.Object ref = password_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         password_ = b;
@@ -830,7 +830,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         role_ = s;
@@ -844,7 +844,7 @@ public final class Messages {
         getRoleBytes() {
       java.lang.Object ref = role_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         role_ = b;
@@ -1214,7 +1214,7 @@ public final class Messages {
           getUsernameBytes() {
         java.lang.Object ref = username_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           username_ = b;
@@ -1231,7 +1231,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         username_ = value;
         onChanged();
         return this;
@@ -1240,7 +1240,7 @@ public final class Messages {
        * <code>string username = 1;</code>
        */
       public Builder clearUsername() {
-        
+
         username_ = getDefaultInstance().getUsername();
         onChanged();
         return this;
@@ -1254,7 +1254,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         username_ = value;
         onChanged();
         return this;
@@ -1283,7 +1283,7 @@ public final class Messages {
           getPasswordBytes() {
         java.lang.Object ref = password_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           password_ = b;
@@ -1300,7 +1300,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         password_ = value;
         onChanged();
         return this;
@@ -1309,7 +1309,7 @@ public final class Messages {
        * <code>string password = 2;</code>
        */
       public Builder clearPassword() {
-        
+
         password_ = getDefaultInstance().getPassword();
         onChanged();
         return this;
@@ -1323,7 +1323,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         password_ = value;
         onChanged();
         return this;
@@ -1352,7 +1352,7 @@ public final class Messages {
           getRoleBytes() {
         java.lang.Object ref = role_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           role_ = b;
@@ -1369,7 +1369,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         role_ = value;
         onChanged();
         return this;
@@ -1378,7 +1378,7 @@ public final class Messages {
        * <code>string role = 3;</code>
        */
       public Builder clearRole() {
-        
+
         role_ = getDefaultInstance().getRole();
         onChanged();
         return this;
@@ -1392,7 +1392,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         role_ = value;
         onChanged();
         return this;
@@ -1552,7 +1552,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         type_ = s;
@@ -1566,7 +1566,7 @@ public final class Messages {
         getTypeBytes() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         type_ = b;
@@ -1902,7 +1902,7 @@ public final class Messages {
           getTypeBytes() {
         java.lang.Object ref = type_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           type_ = b;
@@ -1919,7 +1919,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         type_ = value;
         onChanged();
         return this;
@@ -1928,7 +1928,7 @@ public final class Messages {
        * <code>string type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = getDefaultInstance().getType();
         onChanged();
         return this;
@@ -1942,7 +1942,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         type_ = value;
         onChanged();
         return this;
@@ -2119,7 +2119,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         type_ = s;
@@ -2133,7 +2133,7 @@ public final class Messages {
         getTypeBytes() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         type_ = b;
@@ -2153,7 +2153,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         username_ = s;
@@ -2167,7 +2167,7 @@ public final class Messages {
         getUsernameBytes() {
       java.lang.Object ref = username_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         username_ = b;
@@ -2520,7 +2520,7 @@ public final class Messages {
           getTypeBytes() {
         java.lang.Object ref = type_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           type_ = b;
@@ -2537,7 +2537,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         type_ = value;
         onChanged();
         return this;
@@ -2546,7 +2546,7 @@ public final class Messages {
        * <code>string type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = getDefaultInstance().getType();
         onChanged();
         return this;
@@ -2560,7 +2560,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         type_ = value;
         onChanged();
         return this;
@@ -2589,7 +2589,7 @@ public final class Messages {
           getUsernameBytes() {
         java.lang.Object ref = username_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           username_ = b;
@@ -2606,7 +2606,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         username_ = value;
         onChanged();
         return this;
@@ -2615,7 +2615,7 @@ public final class Messages {
        * <code>string username = 2;</code>
        */
       public Builder clearUsername() {
-        
+
         username_ = getDefaultInstance().getUsername();
         onChanged();
         return this;
@@ -2629,7 +2629,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         username_ = value;
         onChanged();
         return this;
@@ -2845,7 +2845,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         type_ = s;
@@ -2859,7 +2859,7 @@ public final class Messages {
         getTypeBytes() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         type_ = b;
@@ -2879,7 +2879,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         username_ = s;
@@ -2893,7 +2893,7 @@ public final class Messages {
         getUsernameBytes() {
       java.lang.Object ref = username_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         username_ = b;
@@ -2913,7 +2913,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         company_ = s;
@@ -2927,7 +2927,7 @@ public final class Messages {
         getCompanyBytes() {
       java.lang.Object ref = company_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         company_ = b;
@@ -3352,7 +3352,7 @@ public final class Messages {
           getTypeBytes() {
         java.lang.Object ref = type_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           type_ = b;
@@ -3369,7 +3369,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         type_ = value;
         onChanged();
         return this;
@@ -3378,7 +3378,7 @@ public final class Messages {
        * <code>string type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = getDefaultInstance().getType();
         onChanged();
         return this;
@@ -3392,7 +3392,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         type_ = value;
         onChanged();
         return this;
@@ -3421,7 +3421,7 @@ public final class Messages {
           getUsernameBytes() {
         java.lang.Object ref = username_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           username_ = b;
@@ -3438,7 +3438,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         username_ = value;
         onChanged();
         return this;
@@ -3447,7 +3447,7 @@ public final class Messages {
        * <code>string username = 2;</code>
        */
       public Builder clearUsername() {
-        
+
         username_ = getDefaultInstance().getUsername();
         onChanged();
         return this;
@@ -3461,7 +3461,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         username_ = value;
         onChanged();
         return this;
@@ -3490,7 +3490,7 @@ public final class Messages {
           getCompanyBytes() {
         java.lang.Object ref = company_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           company_ = b;
@@ -3507,7 +3507,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         company_ = value;
         onChanged();
         return this;
@@ -3516,7 +3516,7 @@ public final class Messages {
        * <code>string company = 3;</code>
        */
       public Builder clearCompany() {
-        
+
         company_ = getDefaultInstance().getCompany();
         onChanged();
         return this;
@@ -3530,7 +3530,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         company_ = value;
         onChanged();
         return this;
@@ -3547,7 +3547,7 @@ public final class Messages {
        * <code>uint32 amount = 4;</code>
        */
       public Builder setAmount(int value) {
-        
+
         amount_ = value;
         onChanged();
         return this;
@@ -3556,7 +3556,7 @@ public final class Messages {
        * <code>uint32 amount = 4;</code>
        */
       public Builder clearAmount() {
-        
+
         amount_ = 0;
         onChanged();
         return this;
@@ -3573,7 +3573,7 @@ public final class Messages {
        * <code>double interest = 5;</code>
        */
       public Builder setInterest(double value) {
-        
+
         interest_ = value;
         onChanged();
         return this;
@@ -3582,7 +3582,7 @@ public final class Messages {
        * <code>double interest = 5;</code>
        */
       public Builder clearInterest() {
-        
+
         interest_ = 0D;
         onChanged();
         return this;
@@ -3787,7 +3787,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         type_ = s;
@@ -3801,7 +3801,7 @@ public final class Messages {
         getTypeBytes() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         type_ = b;
@@ -3821,7 +3821,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         username_ = s;
@@ -3835,7 +3835,7 @@ public final class Messages {
         getUsernameBytes() {
       java.lang.Object ref = username_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         username_ = b;
@@ -3855,7 +3855,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         company_ = s;
@@ -3869,7 +3869,7 @@ public final class Messages {
         getCompanyBytes() {
       java.lang.Object ref = company_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         company_ = b;
@@ -4265,7 +4265,7 @@ public final class Messages {
           getTypeBytes() {
         java.lang.Object ref = type_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           type_ = b;
@@ -4282,7 +4282,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         type_ = value;
         onChanged();
         return this;
@@ -4291,7 +4291,7 @@ public final class Messages {
        * <code>string type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = getDefaultInstance().getType();
         onChanged();
         return this;
@@ -4305,7 +4305,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         type_ = value;
         onChanged();
         return this;
@@ -4334,7 +4334,7 @@ public final class Messages {
           getUsernameBytes() {
         java.lang.Object ref = username_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           username_ = b;
@@ -4351,7 +4351,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         username_ = value;
         onChanged();
         return this;
@@ -4360,7 +4360,7 @@ public final class Messages {
        * <code>string username = 2;</code>
        */
       public Builder clearUsername() {
-        
+
         username_ = getDefaultInstance().getUsername();
         onChanged();
         return this;
@@ -4374,7 +4374,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         username_ = value;
         onChanged();
         return this;
@@ -4403,7 +4403,7 @@ public final class Messages {
           getCompanyBytes() {
         java.lang.Object ref = company_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           company_ = b;
@@ -4420,7 +4420,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         company_ = value;
         onChanged();
         return this;
@@ -4429,7 +4429,7 @@ public final class Messages {
        * <code>string company = 3;</code>
        */
       public Builder clearCompany() {
-        
+
         company_ = getDefaultInstance().getCompany();
         onChanged();
         return this;
@@ -4443,7 +4443,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         company_ = value;
         onChanged();
         return this;
@@ -4460,7 +4460,7 @@ public final class Messages {
        * <code>uint32 amount = 4;</code>
        */
       public Builder setAmount(int value) {
-        
+
         amount_ = value;
         onChanged();
         return this;
@@ -4469,7 +4469,7 @@ public final class Messages {
        * <code>uint32 amount = 4;</code>
        */
       public Builder clearAmount() {
-        
+
         amount_ = 0;
         onChanged();
         return this;
@@ -4668,7 +4668,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         type_ = s;
@@ -4682,7 +4682,7 @@ public final class Messages {
         getTypeBytes() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         type_ = b;
@@ -4702,7 +4702,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         company_ = s;
@@ -4716,7 +4716,7 @@ public final class Messages {
         getCompanyBytes() {
       java.lang.Object ref = company_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         company_ = b;
@@ -5124,7 +5124,7 @@ public final class Messages {
           getTypeBytes() {
         java.lang.Object ref = type_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           type_ = b;
@@ -5141,7 +5141,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         type_ = value;
         onChanged();
         return this;
@@ -5150,7 +5150,7 @@ public final class Messages {
        * <code>string type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = getDefaultInstance().getType();
         onChanged();
         return this;
@@ -5164,7 +5164,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         type_ = value;
         onChanged();
         return this;
@@ -5193,7 +5193,7 @@ public final class Messages {
           getCompanyBytes() {
         java.lang.Object ref = company_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           company_ = b;
@@ -5210,7 +5210,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         company_ = value;
         onChanged();
         return this;
@@ -5219,7 +5219,7 @@ public final class Messages {
        * <code>string company = 2;</code>
        */
       public Builder clearCompany() {
-        
+
         company_ = getDefaultInstance().getCompany();
         onChanged();
         return this;
@@ -5233,7 +5233,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         company_ = value;
         onChanged();
         return this;
@@ -5250,7 +5250,7 @@ public final class Messages {
        * <code>uint32 amount = 3;</code>
        */
       public Builder setAmount(int value) {
-        
+
         amount_ = value;
         onChanged();
         return this;
@@ -5259,7 +5259,7 @@ public final class Messages {
        * <code>uint32 amount = 3;</code>
        */
       public Builder clearAmount() {
-        
+
         amount_ = 0;
         onChanged();
         return this;
@@ -5276,7 +5276,7 @@ public final class Messages {
        * <code>double interest = 4;</code>
        */
       public Builder setInterest(double value) {
-        
+
         interest_ = value;
         onChanged();
         return this;
@@ -5285,7 +5285,7 @@ public final class Messages {
        * <code>double interest = 4;</code>
        */
       public Builder clearInterest() {
-        
+
         interest_ = 0D;
         onChanged();
         return this;
@@ -5473,7 +5473,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         type_ = s;
@@ -5487,7 +5487,7 @@ public final class Messages {
         getTypeBytes() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         type_ = b;
@@ -5507,7 +5507,7 @@ public final class Messages {
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
-        com.google.protobuf.ByteString bs = 
+        com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         username_ = s;
@@ -5521,7 +5521,7 @@ public final class Messages {
         getUsernameBytes() {
       java.lang.Object ref = username_;
       if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
+        com.google.protobuf.ByteString b =
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         username_ = b;
@@ -5900,7 +5900,7 @@ public final class Messages {
           getTypeBytes() {
         java.lang.Object ref = type_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           type_ = b;
@@ -5917,7 +5917,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         type_ = value;
         onChanged();
         return this;
@@ -5926,7 +5926,7 @@ public final class Messages {
        * <code>string type = 1;</code>
        */
       public Builder clearType() {
-        
+
         type_ = getDefaultInstance().getType();
         onChanged();
         return this;
@@ -5940,7 +5940,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         type_ = value;
         onChanged();
         return this;
@@ -5969,7 +5969,7 @@ public final class Messages {
           getUsernameBytes() {
         java.lang.Object ref = username_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString b =
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
           username_ = b;
@@ -5986,7 +5986,7 @@ public final class Messages {
         if (value == null) {
     throw new NullPointerException();
   }
-  
+
         username_ = value;
         onChanged();
         return this;
@@ -5995,7 +5995,7 @@ public final class Messages {
        * <code>string username = 2;</code>
        */
       public Builder clearUsername() {
-        
+
         username_ = getDefaultInstance().getUsername();
         onChanged();
         return this;
@@ -6009,7 +6009,7 @@ public final class Messages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
+
         username_ = value;
         onChanged();
         return this;
@@ -6026,7 +6026,7 @@ public final class Messages {
        * <code>uint32 amount = 3;</code>
        */
       public Builder setAmount(int value) {
-        
+
         amount_ = value;
         onChanged();
         return this;
@@ -6035,7 +6035,7 @@ public final class Messages {
        * <code>uint32 amount = 3;</code>
        */
       public Builder clearAmount() {
-        
+
         amount_ = 0;
         onChanged();
         return this;
@@ -6095,42 +6095,42 @@ public final class Messages {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Reply_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Reply_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LoginRequest_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LoginRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Request_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Request_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_LogoutRequest_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_LogoutRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AuctionBid_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_AuctionBid_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_FixedSubscription_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_FixedSubscription_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Auction_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Auction_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_FixedLoan_descriptor;
-  private static final 
+  private static final
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_FixedLoan_fieldAccessorTable;
 
