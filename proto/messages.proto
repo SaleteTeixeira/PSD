@@ -52,3 +52,29 @@ message FixedLoan {
     uint32 amount = 3;
     double interest = 4;
 }
+
+// Lists Investor
+
+message AuctionEntry {
+    string type = 1;
+    string company = 2;
+    uint32 amount = 3;
+    double interest = 4;
+}
+
+message AuctionList {
+    string type = 1;
+    repeated AuctionEntry entry = 2;
+}
+
+message FixedEntry {
+    string type = 1;
+    string company = 2;
+    uint32 amount = 3;
+    double interest = 4;
+}
+
+message FixedList {
+    string type = 1;
+    repeated FixedEntry entry = 2;
+}
