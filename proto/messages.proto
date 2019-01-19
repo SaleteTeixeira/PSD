@@ -50,4 +50,5 @@ message FixedLoan {
     string type = 1;
     string username = 2;
     uint32 amount = 3;
+    double interest = 4;
 }

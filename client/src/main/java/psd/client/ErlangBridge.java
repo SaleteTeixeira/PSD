@@ -124,7 +124,7 @@ class ErlangBridge {
         return false;
     }
     
-    boolean createLoan(final String company, final int amount) {
+    boolean createLoan(final String company, final int amount, final double interest) {
         return false;
     }
 }
