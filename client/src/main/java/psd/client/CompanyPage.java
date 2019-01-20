@@ -18,8 +18,34 @@ public class CompanyPage extends javax.swing.JFrame {
     public CompanyPage(String username) {
         this.username = username;
         initComponents();
+        refresh();
     }
 
+    private void refresh() {
+        Messages.CompanyInfoAuctionReply areply = ErlangBridge.getInstance().currentAuction(username);
+        Messages.CompanyInfoFixedReply freply = ErlangBridge.getInstance().currentFixed(username);
+        this.auctionsArea.setText("");
+        this.fixedArea.setText("");
+        if (areply.getEntry() != null) {
+            Messages.AuctionEntry entry = areply.getEntry();
+            this.auctionsArea.append(username 
+                    + "\t" 
+                    + entry.getAmount() 
+                    + "\t" 
+                    + entry.getInterest() 
+                    + "\n");
+        }
+        if(freply.getEntry() != null) {
+            Messages.FixedEntry entry = freply.getEntry();
+            this.fixedArea.append(username 
+                    + "\t" 
+                    + entry.getAmount() 
+                    + "\t" 
+                    + entry.getInterest() 
+                    + "\n");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,10 +58,6 @@ public class CompanyPage extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        auctionsPane = new javax.swing.JScrollPane();
-        auctionsList = new javax.swing.JList<>();
-        fixedPane = new javax.swing.JScrollPane();
-        fixedList = new javax.swing.JList<>();
         auctionsNotiPane = new javax.swing.JScrollPane();
         auctionsNotiArea = new javax.swing.JTextArea();
         fixedNotiPane = new javax.swing.JScrollPane();
@@ -46,6 +68,10 @@ public class CompanyPage extends javax.swing.JFrame {
         amountFixedField = new javax.swing.JTextField();
         createFixedButton = new javax.swing.JButton();
         interestField = new javax.swing.JTextField();
+        auctionsPane = new javax.swing.JScrollPane();
+        auctionsArea = new javax.swing.JTextArea();
+        fixedPane = new javax.swing.JScrollPane();
+        fixedArea = new javax.swing.JTextArea();
         menu = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
         refresh = new javax.swing.JMenuItem();
@@ -59,10 +85,6 @@ public class CompanyPage extends javax.swing.JFrame {
         jLabel1.setText("Loan Auctions");
 
         jLabel2.setText("Fixed Rate Loans");
-
-        auctionsPane.setViewportView(auctionsList);
-
-        fixedPane.setViewportView(fixedList);
 
         auctionsNotiArea.setColumns(20);
         auctionsNotiArea.setRows(5);
@@ -129,6 +151,14 @@ public class CompanyPage extends javax.swing.JFrame {
             }
         });
 
+        auctionsArea.setColumns(20);
+        auctionsArea.setRows(5);
+        auctionsPane.setViewportView(auctionsArea);
+
+        fixedArea.setColumns(20);
+        fixedArea.setRows(5);
+        fixedPane.setViewportView(fixedArea);
+
         file.setText("File");
 
         refresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
@@ -171,32 +201,31 @@ public class CompanyPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(auctionsNotiPane)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(amountAuctionField)
+                        .addComponent(amountAuctionField, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(maxInterestField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(createAuctionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(auctionsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(auctionsPane))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
-                            .addComponent(fixedNotiPane)
-                            .addComponent(fixedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(amountFixedField)
+                        .addComponent(amountFixedField, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(interestField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(createFixedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(createFixedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(fixedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fixedNotiPane))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,9 +237,9 @@ public class CompanyPage extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fixedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(auctionsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(auctionsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(fixedPane))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -248,6 +277,7 @@ public class CompanyPage extends javax.swing.JFrame {
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
+        refresh();
     }//GEN-LAST:event_refreshActionPerformed
 
     private void amountAuctionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountAuctionFieldActionPerformed
@@ -351,14 +381,14 @@ public class CompanyPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField amountAuctionField;
     private javax.swing.JTextField amountFixedField;
-    private javax.swing.JList<String> auctionsList;
+    private javax.swing.JTextArea auctionsArea;
     private javax.swing.JTextArea auctionsNotiArea;
     private javax.swing.JScrollPane auctionsNotiPane;
     private javax.swing.JScrollPane auctionsPane;
     private javax.swing.JButton createAuctionButton;
     private javax.swing.JButton createFixedButton;
     private javax.swing.JMenu file;
-    private javax.swing.JList<String> fixedList;
+    private javax.swing.JTextArea fixedArea;
     private javax.swing.JTextArea fixedNotiArea;
     private javax.swing.JScrollPane fixedNotiPane;
     private javax.swing.JScrollPane fixedPane;

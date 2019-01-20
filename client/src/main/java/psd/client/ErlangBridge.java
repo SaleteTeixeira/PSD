@@ -220,4 +220,36 @@ class ErlangBridge {
             return null;
         }
     }
+    
+    Messages.CompanyInfoAuctionReply currentAuction(final String company) {
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.CompanyInfoAuctionRequest req = Messages.CompanyInfoAuctionRequest.newBuilder()
+                    .setType("CompanyInfoAuctionRequest")
+                    .setCompany(company).build();
+            this.write(cos, req.toByteArray());
+            final Messages.CompanyInfoAuctionReply reply = Messages.CompanyInfoAuctionReply.parseFrom(this.read(cis));
+            return reply;
+        } catch (final Exception e) {
+            System.exit(1);
+            return null;
+        }
+    }
+    
+    Messages.CompanyInfoFixedReply currentFixed(final String company) {
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.CompanyInfoFixedRequest req = Messages.CompanyInfoFixedRequest.newBuilder()
+                    .setType("CompanyInfoFixedRequest")
+                    .setCompany(company).build();
+            this.write(cos, req.toByteArray());
+            final Messages.CompanyInfoFixedReply reply = Messages.CompanyInfoFixedReply.parseFrom(this.read(cis));
+            return reply;
+        } catch (final Exception e) {
+            System.exit(1);
+            return null;
+        }
+    }
 }
