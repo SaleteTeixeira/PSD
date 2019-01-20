@@ -171,10 +171,10 @@ public class DiretorioPage extends javax.swing.JFrame {
 
     private void getButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_getButtonMouseClicked
         // TODO add your handling code here:
-        final String company = this.company.getText();
-        Messages.CompanyInfoReply reply = ErlangBridge.getInstance().companyInfo(company);
+        final String targetcompany = this.company.getText();
+        Messages.CompanyInfoReply reply = ErlangBridge.getInstance().companyInfo(targetcompany);
         int count = reply.getEntryACount();
-        this.details.setText("Company: " + company + "\nAuctions:\n");
+        this.details.setText("Company: " + targetcompany + "\nAuctions:\n");
         if (count == 0) {
             this.details.append("No auctions.");
         }

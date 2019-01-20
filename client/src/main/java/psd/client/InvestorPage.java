@@ -330,9 +330,27 @@ public class InvestorPage extends javax.swing.JFrame {
 
     private void bidButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bidButtonMouseClicked
         // TODO add your handling code here:
-        final String company = this.companyFieldAuction.getText();
-        final int amount = Integer.parseInt(this.amountFieldAuction.getText());
-        final double interest = Double.parseDouble(this.interestFieldAuction.getText());
+        String company;
+        try {
+            company = this.companyFieldAuction.getText();
+        } catch(NumberFormatException e) {
+            this.auctionsNotiArea.append("Error parsing company\n");
+            return;
+        }
+        int amount;
+        try {
+            amount = Integer.parseInt(this.amountFieldAuction.getText());
+        } catch(NumberFormatException e) {
+            this.auctionsNotiArea.append("Error parsing amount\n");
+            return;
+        }
+        double interest;
+        try {
+            interest = Double.parseDouble(this.interestFieldAuction.getText());
+        } catch(NumberFormatException e) {
+            this.auctionsNotiArea.append("Error parsing interest\n");
+            return;
+        }
         final Messages.Reply reply = ErlangBridge.getInstance().bidAuction(this.username, company, amount, interest);
         if (reply.getResult()) {
             this.auctionsNotiArea.append("Successfull bid in company "
@@ -349,8 +367,20 @@ public class InvestorPage extends javax.swing.JFrame {
 
     private void subscribeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subscribeButtonMouseClicked
         // TODO add your handling code here:
-        final String company = this.companyFieldFixed.getText();
-        final int amount = Integer.parseInt(this.amountFieldFixed.getText());
+        String company;
+        try {
+            company = this.companyFieldFixed.getText();
+        } catch(NumberFormatException e) {
+            this.fixedNotiArea.append("Error parsing company\n");
+            return;
+        }
+        int amount;
+        try {
+            amount = Integer.parseInt(this.amountFieldFixed.getText());
+        } catch(NumberFormatException e) {
+            this.fixedNotiArea.append("Error parsing amount\n");
+            return;
+        }
         final Messages.Reply reply = ErlangBridge.getInstance().subscribeFixed(this.username, company, amount);
         if (reply.getResult()) {
             this.fixedNotiArea.append("Successfull subscription in company "
