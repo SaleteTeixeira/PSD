@@ -4,7 +4,7 @@
 -export([number_of_exchanges/0, get_port/1, get_exchange/1]).
 
 %% Implementation
-number_of_exchanges() -> 1.
+number_of_exchanges() -> 3.
 
 hash_string(String) -> hash_string(String, 0.0).
 hash_string([], Acc) -> Acc;

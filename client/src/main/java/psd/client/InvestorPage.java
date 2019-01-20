@@ -336,6 +336,9 @@ public class InvestorPage extends javax.swing.JFrame {
         int amount;
         try {
             amount = Integer.parseInt(this.amountFieldAuction.getText());
+            if (amount <= 0) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.auctionsNotiArea.append("Error parsing amount\n");
             return;
@@ -343,6 +346,9 @@ public class InvestorPage extends javax.swing.JFrame {
         double interest;
         try {
             interest = Double.parseDouble(this.interestFieldAuction.getText());
+            if (interest <= 0) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.auctionsNotiArea.append("Error parsing interest\n");
             return;
@@ -373,6 +379,9 @@ public class InvestorPage extends javax.swing.JFrame {
         int amount;
         try {
             amount = Integer.parseInt(this.amountFieldFixed.getText());
+            if (amount <= 0) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.fixedNotiArea.append("Error parsing amount\n");
             return;

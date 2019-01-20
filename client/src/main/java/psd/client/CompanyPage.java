@@ -26,7 +26,7 @@ public class CompanyPage extends javax.swing.JFrame {
         Messages.CompanyInfoFixedReply freply = ErlangBridge.getInstance().currentFixed(username);
         this.auctionsArea.setText("");
         this.fixedArea.setText("");
-        if (areply.getEntry() != null) {
+        if (areply.getEntry().getAmount() != 0) {
             Messages.AuctionEntry entry = areply.getEntry();
             this.auctionsArea.append(username 
                     + "\t" 
@@ -35,7 +35,7 @@ public class CompanyPage extends javax.swing.JFrame {
                     + entry.getInterest() 
                     + "\n");
         }
-        if(freply.getEntry() != null) {
+        if(freply.getEntry().getAmount() != 0) {
             Messages.FixedEntry entry = freply.getEntry();
             this.fixedArea.append(username 
                     + "\t" 
@@ -265,6 +265,7 @@ public class CompanyPage extends javax.swing.JFrame {
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
         ErlangBridge.getInstance().logout(this.username);
+        ErlangBridge.clean();
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();
@@ -297,6 +298,9 @@ public class CompanyPage extends javax.swing.JFrame {
         int amount;
         try {
             amount = Integer.parseInt(this.amountAuctionField.getText());
+            if (amount <= 0) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.auctionsNotiArea.append("Error parsing amount\n");
             return;
@@ -304,6 +308,9 @@ public class CompanyPage extends javax.swing.JFrame {
         double interest;
         try {
             interest = Double.parseDouble(this.maxInterestField.getText());
+            if (interest <= 0.0f) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.auctionsNotiArea.append("Error parsing interest\n");
             return;
@@ -326,6 +333,9 @@ public class CompanyPage extends javax.swing.JFrame {
         int amount;
         try {
             amount = Integer.parseInt(this.amountFixedField.getText());
+            if (amount <= 0) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.fixedNotiArea.append("Error parsing amount\n");
             return;
@@ -333,6 +343,9 @@ public class CompanyPage extends javax.swing.JFrame {
         double interest;
         try {
             interest = Double.parseDouble(this.interestField.getText());
+            if (interest <= 0) {
+                throw new NumberFormatException();
+            }
         } catch(NumberFormatException e) {
             this.fixedNotiArea.append("Error parsing interest\n");
             return;

@@ -178,7 +178,7 @@ public class DiretorioPage extends javax.swing.JFrame {
         int count = reply.getEntryACount();
         this.details.setText("Company: " + targetcompany + "\nAuctions:\n");
         if (count == 0) {
-            this.details.append("No auctions.");
+            this.details.append("No auctions.\n");
         }
         for(int i = 0; i < count; ++i) {
             Messages.AuctionEntry entry = reply.getEntryA(i);
@@ -188,10 +188,10 @@ public class DiretorioPage extends javax.swing.JFrame {
                     + "\n");
         }
         count = reply.getEntryFCount();
-        if (count == 0) {
-            this.details.append("No loans.");
-        }
         this.details.append("Fixed Loans:\n");
+        if (count == 0) {
+            this.details.append("No loans.\n");
+        }
         for(int i = 0; i < count; ++i) {
             Messages.FixedEntry entry = reply.getEntryF(i);
             this.details.append(entry.getAmount()
