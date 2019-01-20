@@ -268,6 +268,22 @@ public class Exchange {
 
         Emprestimo e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
 
+        Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
+                .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
+                .build();
+
+        Messages.CompanyInfoFixedReply cifr = Messages.CompanyInfoFixedReply.newBuilder()
+                .setType("CompanyInfoFixedReply").setCompany(empresa).setEntry(fe).build();
+
+        try {
+            byte ba[] = cifr.toByteArray();
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
+            cos.writeRawBytes(ba);
+            cos.flush();
+        } catch (IOException ex) {
+            System.out.println("Error sending proto CompanyInfoFixedReply message to Server.");
+        }
+
         return e;
     }
 
@@ -279,6 +295,22 @@ public class Exchange {
         }
 
         Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
+
+        Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
+                .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
+                .build();
+
+        Messages.CompanyInfoAuctionReply ciar = Messages.CompanyInfoAuctionReply.newBuilder()
+                .setType("CompanyInfoAuctionReply").setCompany(empresa).setEntry(ae).build();
+
+        try {
+            byte ba[] = ciar.toByteArray();
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
+            cos.writeRawBytes(ba);
+            cos.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending proto CompanyInfoAuctionReply message to Server.");
+        }
 
         return l;
     }

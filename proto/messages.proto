@@ -95,3 +95,25 @@ message CompanyInfoReply {
     repeated AuctionEntry entryA = 3;
     repeated FixedEntry entryF = 4;
 }
+
+message CompanyInfoAuctionRequest {
+    string type = 1;
+    string company = 2;
+}
+
+message CompanyInfoAuctionReply {
+    string type = 1;
+    string company = 2;
+    AuctionEntry entry = 3;
+}
+
+message CompanyInfoFixedRequest {
+    string type = 1;
+    string company = 2;
+}
+
+message CompanyInfoFixedReply {
+    string type = 1;
+    string company = 2;
+    FixedEntry entry = 3;
+}

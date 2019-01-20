@@ -65,6 +65,14 @@ public class ThreadReply implements Runnable{
                         Messages.CompanyInfoRequest cir = Messages.CompanyInfoRequest.parseFrom(ba);
                         this.exchange.info_emp(this.cos, cir.getCompany());
                         break;
+                    case "CompanyInfoAuctionRequest":
+                        Messages.CompanyInfoAuctionRequest ciar = Messages.CompanyInfoAuctionRequest.parseFrom(ba);
+                        this.exchange.leilao_atual(this.cos, ciar.getCompany());
+                        break;
+                    case "CompanyInfoFixedRequest":
+                        Messages.CompanyInfoFixedRequest cifr = Messages.CompanyInfoFixedRequest.parseFrom(ba);
+                        this.exchange.emprestimo_atual(this.cos, cifr.getCompany());
+                        break;
                     default:
                         this.exchange.answerToServerRequest(this.cos,false, "Invalid message.");
                 }

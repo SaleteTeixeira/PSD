@@ -17,16 +17,16 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>bool result = 1;</code>
+     * <code>optional bool result = 1;</code>
      */
     boolean getResult();
 
     /**
-     * <code>string message = 2;</code>
+     * <code>optional string message = 2;</code>
      */
     java.lang.String getMessage();
     /**
-     * <code>string message = 2;</code>
+     * <code>optional string message = 2;</code>
      */
     com.google.protobuf.ByteString
         getMessageBytes();
@@ -38,7 +38,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Reply)
       ReplyOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use Reply.newBuilder() to construct.
     private Reply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -51,19 +50,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private Reply(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -72,6 +66,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 8: {
 
               result_ = input.readBool();
@@ -83,13 +83,6 @@ public final class Messages {
               message_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -98,7 +91,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -107,7 +99,6 @@ public final class Messages {
       return Messages.internal_static_Reply_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_Reply_fieldAccessorTable
@@ -118,7 +109,7 @@ public final class Messages {
     public static final int RESULT_FIELD_NUMBER = 1;
     private boolean result_;
     /**
-     * <code>bool result = 1;</code>
+     * <code>optional bool result = 1;</code>
      */
     public boolean getResult() {
       return result_;
@@ -127,7 +118,7 @@ public final class Messages {
     public static final int MESSAGE_FIELD_NUMBER = 2;
     private volatile java.lang.Object message_;
     /**
-     * <code>string message = 2;</code>
+     * <code>optional string message = 2;</code>
      */
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
@@ -142,7 +133,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string message = 2;</code>
+     * <code>optional string message = 2;</code>
      */
     public com.google.protobuf.ByteString
         getMessageBytes() {
@@ -159,7 +150,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -169,7 +159,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (result_ != false) {
@@ -178,10 +167,8 @@ public final class Messages {
       if (!getMessageBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -194,11 +181,11 @@ public final class Messages {
       if (!getMessageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -214,7 +201,6 @@ public final class Messages {
           == other.getResult());
       result = result && getMessage()
           .equals(other.getMessage());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -224,7 +210,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + RESULT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getResult());
@@ -235,17 +221,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.Reply parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.Reply parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.Reply parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -305,7 +280,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -313,7 +287,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.Reply prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -337,7 +310,6 @@ public final class Messages {
         return Messages.internal_static_Reply_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_Reply_fieldAccessorTable
@@ -360,7 +332,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         result_ = false;
@@ -370,18 +341,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_Reply_descriptor;
       }
 
-      @java.lang.Override
       public Messages.Reply getDefaultInstanceForType() {
         return Messages.Reply.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.Reply build() {
         Messages.Reply result = buildPartial();
         if (!result.isInitialized()) {
@@ -390,7 +358,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.Reply buildPartial() {
         Messages.Reply result = new Messages.Reply(this);
         result.result_ = result_;
@@ -399,39 +366,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.Reply) {
           return mergeFrom((Messages.Reply)other);
@@ -450,17 +410,14 @@ public final class Messages {
           message_ = other.message_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -481,13 +438,13 @@ public final class Messages {
 
       private boolean result_ ;
       /**
-       * <code>bool result = 1;</code>
+       * <code>optional bool result = 1;</code>
        */
       public boolean getResult() {
         return result_;
       }
       /**
-       * <code>bool result = 1;</code>
+       * <code>optional bool result = 1;</code>
        */
       public Builder setResult(boolean value) {
         
@@ -496,7 +453,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>bool result = 1;</code>
+       * <code>optional bool result = 1;</code>
        */
       public Builder clearResult() {
         
@@ -507,7 +464,7 @@ public final class Messages {
 
       private java.lang.Object message_ = "";
       /**
-       * <code>string message = 2;</code>
+       * <code>optional string message = 2;</code>
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -522,7 +479,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>optional string message = 2;</code>
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -538,7 +495,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>optional string message = 2;</code>
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -551,7 +508,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>optional string message = 2;</code>
        */
       public Builder clearMessage() {
         
@@ -560,7 +517,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string message = 2;</code>
+       * <code>optional string message = 2;</code>
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -573,16 +530,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -601,12 +556,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<Reply>
         PARSER = new com.google.protobuf.AbstractParser<Reply>() {
-      @java.lang.Override
       public Reply parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Reply(input, extensionRegistry);
+          return new Reply(input, extensionRegistry);
       }
     };
 
@@ -619,7 +573,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.Reply getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -631,31 +584,31 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string username = 1;</code>
+     * <code>optional string username = 1;</code>
      */
     java.lang.String getUsername();
     /**
-     * <code>string username = 1;</code>
+     * <code>optional string username = 1;</code>
      */
     com.google.protobuf.ByteString
         getUsernameBytes();
 
     /**
-     * <code>string password = 2;</code>
+     * <code>optional string password = 2;</code>
      */
     java.lang.String getPassword();
     /**
-     * <code>string password = 2;</code>
+     * <code>optional string password = 2;</code>
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
 
     /**
-     * <code>string role = 3;</code>
+     * <code>optional string role = 3;</code>
      */
     java.lang.String getRole();
     /**
-     * <code>string role = 3;</code>
+     * <code>optional string role = 3;</code>
      */
     com.google.protobuf.ByteString
         getRoleBytes();
@@ -667,7 +620,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:LoginRequest)
       LoginRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use LoginRequest.newBuilder() to construct.
     private LoginRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -681,19 +633,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private LoginRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -702,6 +649,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -720,13 +673,6 @@ public final class Messages {
               role_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -735,7 +681,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -744,7 +689,6 @@ public final class Messages {
       return Messages.internal_static_LoginRequest_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_LoginRequest_fieldAccessorTable
@@ -755,7 +699,7 @@ public final class Messages {
     public static final int USERNAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object username_;
     /**
-     * <code>string username = 1;</code>
+     * <code>optional string username = 1;</code>
      */
     public java.lang.String getUsername() {
       java.lang.Object ref = username_;
@@ -770,7 +714,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string username = 1;</code>
+     * <code>optional string username = 1;</code>
      */
     public com.google.protobuf.ByteString
         getUsernameBytes() {
@@ -789,7 +733,7 @@ public final class Messages {
     public static final int PASSWORD_FIELD_NUMBER = 2;
     private volatile java.lang.Object password_;
     /**
-     * <code>string password = 2;</code>
+     * <code>optional string password = 2;</code>
      */
     public java.lang.String getPassword() {
       java.lang.Object ref = password_;
@@ -804,7 +748,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string password = 2;</code>
+     * <code>optional string password = 2;</code>
      */
     public com.google.protobuf.ByteString
         getPasswordBytes() {
@@ -823,7 +767,7 @@ public final class Messages {
     public static final int ROLE_FIELD_NUMBER = 3;
     private volatile java.lang.Object role_;
     /**
-     * <code>string role = 3;</code>
+     * <code>optional string role = 3;</code>
      */
     public java.lang.String getRole() {
       java.lang.Object ref = role_;
@@ -838,7 +782,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string role = 3;</code>
+     * <code>optional string role = 3;</code>
      */
     public com.google.protobuf.ByteString
         getRoleBytes() {
@@ -855,7 +799,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -865,7 +808,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getUsernameBytes().isEmpty()) {
@@ -877,10 +819,8 @@ public final class Messages {
       if (!getRoleBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, role_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -895,11 +835,11 @@ public final class Messages {
       if (!getRoleBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, role_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -917,7 +857,6 @@ public final class Messages {
           .equals(other.getPassword());
       result = result && getRole()
           .equals(other.getRole());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -927,7 +866,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + USERNAME_FIELD_NUMBER;
       hash = (53 * hash) + getUsername().hashCode();
       hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
@@ -939,17 +878,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.LoginRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.LoginRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.LoginRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1009,7 +937,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1017,7 +944,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.LoginRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1041,7 +967,6 @@ public final class Messages {
         return Messages.internal_static_LoginRequest_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_LoginRequest_fieldAccessorTable
@@ -1064,7 +989,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         username_ = "";
@@ -1076,18 +1000,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_LoginRequest_descriptor;
       }
 
-      @java.lang.Override
       public Messages.LoginRequest getDefaultInstanceForType() {
         return Messages.LoginRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.LoginRequest build() {
         Messages.LoginRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1096,7 +1017,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.LoginRequest buildPartial() {
         Messages.LoginRequest result = new Messages.LoginRequest(this);
         result.username_ = username_;
@@ -1106,39 +1026,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.LoginRequest) {
           return mergeFrom((Messages.LoginRequest)other);
@@ -1162,17 +1075,14 @@ public final class Messages {
           role_ = other.role_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1193,7 +1103,7 @@ public final class Messages {
 
       private java.lang.Object username_ = "";
       /**
-       * <code>string username = 1;</code>
+       * <code>optional string username = 1;</code>
        */
       public java.lang.String getUsername() {
         java.lang.Object ref = username_;
@@ -1208,7 +1118,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 1;</code>
+       * <code>optional string username = 1;</code>
        */
       public com.google.protobuf.ByteString
           getUsernameBytes() {
@@ -1224,7 +1134,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 1;</code>
+       * <code>optional string username = 1;</code>
        */
       public Builder setUsername(
           java.lang.String value) {
@@ -1237,7 +1147,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 1;</code>
+       * <code>optional string username = 1;</code>
        */
       public Builder clearUsername() {
         
@@ -1246,7 +1156,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 1;</code>
+       * <code>optional string username = 1;</code>
        */
       public Builder setUsernameBytes(
           com.google.protobuf.ByteString value) {
@@ -1262,7 +1172,7 @@ public final class Messages {
 
       private java.lang.Object password_ = "";
       /**
-       * <code>string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -1277,7 +1187,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -1293,7 +1203,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public Builder setPassword(
           java.lang.String value) {
@@ -1306,7 +1216,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public Builder clearPassword() {
         
@@ -1315,7 +1225,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string password = 2;</code>
+       * <code>optional string password = 2;</code>
        */
       public Builder setPasswordBytes(
           com.google.protobuf.ByteString value) {
@@ -1331,7 +1241,7 @@ public final class Messages {
 
       private java.lang.Object role_ = "";
       /**
-       * <code>string role = 3;</code>
+       * <code>optional string role = 3;</code>
        */
       public java.lang.String getRole() {
         java.lang.Object ref = role_;
@@ -1346,7 +1256,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string role = 3;</code>
+       * <code>optional string role = 3;</code>
        */
       public com.google.protobuf.ByteString
           getRoleBytes() {
@@ -1362,7 +1272,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string role = 3;</code>
+       * <code>optional string role = 3;</code>
        */
       public Builder setRole(
           java.lang.String value) {
@@ -1375,7 +1285,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string role = 3;</code>
+       * <code>optional string role = 3;</code>
        */
       public Builder clearRole() {
         
@@ -1384,7 +1294,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string role = 3;</code>
+       * <code>optional string role = 3;</code>
        */
       public Builder setRoleBytes(
           com.google.protobuf.ByteString value) {
@@ -1397,16 +1307,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -1425,12 +1333,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<LoginRequest>
         PARSER = new com.google.protobuf.AbstractParser<LoginRequest>() {
-      @java.lang.Override
       public LoginRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new LoginRequest(input, extensionRegistry);
+          return new LoginRequest(input, extensionRegistry);
       }
     };
 
@@ -1443,7 +1350,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.LoginRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1455,11 +1361,11 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
@@ -1471,7 +1377,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Request)
       RequestOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use Request.newBuilder() to construct.
     private Request(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -1483,19 +1388,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private Request(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -1504,17 +1404,16 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               type_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
               break;
             }
           }
@@ -1525,7 +1424,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -1534,7 +1432,6 @@ public final class Messages {
       return Messages.internal_static_Request_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_Request_fieldAccessorTable
@@ -1545,7 +1442,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -1560,7 +1457,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -1577,7 +1474,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1587,16 +1483,13 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1605,11 +1498,11 @@ public final class Messages {
       if (!getTypeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1623,7 +1516,6 @@ public final class Messages {
       boolean result = true;
       result = result && getType()
           .equals(other.getType());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -1633,7 +1525,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -1641,17 +1533,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.Request parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.Request parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.Request parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1711,7 +1592,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1719,7 +1599,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.Request prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1743,7 +1622,6 @@ public final class Messages {
         return Messages.internal_static_Request_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_Request_fieldAccessorTable
@@ -1766,7 +1644,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -1774,18 +1651,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_Request_descriptor;
       }
 
-      @java.lang.Override
       public Messages.Request getDefaultInstanceForType() {
         return Messages.Request.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.Request build() {
         Messages.Request result = buildPartial();
         if (!result.isInitialized()) {
@@ -1794,7 +1668,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.Request buildPartial() {
         Messages.Request result = new Messages.Request(this);
         result.type_ = type_;
@@ -1802,39 +1675,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.Request) {
           return mergeFrom((Messages.Request)other);
@@ -1850,17 +1716,14 @@ public final class Messages {
           type_ = other.type_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1881,7 +1744,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -1896,7 +1759,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -1912,7 +1775,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -1925,7 +1788,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -1934,7 +1797,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -1947,16 +1810,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -1975,12 +1836,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<Request>
         PARSER = new com.google.protobuf.AbstractParser<Request>() {
-      @java.lang.Override
       public Request parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Request(input, extensionRegistry);
+          return new Request(input, extensionRegistry);
       }
     };
 
@@ -1993,7 +1853,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.Request getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2005,21 +1864,21 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     java.lang.String getUsername();
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     com.google.protobuf.ByteString
         getUsernameBytes();
@@ -2031,7 +1890,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:LogoutRequest)
       LogoutRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use LogoutRequest.newBuilder() to construct.
     private LogoutRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -2044,19 +1902,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private LogoutRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -2065,6 +1918,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -2077,13 +1936,6 @@ public final class Messages {
               username_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2092,7 +1944,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -2101,7 +1952,6 @@ public final class Messages {
       return Messages.internal_static_LogoutRequest_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_LogoutRequest_fieldAccessorTable
@@ -2112,7 +1962,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -2127,7 +1977,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -2146,7 +1996,7 @@ public final class Messages {
     public static final int USERNAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object username_;
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public java.lang.String getUsername() {
       java.lang.Object ref = username_;
@@ -2161,7 +2011,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public com.google.protobuf.ByteString
         getUsernameBytes() {
@@ -2178,7 +2028,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2188,7 +2037,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -2197,10 +2045,8 @@ public final class Messages {
       if (!getUsernameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, username_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2212,11 +2058,11 @@ public final class Messages {
       if (!getUsernameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, username_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -2232,7 +2078,6 @@ public final class Messages {
           .equals(other.getType());
       result = result && getUsername()
           .equals(other.getUsername());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -2242,7 +2087,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + USERNAME_FIELD_NUMBER;
@@ -2252,17 +2097,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.LogoutRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.LogoutRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.LogoutRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2322,7 +2156,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2330,7 +2163,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.LogoutRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2354,7 +2186,6 @@ public final class Messages {
         return Messages.internal_static_LogoutRequest_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_LogoutRequest_fieldAccessorTable
@@ -2377,7 +2208,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -2387,18 +2217,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_LogoutRequest_descriptor;
       }
 
-      @java.lang.Override
       public Messages.LogoutRequest getDefaultInstanceForType() {
         return Messages.LogoutRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.LogoutRequest build() {
         Messages.LogoutRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2407,7 +2234,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.LogoutRequest buildPartial() {
         Messages.LogoutRequest result = new Messages.LogoutRequest(this);
         result.type_ = type_;
@@ -2416,39 +2242,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.LogoutRequest) {
           return mergeFrom((Messages.LogoutRequest)other);
@@ -2468,17 +2287,14 @@ public final class Messages {
           username_ = other.username_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2499,7 +2315,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -2514,7 +2330,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -2530,7 +2346,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -2543,7 +2359,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -2552,7 +2368,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -2568,7 +2384,7 @@ public final class Messages {
 
       private java.lang.Object username_ = "";
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public java.lang.String getUsername() {
         java.lang.Object ref = username_;
@@ -2583,7 +2399,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public com.google.protobuf.ByteString
           getUsernameBytes() {
@@ -2599,7 +2415,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsername(
           java.lang.String value) {
@@ -2612,7 +2428,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder clearUsername() {
         
@@ -2621,7 +2437,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsernameBytes(
           com.google.protobuf.ByteString value) {
@@ -2634,16 +2450,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -2662,12 +2476,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<LogoutRequest>
         PARSER = new com.google.protobuf.AbstractParser<LogoutRequest>() {
-      @java.lang.Override
       public LogoutRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new LogoutRequest(input, extensionRegistry);
+          return new LogoutRequest(input, extensionRegistry);
       }
     };
 
@@ -2680,7 +2493,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.LogoutRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2692,42 +2504,42 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     java.lang.String getUsername();
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     com.google.protobuf.ByteString
         getUsernameBytes();
 
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
 
     /**
-     * <code>uint32 amount = 4;</code>
+     * <code>optional uint32 amount = 4;</code>
      */
     int getAmount();
 
     /**
-     * <code>double interest = 5;</code>
+     * <code>optional double interest = 5;</code>
      */
     double getInterest();
   }
@@ -2738,7 +2550,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:AuctionBid)
       AuctionBidOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use AuctionBid.newBuilder() to construct.
     private AuctionBid(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -2754,19 +2565,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private AuctionBid(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -2775,6 +2581,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -2803,13 +2615,6 @@ public final class Messages {
               interest_ = input.readDouble();
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2818,7 +2623,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -2827,7 +2631,6 @@ public final class Messages {
       return Messages.internal_static_AuctionBid_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_AuctionBid_fieldAccessorTable
@@ -2838,7 +2641,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -2853,7 +2656,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -2872,7 +2675,7 @@ public final class Messages {
     public static final int USERNAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object username_;
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public java.lang.String getUsername() {
       java.lang.Object ref = username_;
@@ -2887,7 +2690,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public com.google.protobuf.ByteString
         getUsernameBytes() {
@@ -2906,7 +2709,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 3;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -2921,7 +2724,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -2940,7 +2743,7 @@ public final class Messages {
     public static final int AMOUNT_FIELD_NUMBER = 4;
     private int amount_;
     /**
-     * <code>uint32 amount = 4;</code>
+     * <code>optional uint32 amount = 4;</code>
      */
     public int getAmount() {
       return amount_;
@@ -2949,14 +2752,13 @@ public final class Messages {
     public static final int INTEREST_FIELD_NUMBER = 5;
     private double interest_;
     /**
-     * <code>double interest = 5;</code>
+     * <code>optional double interest = 5;</code>
      */
     public double getInterest() {
       return interest_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2966,7 +2768,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -2984,10 +2785,8 @@ public final class Messages {
       if (interest_ != 0D) {
         output.writeDouble(5, interest_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3010,11 +2809,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(5, interest_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -3038,7 +2837,6 @@ public final class Messages {
           java.lang.Double.doubleToLongBits(getInterest())
           == java.lang.Double.doubleToLongBits(
               other.getInterest()));
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -3048,7 +2846,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + USERNAME_FIELD_NUMBER;
@@ -3065,17 +2863,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.AuctionBid parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.AuctionBid parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.AuctionBid parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3135,7 +2922,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3143,7 +2929,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.AuctionBid prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3167,7 +2952,6 @@ public final class Messages {
         return Messages.internal_static_AuctionBid_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_AuctionBid_fieldAccessorTable
@@ -3190,7 +2974,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -3206,18 +2989,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_AuctionBid_descriptor;
       }
 
-      @java.lang.Override
       public Messages.AuctionBid getDefaultInstanceForType() {
         return Messages.AuctionBid.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.AuctionBid build() {
         Messages.AuctionBid result = buildPartial();
         if (!result.isInitialized()) {
@@ -3226,7 +3006,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.AuctionBid buildPartial() {
         Messages.AuctionBid result = new Messages.AuctionBid(this);
         result.type_ = type_;
@@ -3238,39 +3017,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.AuctionBid) {
           return mergeFrom((Messages.AuctionBid)other);
@@ -3300,17 +3072,14 @@ public final class Messages {
         if (other.getInterest() != 0D) {
           setInterest(other.getInterest());
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3331,7 +3100,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -3346,7 +3115,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -3362,7 +3131,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -3375,7 +3144,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -3384,7 +3153,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -3400,7 +3169,7 @@ public final class Messages {
 
       private java.lang.Object username_ = "";
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public java.lang.String getUsername() {
         java.lang.Object ref = username_;
@@ -3415,7 +3184,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public com.google.protobuf.ByteString
           getUsernameBytes() {
@@ -3431,7 +3200,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsername(
           java.lang.String value) {
@@ -3444,7 +3213,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder clearUsername() {
         
@@ -3453,7 +3222,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsernameBytes(
           com.google.protobuf.ByteString value) {
@@ -3469,7 +3238,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -3484,7 +3253,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -3500,7 +3269,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -3513,7 +3282,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public Builder clearCompany() {
         
@@ -3522,7 +3291,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -3538,13 +3307,13 @@ public final class Messages {
 
       private int amount_ ;
       /**
-       * <code>uint32 amount = 4;</code>
+       * <code>optional uint32 amount = 4;</code>
        */
       public int getAmount() {
         return amount_;
       }
       /**
-       * <code>uint32 amount = 4;</code>
+       * <code>optional uint32 amount = 4;</code>
        */
       public Builder setAmount(int value) {
         
@@ -3553,7 +3322,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>uint32 amount = 4;</code>
+       * <code>optional uint32 amount = 4;</code>
        */
       public Builder clearAmount() {
         
@@ -3564,13 +3333,13 @@ public final class Messages {
 
       private double interest_ ;
       /**
-       * <code>double interest = 5;</code>
+       * <code>optional double interest = 5;</code>
        */
       public double getInterest() {
         return interest_;
       }
       /**
-       * <code>double interest = 5;</code>
+       * <code>optional double interest = 5;</code>
        */
       public Builder setInterest(double value) {
         
@@ -3579,7 +3348,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>double interest = 5;</code>
+       * <code>optional double interest = 5;</code>
        */
       public Builder clearInterest() {
         
@@ -3587,16 +3356,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -3615,12 +3382,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<AuctionBid>
         PARSER = new com.google.protobuf.AbstractParser<AuctionBid>() {
-      @java.lang.Override
       public AuctionBid parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuctionBid(input, extensionRegistry);
+          return new AuctionBid(input, extensionRegistry);
       }
     };
 
@@ -3633,7 +3399,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.AuctionBid getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3645,37 +3410,37 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     java.lang.String getUsername();
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     com.google.protobuf.ByteString
         getUsernameBytes();
 
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
 
     /**
-     * <code>uint32 amount = 4;</code>
+     * <code>optional uint32 amount = 4;</code>
      */
     int getAmount();
   }
@@ -3686,7 +3451,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:FixedSubscription)
       FixedSubscriptionOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use FixedSubscription.newBuilder() to construct.
     private FixedSubscription(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -3701,19 +3465,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private FixedSubscription(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -3722,6 +3481,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -3745,13 +3510,6 @@ public final class Messages {
               amount_ = input.readUInt32();
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3760,7 +3518,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -3769,7 +3526,6 @@ public final class Messages {
       return Messages.internal_static_FixedSubscription_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_FixedSubscription_fieldAccessorTable
@@ -3780,7 +3536,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -3795,7 +3551,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -3814,7 +3570,7 @@ public final class Messages {
     public static final int USERNAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object username_;
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public java.lang.String getUsername() {
       java.lang.Object ref = username_;
@@ -3829,7 +3585,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public com.google.protobuf.ByteString
         getUsernameBytes() {
@@ -3848,7 +3604,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 3;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -3863,7 +3619,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 3;</code>
+     * <code>optional string company = 3;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -3882,14 +3638,13 @@ public final class Messages {
     public static final int AMOUNT_FIELD_NUMBER = 4;
     private int amount_;
     /**
-     * <code>uint32 amount = 4;</code>
+     * <code>optional uint32 amount = 4;</code>
      */
     public int getAmount() {
       return amount_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3899,7 +3654,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -3914,10 +3668,8 @@ public final class Messages {
       if (amount_ != 0) {
         output.writeUInt32(4, amount_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3936,11 +3688,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, amount_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -3960,7 +3712,6 @@ public final class Messages {
           .equals(other.getCompany());
       result = result && (getAmount()
           == other.getAmount());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -3970,7 +3721,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + USERNAME_FIELD_NUMBER;
@@ -3984,17 +3735,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.FixedSubscription parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.FixedSubscription parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.FixedSubscription parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4054,7 +3794,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4062,7 +3801,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.FixedSubscription prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4086,7 +3824,6 @@ public final class Messages {
         return Messages.internal_static_FixedSubscription_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_FixedSubscription_fieldAccessorTable
@@ -4109,7 +3846,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -4123,18 +3859,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_FixedSubscription_descriptor;
       }
 
-      @java.lang.Override
       public Messages.FixedSubscription getDefaultInstanceForType() {
         return Messages.FixedSubscription.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.FixedSubscription build() {
         Messages.FixedSubscription result = buildPartial();
         if (!result.isInitialized()) {
@@ -4143,7 +3876,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.FixedSubscription buildPartial() {
         Messages.FixedSubscription result = new Messages.FixedSubscription(this);
         result.type_ = type_;
@@ -4154,39 +3886,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.FixedSubscription) {
           return mergeFrom((Messages.FixedSubscription)other);
@@ -4213,17 +3938,14 @@ public final class Messages {
         if (other.getAmount() != 0) {
           setAmount(other.getAmount());
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4244,7 +3966,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -4259,7 +3981,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -4275,7 +3997,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -4288,7 +4010,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -4297,7 +4019,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -4313,7 +4035,7 @@ public final class Messages {
 
       private java.lang.Object username_ = "";
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public java.lang.String getUsername() {
         java.lang.Object ref = username_;
@@ -4328,7 +4050,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public com.google.protobuf.ByteString
           getUsernameBytes() {
@@ -4344,7 +4066,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsername(
           java.lang.String value) {
@@ -4357,7 +4079,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder clearUsername() {
         
@@ -4366,7 +4088,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsernameBytes(
           com.google.protobuf.ByteString value) {
@@ -4382,7 +4104,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -4397,7 +4119,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -4413,7 +4135,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -4426,7 +4148,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public Builder clearCompany() {
         
@@ -4435,7 +4157,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 3;</code>
+       * <code>optional string company = 3;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -4451,13 +4173,13 @@ public final class Messages {
 
       private int amount_ ;
       /**
-       * <code>uint32 amount = 4;</code>
+       * <code>optional uint32 amount = 4;</code>
        */
       public int getAmount() {
         return amount_;
       }
       /**
-       * <code>uint32 amount = 4;</code>
+       * <code>optional uint32 amount = 4;</code>
        */
       public Builder setAmount(int value) {
         
@@ -4466,7 +4188,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>uint32 amount = 4;</code>
+       * <code>optional uint32 amount = 4;</code>
        */
       public Builder clearAmount() {
         
@@ -4474,16 +4196,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -4502,12 +4222,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<FixedSubscription>
         PARSER = new com.google.protobuf.AbstractParser<FixedSubscription>() {
-      @java.lang.Override
       public FixedSubscription parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FixedSubscription(input, extensionRegistry);
+          return new FixedSubscription(input, extensionRegistry);
       }
     };
 
@@ -4520,7 +4239,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.FixedSubscription getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4532,32 +4250,32 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
 
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     int getAmount();
 
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     double getInterest();
   }
@@ -4568,7 +4286,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Auction)
       AuctionOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use Auction.newBuilder() to construct.
     private Auction(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -4583,19 +4300,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private Auction(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -4604,6 +4316,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -4626,13 +4344,6 @@ public final class Messages {
               interest_ = input.readDouble();
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4641,7 +4352,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -4650,7 +4360,6 @@ public final class Messages {
       return Messages.internal_static_Auction_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_Auction_fieldAccessorTable
@@ -4661,7 +4370,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -4676,7 +4385,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -4695,7 +4404,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 2;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -4710,7 +4419,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -4729,7 +4438,7 @@ public final class Messages {
     public static final int AMOUNT_FIELD_NUMBER = 3;
     private int amount_;
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     public int getAmount() {
       return amount_;
@@ -4738,14 +4447,13 @@ public final class Messages {
     public static final int INTEREST_FIELD_NUMBER = 4;
     private double interest_;
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     public double getInterest() {
       return interest_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4755,7 +4463,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -4770,10 +4477,8 @@ public final class Messages {
       if (interest_ != 0D) {
         output.writeDouble(4, interest_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4793,11 +4498,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(4, interest_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -4819,7 +4524,6 @@ public final class Messages {
           java.lang.Double.doubleToLongBits(getInterest())
           == java.lang.Double.doubleToLongBits(
               other.getInterest()));
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -4829,7 +4533,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + COMPANY_FIELD_NUMBER;
@@ -4844,17 +4548,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.Auction parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.Auction parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.Auction parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -4914,7 +4607,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4922,7 +4614,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.Auction prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4946,7 +4637,6 @@ public final class Messages {
         return Messages.internal_static_Auction_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_Auction_fieldAccessorTable
@@ -4969,7 +4659,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -4983,18 +4672,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_Auction_descriptor;
       }
 
-      @java.lang.Override
       public Messages.Auction getDefaultInstanceForType() {
         return Messages.Auction.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.Auction build() {
         Messages.Auction result = buildPartial();
         if (!result.isInitialized()) {
@@ -5003,7 +4689,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.Auction buildPartial() {
         Messages.Auction result = new Messages.Auction(this);
         result.type_ = type_;
@@ -5014,39 +4699,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.Auction) {
           return mergeFrom((Messages.Auction)other);
@@ -5072,17 +4750,14 @@ public final class Messages {
         if (other.getInterest() != 0D) {
           setInterest(other.getInterest());
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5103,7 +4778,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -5118,7 +4793,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -5134,7 +4809,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -5147,7 +4822,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -5156,7 +4831,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -5172,7 +4847,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -5187,7 +4862,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -5203,7 +4878,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -5216,7 +4891,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder clearCompany() {
         
@@ -5225,7 +4900,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -5241,13 +4916,13 @@ public final class Messages {
 
       private int amount_ ;
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public int getAmount() {
         return amount_;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder setAmount(int value) {
         
@@ -5256,7 +4931,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder clearAmount() {
         
@@ -5267,13 +4942,13 @@ public final class Messages {
 
       private double interest_ ;
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public double getInterest() {
         return interest_;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder setInterest(double value) {
         
@@ -5282,7 +4957,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder clearInterest() {
         
@@ -5290,16 +4965,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -5318,12 +4991,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<Auction>
         PARSER = new com.google.protobuf.AbstractParser<Auction>() {
-      @java.lang.Override
       public Auction parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Auction(input, extensionRegistry);
+          return new Auction(input, extensionRegistry);
       }
     };
 
@@ -5336,7 +5008,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.Auction getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5348,32 +5019,32 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     java.lang.String getUsername();
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     com.google.protobuf.ByteString
         getUsernameBytes();
 
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     int getAmount();
 
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     double getInterest();
   }
@@ -5384,7 +5055,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:FixedLoan)
       FixedLoanOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use FixedLoan.newBuilder() to construct.
     private FixedLoan(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -5399,19 +5069,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private FixedLoan(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -5420,6 +5085,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -5442,13 +5113,6 @@ public final class Messages {
               interest_ = input.readDouble();
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5457,7 +5121,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -5466,7 +5129,6 @@ public final class Messages {
       return Messages.internal_static_FixedLoan_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_FixedLoan_fieldAccessorTable
@@ -5477,7 +5139,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -5492,7 +5154,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -5511,7 +5173,7 @@ public final class Messages {
     public static final int USERNAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object username_;
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public java.lang.String getUsername() {
       java.lang.Object ref = username_;
@@ -5526,7 +5188,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string username = 2;</code>
+     * <code>optional string username = 2;</code>
      */
     public com.google.protobuf.ByteString
         getUsernameBytes() {
@@ -5545,7 +5207,7 @@ public final class Messages {
     public static final int AMOUNT_FIELD_NUMBER = 3;
     private int amount_;
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     public int getAmount() {
       return amount_;
@@ -5554,14 +5216,13 @@ public final class Messages {
     public static final int INTEREST_FIELD_NUMBER = 4;
     private double interest_;
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     public double getInterest() {
       return interest_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5571,7 +5232,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -5586,10 +5246,8 @@ public final class Messages {
       if (interest_ != 0D) {
         output.writeDouble(4, interest_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5609,11 +5267,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(4, interest_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -5635,7 +5293,6 @@ public final class Messages {
           java.lang.Double.doubleToLongBits(getInterest())
           == java.lang.Double.doubleToLongBits(
               other.getInterest()));
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -5645,7 +5302,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + USERNAME_FIELD_NUMBER;
@@ -5660,17 +5317,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.FixedLoan parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.FixedLoan parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.FixedLoan parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -5730,7 +5376,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5738,7 +5383,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.FixedLoan prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5762,7 +5406,6 @@ public final class Messages {
         return Messages.internal_static_FixedLoan_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_FixedLoan_fieldAccessorTable
@@ -5785,7 +5428,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -5799,18 +5441,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_FixedLoan_descriptor;
       }
 
-      @java.lang.Override
       public Messages.FixedLoan getDefaultInstanceForType() {
         return Messages.FixedLoan.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.FixedLoan build() {
         Messages.FixedLoan result = buildPartial();
         if (!result.isInitialized()) {
@@ -5819,7 +5458,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.FixedLoan buildPartial() {
         Messages.FixedLoan result = new Messages.FixedLoan(this);
         result.type_ = type_;
@@ -5830,39 +5468,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.FixedLoan) {
           return mergeFrom((Messages.FixedLoan)other);
@@ -5888,17 +5519,14 @@ public final class Messages {
         if (other.getInterest() != 0D) {
           setInterest(other.getInterest());
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5919,7 +5547,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -5934,7 +5562,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -5950,7 +5578,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -5963,7 +5591,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -5972,7 +5600,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -5988,7 +5616,7 @@ public final class Messages {
 
       private java.lang.Object username_ = "";
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public java.lang.String getUsername() {
         java.lang.Object ref = username_;
@@ -6003,7 +5631,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public com.google.protobuf.ByteString
           getUsernameBytes() {
@@ -6019,7 +5647,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsername(
           java.lang.String value) {
@@ -6032,7 +5660,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder clearUsername() {
         
@@ -6041,7 +5669,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string username = 2;</code>
+       * <code>optional string username = 2;</code>
        */
       public Builder setUsernameBytes(
           com.google.protobuf.ByteString value) {
@@ -6057,13 +5685,13 @@ public final class Messages {
 
       private int amount_ ;
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public int getAmount() {
         return amount_;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder setAmount(int value) {
         
@@ -6072,7 +5700,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder clearAmount() {
         
@@ -6083,13 +5711,13 @@ public final class Messages {
 
       private double interest_ ;
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public double getInterest() {
         return interest_;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder setInterest(double value) {
         
@@ -6098,7 +5726,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder clearInterest() {
         
@@ -6106,16 +5734,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -6134,12 +5760,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<FixedLoan>
         PARSER = new com.google.protobuf.AbstractParser<FixedLoan>() {
-      @java.lang.Override
       public FixedLoan parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FixedLoan(input, extensionRegistry);
+          return new FixedLoan(input, extensionRegistry);
       }
     };
 
@@ -6152,7 +5777,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.FixedLoan getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6164,32 +5788,32 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
 
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     int getAmount();
 
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     double getInterest();
   }
@@ -6200,7 +5824,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:AuctionEntry)
       AuctionEntryOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use AuctionEntry.newBuilder() to construct.
     private AuctionEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -6215,19 +5838,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private AuctionEntry(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -6236,6 +5854,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -6258,13 +5882,6 @@ public final class Messages {
               interest_ = input.readDouble();
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6273,7 +5890,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -6282,7 +5898,6 @@ public final class Messages {
       return Messages.internal_static_AuctionEntry_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_AuctionEntry_fieldAccessorTable
@@ -6293,7 +5908,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -6308,7 +5923,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -6327,7 +5942,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 2;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -6342,7 +5957,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -6361,7 +5976,7 @@ public final class Messages {
     public static final int AMOUNT_FIELD_NUMBER = 3;
     private int amount_;
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     public int getAmount() {
       return amount_;
@@ -6370,14 +5985,13 @@ public final class Messages {
     public static final int INTEREST_FIELD_NUMBER = 4;
     private double interest_;
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     public double getInterest() {
       return interest_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6387,7 +6001,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -6402,10 +6015,8 @@ public final class Messages {
       if (interest_ != 0D) {
         output.writeDouble(4, interest_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6425,11 +6036,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(4, interest_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -6451,7 +6062,6 @@ public final class Messages {
           java.lang.Double.doubleToLongBits(getInterest())
           == java.lang.Double.doubleToLongBits(
               other.getInterest()));
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -6461,7 +6071,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + COMPANY_FIELD_NUMBER;
@@ -6476,17 +6086,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.AuctionEntry parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.AuctionEntry parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.AuctionEntry parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -6546,7 +6145,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6554,7 +6152,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.AuctionEntry prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6578,7 +6175,6 @@ public final class Messages {
         return Messages.internal_static_AuctionEntry_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_AuctionEntry_fieldAccessorTable
@@ -6601,7 +6197,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -6615,18 +6210,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_AuctionEntry_descriptor;
       }
 
-      @java.lang.Override
       public Messages.AuctionEntry getDefaultInstanceForType() {
         return Messages.AuctionEntry.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.AuctionEntry build() {
         Messages.AuctionEntry result = buildPartial();
         if (!result.isInitialized()) {
@@ -6635,7 +6227,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.AuctionEntry buildPartial() {
         Messages.AuctionEntry result = new Messages.AuctionEntry(this);
         result.type_ = type_;
@@ -6646,39 +6237,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.AuctionEntry) {
           return mergeFrom((Messages.AuctionEntry)other);
@@ -6704,17 +6288,14 @@ public final class Messages {
         if (other.getInterest() != 0D) {
           setInterest(other.getInterest());
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6735,7 +6316,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -6750,7 +6331,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -6766,7 +6347,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -6779,7 +6360,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -6788,7 +6369,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -6804,7 +6385,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -6819,7 +6400,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -6835,7 +6416,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -6848,7 +6429,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder clearCompany() {
         
@@ -6857,7 +6438,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -6873,13 +6454,13 @@ public final class Messages {
 
       private int amount_ ;
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public int getAmount() {
         return amount_;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder setAmount(int value) {
         
@@ -6888,7 +6469,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder clearAmount() {
         
@@ -6899,13 +6480,13 @@ public final class Messages {
 
       private double interest_ ;
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public double getInterest() {
         return interest_;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder setInterest(double value) {
         
@@ -6914,7 +6495,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder clearInterest() {
         
@@ -6922,16 +6503,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -6950,12 +6529,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<AuctionEntry>
         PARSER = new com.google.protobuf.AbstractParser<AuctionEntry>() {
-      @java.lang.Override
       public AuctionEntry parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuctionEntry(input, extensionRegistry);
+          return new AuctionEntry(input, extensionRegistry);
       }
     };
 
@@ -6968,7 +6546,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.AuctionEntry getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6980,11 +6557,11 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
@@ -7020,7 +6597,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:AuctionList)
       AuctionListOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use AuctionList.newBuilder() to construct.
     private AuctionList(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -7033,19 +6609,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private AuctionList(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -7054,6 +6625,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -7069,13 +6646,6 @@ public final class Messages {
                   input.readMessage(Messages.AuctionEntry.parser(), extensionRegistry));
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7087,7 +6657,6 @@ public final class Messages {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           entry_ = java.util.Collections.unmodifiableList(entry_);
         }
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -7096,7 +6665,6 @@ public final class Messages {
       return Messages.internal_static_AuctionList_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_AuctionList_fieldAccessorTable
@@ -7108,7 +6676,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -7123,7 +6691,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -7175,7 +6743,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7185,7 +6752,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -7194,10 +6760,8 @@ public final class Messages {
       for (int i = 0; i < entry_.size(); i++) {
         output.writeMessage(2, entry_.get(i));
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7210,11 +6774,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, entry_.get(i));
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -7230,7 +6794,6 @@ public final class Messages {
           .equals(other.getType());
       result = result && getEntryList()
           .equals(other.getEntryList());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -7240,7 +6803,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       if (getEntryCount() > 0) {
@@ -7252,17 +6815,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.AuctionList parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.AuctionList parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.AuctionList parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -7322,7 +6874,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7330,7 +6881,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.AuctionList prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7354,7 +6904,6 @@ public final class Messages {
         return Messages.internal_static_AuctionList_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_AuctionList_fieldAccessorTable
@@ -7378,7 +6927,6 @@ public final class Messages {
           getEntryFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -7392,18 +6940,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_AuctionList_descriptor;
       }
 
-      @java.lang.Override
       public Messages.AuctionList getDefaultInstanceForType() {
         return Messages.AuctionList.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.AuctionList build() {
         Messages.AuctionList result = buildPartial();
         if (!result.isInitialized()) {
@@ -7412,7 +6957,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.AuctionList buildPartial() {
         Messages.AuctionList result = new Messages.AuctionList(this);
         int from_bitField0_ = bitField0_;
@@ -7432,39 +6976,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.AuctionList) {
           return mergeFrom((Messages.AuctionList)other);
@@ -7506,17 +7043,14 @@ public final class Messages {
             }
           }
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7538,7 +7072,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -7553,7 +7087,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -7569,7 +7103,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -7582,7 +7116,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -7591,7 +7125,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -7844,16 +7378,14 @@ public final class Messages {
         }
         return entryBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -7872,12 +7404,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<AuctionList>
         PARSER = new com.google.protobuf.AbstractParser<AuctionList>() {
-      @java.lang.Override
       public AuctionList parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuctionList(input, extensionRegistry);
+          return new AuctionList(input, extensionRegistry);
       }
     };
 
@@ -7890,7 +7421,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.AuctionList getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7902,32 +7432,32 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
 
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     int getAmount();
 
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     double getInterest();
   }
@@ -7938,7 +7468,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:FixedEntry)
       FixedEntryOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use FixedEntry.newBuilder() to construct.
     private FixedEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -7953,19 +7482,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private FixedEntry(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -7974,6 +7498,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -7996,13 +7526,6 @@ public final class Messages {
               interest_ = input.readDouble();
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8011,7 +7534,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -8020,7 +7542,6 @@ public final class Messages {
       return Messages.internal_static_FixedEntry_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_FixedEntry_fieldAccessorTable
@@ -8031,7 +7552,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -8046,7 +7567,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -8065,7 +7586,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 2;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -8080,7 +7601,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -8099,7 +7620,7 @@ public final class Messages {
     public static final int AMOUNT_FIELD_NUMBER = 3;
     private int amount_;
     /**
-     * <code>uint32 amount = 3;</code>
+     * <code>optional uint32 amount = 3;</code>
      */
     public int getAmount() {
       return amount_;
@@ -8108,14 +7629,13 @@ public final class Messages {
     public static final int INTEREST_FIELD_NUMBER = 4;
     private double interest_;
     /**
-     * <code>double interest = 4;</code>
+     * <code>optional double interest = 4;</code>
      */
     public double getInterest() {
       return interest_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8125,7 +7645,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -8140,10 +7659,8 @@ public final class Messages {
       if (interest_ != 0D) {
         output.writeDouble(4, interest_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8163,11 +7680,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(4, interest_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -8189,7 +7706,6 @@ public final class Messages {
           java.lang.Double.doubleToLongBits(getInterest())
           == java.lang.Double.doubleToLongBits(
               other.getInterest()));
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -8199,7 +7715,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + COMPANY_FIELD_NUMBER;
@@ -8214,17 +7730,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.FixedEntry parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.FixedEntry parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.FixedEntry parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -8284,7 +7789,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8292,7 +7796,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.FixedEntry prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8316,7 +7819,6 @@ public final class Messages {
         return Messages.internal_static_FixedEntry_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_FixedEntry_fieldAccessorTable
@@ -8339,7 +7841,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -8353,18 +7854,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_FixedEntry_descriptor;
       }
 
-      @java.lang.Override
       public Messages.FixedEntry getDefaultInstanceForType() {
         return Messages.FixedEntry.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.FixedEntry build() {
         Messages.FixedEntry result = buildPartial();
         if (!result.isInitialized()) {
@@ -8373,7 +7871,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.FixedEntry buildPartial() {
         Messages.FixedEntry result = new Messages.FixedEntry(this);
         result.type_ = type_;
@@ -8384,39 +7881,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.FixedEntry) {
           return mergeFrom((Messages.FixedEntry)other);
@@ -8442,17 +7932,14 @@ public final class Messages {
         if (other.getInterest() != 0D) {
           setInterest(other.getInterest());
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8473,7 +7960,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -8488,7 +7975,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -8504,7 +7991,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -8517,7 +8004,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -8526,7 +8013,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -8542,7 +8029,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -8557,7 +8044,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -8573,7 +8060,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -8586,7 +8073,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder clearCompany() {
         
@@ -8595,7 +8082,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -8611,13 +8098,13 @@ public final class Messages {
 
       private int amount_ ;
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public int getAmount() {
         return amount_;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder setAmount(int value) {
         
@@ -8626,7 +8113,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>uint32 amount = 3;</code>
+       * <code>optional uint32 amount = 3;</code>
        */
       public Builder clearAmount() {
         
@@ -8637,13 +8124,13 @@ public final class Messages {
 
       private double interest_ ;
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public double getInterest() {
         return interest_;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder setInterest(double value) {
         
@@ -8652,7 +8139,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>double interest = 4;</code>
+       * <code>optional double interest = 4;</code>
        */
       public Builder clearInterest() {
         
@@ -8660,16 +8147,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -8688,12 +8173,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<FixedEntry>
         PARSER = new com.google.protobuf.AbstractParser<FixedEntry>() {
-      @java.lang.Override
       public FixedEntry parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FixedEntry(input, extensionRegistry);
+          return new FixedEntry(input, extensionRegistry);
       }
     };
 
@@ -8706,7 +8190,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.FixedEntry getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8718,11 +8201,11 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
@@ -8758,7 +8241,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:FixedList)
       FixedListOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use FixedList.newBuilder() to construct.
     private FixedList(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -8771,19 +8253,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private FixedList(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -8792,6 +8269,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -8807,13 +8290,6 @@ public final class Messages {
                   input.readMessage(Messages.FixedEntry.parser(), extensionRegistry));
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8825,7 +8301,6 @@ public final class Messages {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           entry_ = java.util.Collections.unmodifiableList(entry_);
         }
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -8834,7 +8309,6 @@ public final class Messages {
       return Messages.internal_static_FixedList_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_FixedList_fieldAccessorTable
@@ -8846,7 +8320,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -8861,7 +8335,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -8913,7 +8387,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8923,7 +8396,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -8932,10 +8404,8 @@ public final class Messages {
       for (int i = 0; i < entry_.size(); i++) {
         output.writeMessage(2, entry_.get(i));
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8948,11 +8418,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, entry_.get(i));
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -8968,7 +8438,6 @@ public final class Messages {
           .equals(other.getType());
       result = result && getEntryList()
           .equals(other.getEntryList());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -8978,7 +8447,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       if (getEntryCount() > 0) {
@@ -8990,17 +8459,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.FixedList parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.FixedList parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.FixedList parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9060,7 +8518,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9068,7 +8525,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.FixedList prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9092,7 +8548,6 @@ public final class Messages {
         return Messages.internal_static_FixedList_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_FixedList_fieldAccessorTable
@@ -9116,7 +8571,6 @@ public final class Messages {
           getEntryFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -9130,18 +8584,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_FixedList_descriptor;
       }
 
-      @java.lang.Override
       public Messages.FixedList getDefaultInstanceForType() {
         return Messages.FixedList.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.FixedList build() {
         Messages.FixedList result = buildPartial();
         if (!result.isInitialized()) {
@@ -9150,7 +8601,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.FixedList buildPartial() {
         Messages.FixedList result = new Messages.FixedList(this);
         int from_bitField0_ = bitField0_;
@@ -9170,39 +8620,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.FixedList) {
           return mergeFrom((Messages.FixedList)other);
@@ -9244,17 +8687,14 @@ public final class Messages {
             }
           }
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9276,7 +8716,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -9291,7 +8731,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -9307,7 +8747,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -9320,7 +8760,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -9329,7 +8769,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -9582,16 +9022,14 @@ public final class Messages {
         }
         return entryBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -9610,12 +9048,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<FixedList>
         PARSER = new com.google.protobuf.AbstractParser<FixedList>() {
-      @java.lang.Override
       public FixedList parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FixedList(input, extensionRegistry);
+          return new FixedList(input, extensionRegistry);
       }
     };
 
@@ -9628,7 +9065,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.FixedList getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9640,11 +9076,11 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
@@ -9675,7 +9111,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CompanyList)
       CompanyListOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use CompanyList.newBuilder() to construct.
     private CompanyList(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -9688,19 +9123,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private CompanyList(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -9709,6 +9139,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -9724,13 +9160,6 @@ public final class Messages {
               names_.add(s);
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9742,7 +9171,6 @@ public final class Messages {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           names_ = names_.getUnmodifiableView();
         }
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -9751,7 +9179,6 @@ public final class Messages {
       return Messages.internal_static_CompanyList_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_CompanyList_fieldAccessorTable
@@ -9763,7 +9190,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -9778,7 +9205,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -9824,7 +9251,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9834,7 +9260,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -9843,10 +9268,8 @@ public final class Messages {
       for (int i = 0; i < names_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, names_.getRaw(i));
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9863,11 +9286,11 @@ public final class Messages {
         size += dataSize;
         size += 1 * getNamesList().size();
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -9883,7 +9306,6 @@ public final class Messages {
           .equals(other.getType());
       result = result && getNamesList()
           .equals(other.getNamesList());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -9893,7 +9315,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       if (getNamesCount() > 0) {
@@ -9905,17 +9327,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.CompanyList parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.CompanyList parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.CompanyList parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9975,7 +9386,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9983,7 +9393,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.CompanyList prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10007,7 +9416,6 @@ public final class Messages {
         return Messages.internal_static_CompanyList_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_CompanyList_fieldAccessorTable
@@ -10030,7 +9438,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -10040,18 +9447,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_CompanyList_descriptor;
       }
 
-      @java.lang.Override
       public Messages.CompanyList getDefaultInstanceForType() {
         return Messages.CompanyList.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.CompanyList build() {
         Messages.CompanyList result = buildPartial();
         if (!result.isInitialized()) {
@@ -10060,7 +9464,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.CompanyList buildPartial() {
         Messages.CompanyList result = new Messages.CompanyList(this);
         int from_bitField0_ = bitField0_;
@@ -10076,39 +9479,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.CompanyList) {
           return mergeFrom((Messages.CompanyList)other);
@@ -10134,17 +9530,14 @@ public final class Messages {
           }
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10166,7 +9559,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -10181,7 +9574,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -10197,7 +9590,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -10210,7 +9603,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -10219,7 +9612,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -10326,16 +9719,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -10354,12 +9745,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<CompanyList>
         PARSER = new com.google.protobuf.AbstractParser<CompanyList>() {
-      @java.lang.Override
       public CompanyList parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CompanyList(input, extensionRegistry);
+          return new CompanyList(input, extensionRegistry);
       }
     };
 
@@ -10372,7 +9762,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.CompanyList getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10384,21 +9773,21 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
@@ -10410,7 +9799,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CompanyInfoRequest)
       CompanyInfoRequestOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use CompanyInfoRequest.newBuilder() to construct.
     private CompanyInfoRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -10423,19 +9811,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private CompanyInfoRequest(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -10444,6 +9827,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -10456,13 +9845,6 @@ public final class Messages {
               company_ = s;
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10471,7 +9853,6 @@ public final class Messages {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -10480,7 +9861,6 @@ public final class Messages {
       return Messages.internal_static_CompanyInfoRequest_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_CompanyInfoRequest_fieldAccessorTable
@@ -10491,7 +9871,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -10506,7 +9886,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -10525,7 +9905,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 2;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -10540,7 +9920,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -10557,7 +9937,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10567,7 +9946,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -10576,10 +9954,8 @@ public final class Messages {
       if (!getCompanyBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, company_);
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -10591,11 +9967,11 @@ public final class Messages {
       if (!getCompanyBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, company_);
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -10611,7 +9987,6 @@ public final class Messages {
           .equals(other.getType());
       result = result && getCompany()
           .equals(other.getCompany());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -10621,7 +9996,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + COMPANY_FIELD_NUMBER;
@@ -10631,17 +10006,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.CompanyInfoRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.CompanyInfoRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.CompanyInfoRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -10701,7 +10065,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10709,7 +10072,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.CompanyInfoRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10733,7 +10095,6 @@ public final class Messages {
         return Messages.internal_static_CompanyInfoRequest_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_CompanyInfoRequest_fieldAccessorTable
@@ -10756,7 +10117,6 @@ public final class Messages {
                 .alwaysUseFieldBuilders) {
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -10766,18 +10126,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_CompanyInfoRequest_descriptor;
       }
 
-      @java.lang.Override
       public Messages.CompanyInfoRequest getDefaultInstanceForType() {
         return Messages.CompanyInfoRequest.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.CompanyInfoRequest build() {
         Messages.CompanyInfoRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -10786,7 +10143,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.CompanyInfoRequest buildPartial() {
         Messages.CompanyInfoRequest result = new Messages.CompanyInfoRequest(this);
         result.type_ = type_;
@@ -10795,39 +10151,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.CompanyInfoRequest) {
           return mergeFrom((Messages.CompanyInfoRequest)other);
@@ -10847,17 +10196,14 @@ public final class Messages {
           company_ = other.company_;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10878,7 +10224,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -10893,7 +10239,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -10909,7 +10255,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -10922,7 +10268,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -10931,7 +10277,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -10947,7 +10293,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -10962,7 +10308,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -10978,7 +10324,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -10991,7 +10337,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder clearCompany() {
         
@@ -11000,7 +10346,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -11013,16 +10359,14 @@ public final class Messages {
         onChanged();
         return this;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -11041,12 +10385,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<CompanyInfoRequest>
         PARSER = new com.google.protobuf.AbstractParser<CompanyInfoRequest>() {
-      @java.lang.Override
       public CompanyInfoRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CompanyInfoRequest(input, extensionRegistry);
+          return new CompanyInfoRequest(input, extensionRegistry);
       }
     };
 
@@ -11059,7 +10402,6 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.CompanyInfoRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11071,21 +10413,21 @@ public final class Messages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     java.lang.String getType();
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     java.lang.String getCompany();
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     com.google.protobuf.ByteString
         getCompanyBytes();
@@ -11145,7 +10487,6 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:CompanyInfoReply)
       CompanyInfoReplyOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use CompanyInfoReply.newBuilder() to construct.
     private CompanyInfoReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -11160,19 +10501,14 @@ public final class Messages {
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
-      return this.unknownFields;
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
     }
     private CompanyInfoReply(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
         boolean done = false;
         while (!done) {
@@ -11181,6 +10517,12 @@ public final class Messages {
             case 0:
               done = true;
               break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -11211,13 +10553,6 @@ public final class Messages {
                   input.readMessage(Messages.FixedEntry.parser(), extensionRegistry));
               break;
             }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11232,7 +10567,6 @@ public final class Messages {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           entryF_ = java.util.Collections.unmodifiableList(entryF_);
         }
-        this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
@@ -11241,7 +10575,6 @@ public final class Messages {
       return Messages.internal_static_CompanyInfoReply_descriptor;
     }
 
-    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return Messages.internal_static_CompanyInfoReply_fieldAccessorTable
@@ -11253,7 +10586,7 @@ public final class Messages {
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public java.lang.String getType() {
       java.lang.Object ref = type_;
@@ -11268,7 +10601,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string type = 1;</code>
+     * <code>optional string type = 1;</code>
      */
     public com.google.protobuf.ByteString
         getTypeBytes() {
@@ -11287,7 +10620,7 @@ public final class Messages {
     public static final int COMPANY_FIELD_NUMBER = 2;
     private volatile java.lang.Object company_;
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public java.lang.String getCompany() {
       java.lang.Object ref = company_;
@@ -11302,7 +10635,7 @@ public final class Messages {
       }
     }
     /**
-     * <code>string company = 2;</code>
+     * <code>optional string company = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCompanyBytes() {
@@ -11389,7 +10722,6 @@ public final class Messages {
     }
 
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11399,7 +10731,6 @@ public final class Messages {
       return true;
     }
 
-    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -11414,10 +10745,8 @@ public final class Messages {
       for (int i = 0; i < entryF_.size(); i++) {
         output.writeMessage(4, entryF_.get(i));
       }
-      unknownFields.writeTo(output);
     }
 
-    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11437,11 +10766,11 @@ public final class Messages {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, entryF_.get(i));
       }
-      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -11461,7 +10790,6 @@ public final class Messages {
           .equals(other.getEntryAList());
       result = result && getEntryFList()
           .equals(other.getEntryFList());
-      result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
 
@@ -11471,7 +10799,7 @@ public final class Messages {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getType().hashCode();
       hash = (37 * hash) + COMPANY_FIELD_NUMBER;
@@ -11489,17 +10817,6 @@ public final class Messages {
       return hash;
     }
 
-    public static Messages.CompanyInfoReply parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Messages.CompanyInfoReply parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
     public static Messages.CompanyInfoReply parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -11559,7 +10876,6 @@ public final class Messages {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11567,7 +10883,6 @@ public final class Messages {
     public static Builder newBuilder(Messages.CompanyInfoReply prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11591,7 +10906,6 @@ public final class Messages {
         return Messages.internal_static_CompanyInfoReply_descriptor;
       }
 
-      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return Messages.internal_static_CompanyInfoReply_fieldAccessorTable
@@ -11616,7 +10930,6 @@ public final class Messages {
           getEntryFFieldBuilder();
         }
       }
-      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -11638,18 +10951,15 @@ public final class Messages {
         return this;
       }
 
-      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return Messages.internal_static_CompanyInfoReply_descriptor;
       }
 
-      @java.lang.Override
       public Messages.CompanyInfoReply getDefaultInstanceForType() {
         return Messages.CompanyInfoReply.getDefaultInstance();
       }
 
-      @java.lang.Override
       public Messages.CompanyInfoReply build() {
         Messages.CompanyInfoReply result = buildPartial();
         if (!result.isInitialized()) {
@@ -11658,7 +10968,6 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Messages.CompanyInfoReply buildPartial() {
         Messages.CompanyInfoReply result = new Messages.CompanyInfoReply(this);
         int from_bitField0_ = bitField0_;
@@ -11688,39 +10997,32 @@ public final class Messages {
         return result;
       }
 
-      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
-      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
-      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
-      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
-      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
-      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof Messages.CompanyInfoReply) {
           return mergeFrom((Messages.CompanyInfoReply)other);
@@ -11792,17 +11094,14 @@ public final class Messages {
             }
           }
         }
-        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11824,7 +11123,7 @@ public final class Messages {
 
       private java.lang.Object type_ = "";
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -11839,7 +11138,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -11855,7 +11154,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setType(
           java.lang.String value) {
@@ -11868,7 +11167,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder clearType() {
         
@@ -11877,7 +11176,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string type = 1;</code>
+       * <code>optional string type = 1;</code>
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -11893,7 +11192,7 @@ public final class Messages {
 
       private java.lang.Object company_ = "";
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public java.lang.String getCompany() {
         java.lang.Object ref = company_;
@@ -11908,7 +11207,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCompanyBytes() {
@@ -11924,7 +11223,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompany(
           java.lang.String value) {
@@ -11937,7 +11236,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder clearCompany() {
         
@@ -11946,7 +11245,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>string company = 2;</code>
+       * <code>optional string company = 2;</code>
        */
       public Builder setCompanyBytes(
           com.google.protobuf.ByteString value) {
@@ -12439,16 +11738,14 @@ public final class Messages {
         }
         return entryFBuilder_;
       }
-      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return this;
       }
 
-      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
+        return this;
       }
 
 
@@ -12467,12 +11764,11 @@ public final class Messages {
 
     private static final com.google.protobuf.Parser<CompanyInfoReply>
         PARSER = new com.google.protobuf.AbstractParser<CompanyInfoReply>() {
-      @java.lang.Override
       public CompanyInfoReply parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CompanyInfoReply(input, extensionRegistry);
+          return new CompanyInfoReply(input, extensionRegistry);
       }
     };
 
@@ -12485,8 +11781,2955 @@ public final class Messages {
       return PARSER;
     }
 
-    @java.lang.Override
     public Messages.CompanyInfoReply getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CompanyInfoAuctionRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CompanyInfoAuctionRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
+
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    java.lang.String getCompany();
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCompanyBytes();
+  }
+  /**
+   * Protobuf type {@code CompanyInfoAuctionRequest}
+   */
+  public  static final class CompanyInfoAuctionRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CompanyInfoAuctionRequest)
+      CompanyInfoAuctionRequestOrBuilder {
+    // Use CompanyInfoAuctionRequest.newBuilder() to construct.
+    private CompanyInfoAuctionRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CompanyInfoAuctionRequest() {
+      type_ = "";
+      company_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private CompanyInfoAuctionRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              type_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              company_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return Messages.internal_static_CompanyInfoAuctionRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return Messages.internal_static_CompanyInfoAuctionRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              Messages.CompanyInfoAuctionRequest.class, Messages.CompanyInfoAuctionRequest.Builder.class);
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPANY_FIELD_NUMBER = 2;
+    private volatile java.lang.Object company_;
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public java.lang.String getCompany() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        company_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCompanyBytes() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        company_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, company_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, company_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof Messages.CompanyInfoAuctionRequest)) {
+        return super.equals(obj);
+      }
+      Messages.CompanyInfoAuctionRequest other = (Messages.CompanyInfoAuctionRequest) obj;
+
+      boolean result = true;
+      result = result && getType()
+          .equals(other.getType());
+      result = result && getCompany()
+          .equals(other.getCompany());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + COMPANY_FIELD_NUMBER;
+      hash = (53 * hash) + getCompany().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static Messages.CompanyInfoAuctionRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoAuctionRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(Messages.CompanyInfoAuctionRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CompanyInfoAuctionRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CompanyInfoAuctionRequest)
+        Messages.CompanyInfoAuctionRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return Messages.internal_static_CompanyInfoAuctionRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return Messages.internal_static_CompanyInfoAuctionRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                Messages.CompanyInfoAuctionRequest.class, Messages.CompanyInfoAuctionRequest.Builder.class);
+      }
+
+      // Construct using Messages.CompanyInfoAuctionRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        type_ = "";
+
+        company_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return Messages.internal_static_CompanyInfoAuctionRequest_descriptor;
+      }
+
+      public Messages.CompanyInfoAuctionRequest getDefaultInstanceForType() {
+        return Messages.CompanyInfoAuctionRequest.getDefaultInstance();
+      }
+
+      public Messages.CompanyInfoAuctionRequest build() {
+        Messages.CompanyInfoAuctionRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public Messages.CompanyInfoAuctionRequest buildPartial() {
+        Messages.CompanyInfoAuctionRequest result = new Messages.CompanyInfoAuctionRequest(this);
+        result.type_ = type_;
+        result.company_ = company_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof Messages.CompanyInfoAuctionRequest) {
+          return mergeFrom((Messages.CompanyInfoAuctionRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(Messages.CompanyInfoAuctionRequest other) {
+        if (other == Messages.CompanyInfoAuctionRequest.getDefaultInstance()) return this;
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getCompany().isEmpty()) {
+          company_ = other.company_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        Messages.CompanyInfoAuctionRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (Messages.CompanyInfoAuctionRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          type_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object company_ = "";
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public java.lang.String getCompany() {
+        java.lang.Object ref = company_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          company_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCompanyBytes() {
+        java.lang.Object ref = company_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          company_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompany(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        company_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder clearCompany() {
+        
+        company_ = getDefaultInstance().getCompany();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompanyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        company_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CompanyInfoAuctionRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:CompanyInfoAuctionRequest)
+    private static final Messages.CompanyInfoAuctionRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new Messages.CompanyInfoAuctionRequest();
+    }
+
+    public static Messages.CompanyInfoAuctionRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CompanyInfoAuctionRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CompanyInfoAuctionRequest>() {
+      public CompanyInfoAuctionRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CompanyInfoAuctionRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompanyInfoAuctionRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompanyInfoAuctionRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public Messages.CompanyInfoAuctionRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CompanyInfoAuctionReplyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CompanyInfoAuctionReply)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
+
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    java.lang.String getCompany();
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCompanyBytes();
+
+    /**
+     * <code>optional .AuctionEntry entry = 3;</code>
+     */
+    boolean hasEntry();
+    /**
+     * <code>optional .AuctionEntry entry = 3;</code>
+     */
+    Messages.AuctionEntry getEntry();
+    /**
+     * <code>optional .AuctionEntry entry = 3;</code>
+     */
+    Messages.AuctionEntryOrBuilder getEntryOrBuilder();
+  }
+  /**
+   * Protobuf type {@code CompanyInfoAuctionReply}
+   */
+  public  static final class CompanyInfoAuctionReply extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CompanyInfoAuctionReply)
+      CompanyInfoAuctionReplyOrBuilder {
+    // Use CompanyInfoAuctionReply.newBuilder() to construct.
+    private CompanyInfoAuctionReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CompanyInfoAuctionReply() {
+      type_ = "";
+      company_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private CompanyInfoAuctionReply(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              type_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              company_ = s;
+              break;
+            }
+            case 26: {
+              Messages.AuctionEntry.Builder subBuilder = null;
+              if (entry_ != null) {
+                subBuilder = entry_.toBuilder();
+              }
+              entry_ = input.readMessage(Messages.AuctionEntry.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(entry_);
+                entry_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return Messages.internal_static_CompanyInfoAuctionReply_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return Messages.internal_static_CompanyInfoAuctionReply_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              Messages.CompanyInfoAuctionReply.class, Messages.CompanyInfoAuctionReply.Builder.class);
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPANY_FIELD_NUMBER = 2;
+    private volatile java.lang.Object company_;
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public java.lang.String getCompany() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        company_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCompanyBytes() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        company_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ENTRY_FIELD_NUMBER = 3;
+    private Messages.AuctionEntry entry_;
+    /**
+     * <code>optional .AuctionEntry entry = 3;</code>
+     */
+    public boolean hasEntry() {
+      return entry_ != null;
+    }
+    /**
+     * <code>optional .AuctionEntry entry = 3;</code>
+     */
+    public Messages.AuctionEntry getEntry() {
+      return entry_ == null ? Messages.AuctionEntry.getDefaultInstance() : entry_;
+    }
+    /**
+     * <code>optional .AuctionEntry entry = 3;</code>
+     */
+    public Messages.AuctionEntryOrBuilder getEntryOrBuilder() {
+      return getEntry();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, company_);
+      }
+      if (entry_ != null) {
+        output.writeMessage(3, getEntry());
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, company_);
+      }
+      if (entry_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getEntry());
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof Messages.CompanyInfoAuctionReply)) {
+        return super.equals(obj);
+      }
+      Messages.CompanyInfoAuctionReply other = (Messages.CompanyInfoAuctionReply) obj;
+
+      boolean result = true;
+      result = result && getType()
+          .equals(other.getType());
+      result = result && getCompany()
+          .equals(other.getCompany());
+      result = result && (hasEntry() == other.hasEntry());
+      if (hasEntry()) {
+        result = result && getEntry()
+            .equals(other.getEntry());
+      }
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + COMPANY_FIELD_NUMBER;
+      hash = (53 * hash) + getCompany().hashCode();
+      if (hasEntry()) {
+        hash = (37 * hash) + ENTRY_FIELD_NUMBER;
+        hash = (53 * hash) + getEntry().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static Messages.CompanyInfoAuctionReply parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionReply parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoAuctionReply parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoAuctionReply parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(Messages.CompanyInfoAuctionReply prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CompanyInfoAuctionReply}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CompanyInfoAuctionReply)
+        Messages.CompanyInfoAuctionReplyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return Messages.internal_static_CompanyInfoAuctionReply_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return Messages.internal_static_CompanyInfoAuctionReply_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                Messages.CompanyInfoAuctionReply.class, Messages.CompanyInfoAuctionReply.Builder.class);
+      }
+
+      // Construct using Messages.CompanyInfoAuctionReply.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        type_ = "";
+
+        company_ = "";
+
+        if (entryBuilder_ == null) {
+          entry_ = null;
+        } else {
+          entry_ = null;
+          entryBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return Messages.internal_static_CompanyInfoAuctionReply_descriptor;
+      }
+
+      public Messages.CompanyInfoAuctionReply getDefaultInstanceForType() {
+        return Messages.CompanyInfoAuctionReply.getDefaultInstance();
+      }
+
+      public Messages.CompanyInfoAuctionReply build() {
+        Messages.CompanyInfoAuctionReply result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public Messages.CompanyInfoAuctionReply buildPartial() {
+        Messages.CompanyInfoAuctionReply result = new Messages.CompanyInfoAuctionReply(this);
+        result.type_ = type_;
+        result.company_ = company_;
+        if (entryBuilder_ == null) {
+          result.entry_ = entry_;
+        } else {
+          result.entry_ = entryBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof Messages.CompanyInfoAuctionReply) {
+          return mergeFrom((Messages.CompanyInfoAuctionReply)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(Messages.CompanyInfoAuctionReply other) {
+        if (other == Messages.CompanyInfoAuctionReply.getDefaultInstance()) return this;
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getCompany().isEmpty()) {
+          company_ = other.company_;
+          onChanged();
+        }
+        if (other.hasEntry()) {
+          mergeEntry(other.getEntry());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        Messages.CompanyInfoAuctionReply parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (Messages.CompanyInfoAuctionReply) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          type_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object company_ = "";
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public java.lang.String getCompany() {
+        java.lang.Object ref = company_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          company_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCompanyBytes() {
+        java.lang.Object ref = company_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          company_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompany(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        company_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder clearCompany() {
+        
+        company_ = getDefaultInstance().getCompany();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompanyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        company_ = value;
+        onChanged();
+        return this;
+      }
+
+      private Messages.AuctionEntry entry_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          Messages.AuctionEntry, Messages.AuctionEntry.Builder, Messages.AuctionEntryOrBuilder> entryBuilder_;
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public boolean hasEntry() {
+        return entryBuilder_ != null || entry_ != null;
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Messages.AuctionEntry getEntry() {
+        if (entryBuilder_ == null) {
+          return entry_ == null ? Messages.AuctionEntry.getDefaultInstance() : entry_;
+        } else {
+          return entryBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Builder setEntry(Messages.AuctionEntry value) {
+        if (entryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          entry_ = value;
+          onChanged();
+        } else {
+          entryBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Builder setEntry(
+          Messages.AuctionEntry.Builder builderForValue) {
+        if (entryBuilder_ == null) {
+          entry_ = builderForValue.build();
+          onChanged();
+        } else {
+          entryBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Builder mergeEntry(Messages.AuctionEntry value) {
+        if (entryBuilder_ == null) {
+          if (entry_ != null) {
+            entry_ =
+              Messages.AuctionEntry.newBuilder(entry_).mergeFrom(value).buildPartial();
+          } else {
+            entry_ = value;
+          }
+          onChanged();
+        } else {
+          entryBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Builder clearEntry() {
+        if (entryBuilder_ == null) {
+          entry_ = null;
+          onChanged();
+        } else {
+          entry_ = null;
+          entryBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Messages.AuctionEntry.Builder getEntryBuilder() {
+        
+        onChanged();
+        return getEntryFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      public Messages.AuctionEntryOrBuilder getEntryOrBuilder() {
+        if (entryBuilder_ != null) {
+          return entryBuilder_.getMessageOrBuilder();
+        } else {
+          return entry_ == null ?
+              Messages.AuctionEntry.getDefaultInstance() : entry_;
+        }
+      }
+      /**
+       * <code>optional .AuctionEntry entry = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          Messages.AuctionEntry, Messages.AuctionEntry.Builder, Messages.AuctionEntryOrBuilder> 
+          getEntryFieldBuilder() {
+        if (entryBuilder_ == null) {
+          entryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              Messages.AuctionEntry, Messages.AuctionEntry.Builder, Messages.AuctionEntryOrBuilder>(
+                  getEntry(),
+                  getParentForChildren(),
+                  isClean());
+          entry_ = null;
+        }
+        return entryBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CompanyInfoAuctionReply)
+    }
+
+    // @@protoc_insertion_point(class_scope:CompanyInfoAuctionReply)
+    private static final Messages.CompanyInfoAuctionReply DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new Messages.CompanyInfoAuctionReply();
+    }
+
+    public static Messages.CompanyInfoAuctionReply getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CompanyInfoAuctionReply>
+        PARSER = new com.google.protobuf.AbstractParser<CompanyInfoAuctionReply>() {
+      public CompanyInfoAuctionReply parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CompanyInfoAuctionReply(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompanyInfoAuctionReply> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompanyInfoAuctionReply> getParserForType() {
+      return PARSER;
+    }
+
+    public Messages.CompanyInfoAuctionReply getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CompanyInfoFixedRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CompanyInfoFixedRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
+
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    java.lang.String getCompany();
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCompanyBytes();
+  }
+  /**
+   * Protobuf type {@code CompanyInfoFixedRequest}
+   */
+  public  static final class CompanyInfoFixedRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CompanyInfoFixedRequest)
+      CompanyInfoFixedRequestOrBuilder {
+    // Use CompanyInfoFixedRequest.newBuilder() to construct.
+    private CompanyInfoFixedRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CompanyInfoFixedRequest() {
+      type_ = "";
+      company_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private CompanyInfoFixedRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              type_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              company_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return Messages.internal_static_CompanyInfoFixedRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return Messages.internal_static_CompanyInfoFixedRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              Messages.CompanyInfoFixedRequest.class, Messages.CompanyInfoFixedRequest.Builder.class);
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPANY_FIELD_NUMBER = 2;
+    private volatile java.lang.Object company_;
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public java.lang.String getCompany() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        company_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCompanyBytes() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        company_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, company_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, company_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof Messages.CompanyInfoFixedRequest)) {
+        return super.equals(obj);
+      }
+      Messages.CompanyInfoFixedRequest other = (Messages.CompanyInfoFixedRequest) obj;
+
+      boolean result = true;
+      result = result && getType()
+          .equals(other.getType());
+      result = result && getCompany()
+          .equals(other.getCompany());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + COMPANY_FIELD_NUMBER;
+      hash = (53 * hash) + getCompany().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static Messages.CompanyInfoFixedRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoFixedRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoFixedRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(Messages.CompanyInfoFixedRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CompanyInfoFixedRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CompanyInfoFixedRequest)
+        Messages.CompanyInfoFixedRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return Messages.internal_static_CompanyInfoFixedRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return Messages.internal_static_CompanyInfoFixedRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                Messages.CompanyInfoFixedRequest.class, Messages.CompanyInfoFixedRequest.Builder.class);
+      }
+
+      // Construct using Messages.CompanyInfoFixedRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        type_ = "";
+
+        company_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return Messages.internal_static_CompanyInfoFixedRequest_descriptor;
+      }
+
+      public Messages.CompanyInfoFixedRequest getDefaultInstanceForType() {
+        return Messages.CompanyInfoFixedRequest.getDefaultInstance();
+      }
+
+      public Messages.CompanyInfoFixedRequest build() {
+        Messages.CompanyInfoFixedRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public Messages.CompanyInfoFixedRequest buildPartial() {
+        Messages.CompanyInfoFixedRequest result = new Messages.CompanyInfoFixedRequest(this);
+        result.type_ = type_;
+        result.company_ = company_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof Messages.CompanyInfoFixedRequest) {
+          return mergeFrom((Messages.CompanyInfoFixedRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(Messages.CompanyInfoFixedRequest other) {
+        if (other == Messages.CompanyInfoFixedRequest.getDefaultInstance()) return this;
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getCompany().isEmpty()) {
+          company_ = other.company_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        Messages.CompanyInfoFixedRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (Messages.CompanyInfoFixedRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          type_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object company_ = "";
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public java.lang.String getCompany() {
+        java.lang.Object ref = company_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          company_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCompanyBytes() {
+        java.lang.Object ref = company_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          company_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompany(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        company_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder clearCompany() {
+        
+        company_ = getDefaultInstance().getCompany();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompanyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        company_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CompanyInfoFixedRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:CompanyInfoFixedRequest)
+    private static final Messages.CompanyInfoFixedRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new Messages.CompanyInfoFixedRequest();
+    }
+
+    public static Messages.CompanyInfoFixedRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CompanyInfoFixedRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CompanyInfoFixedRequest>() {
+      public CompanyInfoFixedRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CompanyInfoFixedRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompanyInfoFixedRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompanyInfoFixedRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public Messages.CompanyInfoFixedRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CompanyInfoFixedReplyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:CompanyInfoFixedReply)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
+
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    java.lang.String getCompany();
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCompanyBytes();
+
+    /**
+     * <code>optional .FixedEntry entry = 3;</code>
+     */
+    boolean hasEntry();
+    /**
+     * <code>optional .FixedEntry entry = 3;</code>
+     */
+    Messages.FixedEntry getEntry();
+    /**
+     * <code>optional .FixedEntry entry = 3;</code>
+     */
+    Messages.FixedEntryOrBuilder getEntryOrBuilder();
+  }
+  /**
+   * Protobuf type {@code CompanyInfoFixedReply}
+   */
+  public  static final class CompanyInfoFixedReply extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:CompanyInfoFixedReply)
+      CompanyInfoFixedReplyOrBuilder {
+    // Use CompanyInfoFixedReply.newBuilder() to construct.
+    private CompanyInfoFixedReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private CompanyInfoFixedReply() {
+      type_ = "";
+      company_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private CompanyInfoFixedReply(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              type_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              company_ = s;
+              break;
+            }
+            case 26: {
+              Messages.FixedEntry.Builder subBuilder = null;
+              if (entry_ != null) {
+                subBuilder = entry_.toBuilder();
+              }
+              entry_ = input.readMessage(Messages.FixedEntry.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(entry_);
+                entry_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return Messages.internal_static_CompanyInfoFixedReply_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return Messages.internal_static_CompanyInfoFixedReply_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              Messages.CompanyInfoFixedReply.class, Messages.CompanyInfoFixedReply.Builder.class);
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object type_;
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        type_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string type = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMPANY_FIELD_NUMBER = 2;
+    private volatile java.lang.Object company_;
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public java.lang.String getCompany() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        company_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string company = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCompanyBytes() {
+      java.lang.Object ref = company_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        company_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ENTRY_FIELD_NUMBER = 3;
+    private Messages.FixedEntry entry_;
+    /**
+     * <code>optional .FixedEntry entry = 3;</code>
+     */
+    public boolean hasEntry() {
+      return entry_ != null;
+    }
+    /**
+     * <code>optional .FixedEntry entry = 3;</code>
+     */
+    public Messages.FixedEntry getEntry() {
+      return entry_ == null ? Messages.FixedEntry.getDefaultInstance() : entry_;
+    }
+    /**
+     * <code>optional .FixedEntry entry = 3;</code>
+     */
+    public Messages.FixedEntryOrBuilder getEntryOrBuilder() {
+      return getEntry();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTypeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, company_);
+      }
+      if (entry_ != null) {
+        output.writeMessage(3, getEntry());
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTypeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (!getCompanyBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, company_);
+      }
+      if (entry_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getEntry());
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof Messages.CompanyInfoFixedReply)) {
+        return super.equals(obj);
+      }
+      Messages.CompanyInfoFixedReply other = (Messages.CompanyInfoFixedReply) obj;
+
+      boolean result = true;
+      result = result && getType()
+          .equals(other.getType());
+      result = result && getCompany()
+          .equals(other.getCompany());
+      result = result && (hasEntry() == other.hasEntry());
+      if (hasEntry()) {
+        result = result && getEntry()
+            .equals(other.getEntry());
+      }
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType().hashCode();
+      hash = (37 * hash) + COMPANY_FIELD_NUMBER;
+      hash = (53 * hash) + getCompany().hashCode();
+      if (hasEntry()) {
+        hash = (37 * hash) + ENTRY_FIELD_NUMBER;
+        hash = (53 * hash) + getEntry().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static Messages.CompanyInfoFixedReply parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedReply parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoFixedReply parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static Messages.CompanyInfoFixedReply parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(Messages.CompanyInfoFixedReply prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code CompanyInfoFixedReply}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:CompanyInfoFixedReply)
+        Messages.CompanyInfoFixedReplyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return Messages.internal_static_CompanyInfoFixedReply_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return Messages.internal_static_CompanyInfoFixedReply_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                Messages.CompanyInfoFixedReply.class, Messages.CompanyInfoFixedReply.Builder.class);
+      }
+
+      // Construct using Messages.CompanyInfoFixedReply.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        type_ = "";
+
+        company_ = "";
+
+        if (entryBuilder_ == null) {
+          entry_ = null;
+        } else {
+          entry_ = null;
+          entryBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return Messages.internal_static_CompanyInfoFixedReply_descriptor;
+      }
+
+      public Messages.CompanyInfoFixedReply getDefaultInstanceForType() {
+        return Messages.CompanyInfoFixedReply.getDefaultInstance();
+      }
+
+      public Messages.CompanyInfoFixedReply build() {
+        Messages.CompanyInfoFixedReply result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public Messages.CompanyInfoFixedReply buildPartial() {
+        Messages.CompanyInfoFixedReply result = new Messages.CompanyInfoFixedReply(this);
+        result.type_ = type_;
+        result.company_ = company_;
+        if (entryBuilder_ == null) {
+          result.entry_ = entry_;
+        } else {
+          result.entry_ = entryBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof Messages.CompanyInfoFixedReply) {
+          return mergeFrom((Messages.CompanyInfoFixedReply)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(Messages.CompanyInfoFixedReply other) {
+        if (other == Messages.CompanyInfoFixedReply.getDefaultInstance()) return this;
+        if (!other.getType().isEmpty()) {
+          type_ = other.type_;
+          onChanged();
+        }
+        if (!other.getCompany().isEmpty()) {
+          company_ = other.company_;
+          onChanged();
+        }
+        if (other.hasEntry()) {
+          mergeEntry(other.getEntry());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        Messages.CompanyInfoFixedReply parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (Messages.CompanyInfoFixedReply) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          type_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string type = 1;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object company_ = "";
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public java.lang.String getCompany() {
+        java.lang.Object ref = company_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          company_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCompanyBytes() {
+        java.lang.Object ref = company_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          company_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompany(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        company_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder clearCompany() {
+        
+        company_ = getDefaultInstance().getCompany();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string company = 2;</code>
+       */
+      public Builder setCompanyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        company_ = value;
+        onChanged();
+        return this;
+      }
+
+      private Messages.FixedEntry entry_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          Messages.FixedEntry, Messages.FixedEntry.Builder, Messages.FixedEntryOrBuilder> entryBuilder_;
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public boolean hasEntry() {
+        return entryBuilder_ != null || entry_ != null;
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Messages.FixedEntry getEntry() {
+        if (entryBuilder_ == null) {
+          return entry_ == null ? Messages.FixedEntry.getDefaultInstance() : entry_;
+        } else {
+          return entryBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Builder setEntry(Messages.FixedEntry value) {
+        if (entryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          entry_ = value;
+          onChanged();
+        } else {
+          entryBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Builder setEntry(
+          Messages.FixedEntry.Builder builderForValue) {
+        if (entryBuilder_ == null) {
+          entry_ = builderForValue.build();
+          onChanged();
+        } else {
+          entryBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Builder mergeEntry(Messages.FixedEntry value) {
+        if (entryBuilder_ == null) {
+          if (entry_ != null) {
+            entry_ =
+              Messages.FixedEntry.newBuilder(entry_).mergeFrom(value).buildPartial();
+          } else {
+            entry_ = value;
+          }
+          onChanged();
+        } else {
+          entryBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Builder clearEntry() {
+        if (entryBuilder_ == null) {
+          entry_ = null;
+          onChanged();
+        } else {
+          entry_ = null;
+          entryBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Messages.FixedEntry.Builder getEntryBuilder() {
+        
+        onChanged();
+        return getEntryFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      public Messages.FixedEntryOrBuilder getEntryOrBuilder() {
+        if (entryBuilder_ != null) {
+          return entryBuilder_.getMessageOrBuilder();
+        } else {
+          return entry_ == null ?
+              Messages.FixedEntry.getDefaultInstance() : entry_;
+        }
+      }
+      /**
+       * <code>optional .FixedEntry entry = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          Messages.FixedEntry, Messages.FixedEntry.Builder, Messages.FixedEntryOrBuilder> 
+          getEntryFieldBuilder() {
+        if (entryBuilder_ == null) {
+          entryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              Messages.FixedEntry, Messages.FixedEntry.Builder, Messages.FixedEntryOrBuilder>(
+                  getEntry(),
+                  getParentForChildren(),
+                  isClean());
+          entry_ = null;
+        }
+        return entryBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:CompanyInfoFixedReply)
+    }
+
+    // @@protoc_insertion_point(class_scope:CompanyInfoFixedReply)
+    private static final Messages.CompanyInfoFixedReply DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new Messages.CompanyInfoFixedReply();
+    }
+
+    public static Messages.CompanyInfoFixedReply getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CompanyInfoFixedReply>
+        PARSER = new com.google.protobuf.AbstractParser<CompanyInfoFixedReply>() {
+      public CompanyInfoFixedReply parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new CompanyInfoFixedReply(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<CompanyInfoFixedReply> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CompanyInfoFixedReply> getParserForType() {
+      return PARSER;
+    }
+
+    public Messages.CompanyInfoFixedReply getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -12567,6 +14810,26 @@ public final class Messages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_CompanyInfoReply_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CompanyInfoAuctionRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CompanyInfoAuctionRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CompanyInfoAuctionReply_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CompanyInfoAuctionReply_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CompanyInfoFixedRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CompanyInfoFixedRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_CompanyInfoFixedReply_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_CompanyInfoFixedReply_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -12585,7 +14848,7 @@ public final class Messages {
       " \001(\t\022\017\n\007company\030\003 \001(\t\022\016\n\006amount\030\004 \001(\r\022\020\n" +
       "\010interest\030\005 \001(\001\"T\n\021FixedSubscription\022\014\n\004" +
       "type\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022\017\n\007company\030" +
-      "\003 \001(\t\022\016\n\006amount\030\004 \001(\r\"J\n\007Auction\022\014\n\004type" +
+      "\003 \001(\t\022\016\n\006amount\030\004 \001(\r\"J\n\007Auction\022\014\n\004type",
       "\030\001 \001(\t\022\017\n\007company\030\002 \001(\t\022\016\n\006amount\030\003 \001(\r\022" +
       "\020\n\010interest\030\004 \001(\001\"M\n\tFixedLoan\022\014\n\004type\030\001" +
       " \001(\t\022\020\n\010username\030\002 \001(\t\022\016\n\006amount\030\003 \001(\r\022\020" +
@@ -12595,13 +14858,20 @@ public final class Messages {
       "\030\001 \001(\t\022\034\n\005entry\030\002 \003(\0132\r.AuctionEntry\"M\n\n" +
       "FixedEntry\022\014\n\004type\030\001 \001(\t\022\017\n\007company\030\002 \001(" +
       "\t\022\016\n\006amount\030\003 \001(\r\022\020\n\010interest\030\004 \001(\001\"5\n\tF" +
-      "ixedList\022\014\n\004type\030\001 \001(\t\022\032\n\005entry\030\002 \003(\0132\013." +
+      "ixedList\022\014\n\004type\030\001 \001(\t\022\032\n\005entry\030\002 \003(\0132\013.",
       "FixedEntry\"*\n\013CompanyList\022\014\n\004type\030\001 \001(\t\022" +
       "\r\n\005names\030\002 \003(\t\"3\n\022CompanyInfoRequest\022\014\n\004" +
       "type\030\001 \001(\t\022\017\n\007company\030\002 \001(\t\"m\n\020CompanyIn" +
       "foReply\022\014\n\004type\030\001 \001(\t\022\017\n\007company\030\002 \001(\t\022\035" +
       "\n\006entryA\030\003 \003(\0132\r.AuctionEntry\022\033\n\006entryF\030" +
-      "\004 \003(\0132\013.FixedEntryb\006proto3"
+      "\004 \003(\0132\013.FixedEntry\":\n\031CompanyInfoAuction" +
+      "Request\022\014\n\004type\030\001 \001(\t\022\017\n\007company\030\002 \001(\t\"V" +
+      "\n\027CompanyInfoAuctionReply\022\014\n\004type\030\001 \001(\t\022" +
+      "\017\n\007company\030\002 \001(\t\022\034\n\005entry\030\003 \001(\0132\r.Auctio" +
+      "nEntry\"8\n\027CompanyInfoFixedRequest\022\014\n\004typ",
+      "e\030\001 \001(\t\022\017\n\007company\030\002 \001(\t\"R\n\025CompanyInfoF" +
+      "ixedReply\022\014\n\004type\030\001 \001(\t\022\017\n\007company\030\002 \001(\t" +
+      "\022\032\n\005entry\030\003 \001(\0132\013.FixedEntryb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -12705,6 +14975,30 @@ public final class Messages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CompanyInfoReply_descriptor,
         new java.lang.String[] { "Type", "Company", "EntryA", "EntryF", });
+    internal_static_CompanyInfoAuctionRequest_descriptor =
+      getDescriptor().getMessageTypes().get(15);
+    internal_static_CompanyInfoAuctionRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CompanyInfoAuctionRequest_descriptor,
+        new java.lang.String[] { "Type", "Company", });
+    internal_static_CompanyInfoAuctionReply_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_CompanyInfoAuctionReply_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CompanyInfoAuctionReply_descriptor,
+        new java.lang.String[] { "Type", "Company", "Entry", });
+    internal_static_CompanyInfoFixedRequest_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_CompanyInfoFixedRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CompanyInfoFixedRequest_descriptor,
+        new java.lang.String[] { "Type", "Company", });
+    internal_static_CompanyInfoFixedReply_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_CompanyInfoFixedReply_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_CompanyInfoFixedReply_descriptor,
+        new java.lang.String[] { "Type", "Company", "Entry", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
