@@ -334,21 +334,21 @@ public class InvestorPage extends javax.swing.JFrame {
         try {
             company = this.companyFieldAuction.getText();
         } catch(NumberFormatException e) {
-            this.auctionsNotiArea.append("Error parsing company");
+            this.auctionsNotiArea.append("Error parsing company\n");
             return;
         }
         int amount;
         try {
             amount = Integer.parseInt(this.amountFieldAuction.getText());
         } catch(NumberFormatException e) {
-            this.auctionsNotiArea.append("Error parsing amount");
+            this.auctionsNotiArea.append("Error parsing amount\n");
             return;
         }
         double interest;
         try {
             interest = Double.parseDouble(this.interestFieldAuction.getText());
         } catch(NumberFormatException e) {
-            this.auctionsNotiArea.append("Error parsing interest");
+            this.auctionsNotiArea.append("Error parsing interest\n");
             return;
         }
         final Messages.Reply reply = ErlangBridge.getInstance().bidAuction(this.username, company, amount, interest);
@@ -371,14 +371,14 @@ public class InvestorPage extends javax.swing.JFrame {
         try {
             company = this.companyFieldFixed.getText();
         } catch(NumberFormatException e) {
-            this.fixedNotiArea.append("Error parsing company");
+            this.fixedNotiArea.append("Error parsing company\n");
             return;
         }
         int amount;
         try {
             amount = Integer.parseInt(this.amountFieldFixed.getText());
         } catch(NumberFormatException e) {
-            this.fixedNotiArea.append("Error parsing amount");
+            this.fixedNotiArea.append("Error parsing amount\n");
             return;
         }
         final Messages.Reply reply = ErlangBridge.getInstance().subscribeFixed(this.username, company, amount);

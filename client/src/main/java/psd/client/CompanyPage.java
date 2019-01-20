@@ -273,14 +273,14 @@ public class CompanyPage extends javax.swing.JFrame {
         try {
             amount = Integer.parseInt(this.amountAuctionField.getText());
         } catch(NumberFormatException e) {
-            this.auctionsNotiArea.append("Error parsing amount");
+            this.auctionsNotiArea.append("Error parsing amount\n");
             return;
         }
         double interest;
         try {
             interest = Double.parseDouble(this.maxInterestField.getText());
         } catch(NumberFormatException e) {
-            this.auctionsNotiArea.append("Error parsing interest");
+            this.auctionsNotiArea.append("Error parsing interest\n");
             return;
         }
         final Messages.Reply reply = ErlangBridge.getInstance().createAuction(this.username, amount, interest);
@@ -302,14 +302,14 @@ public class CompanyPage extends javax.swing.JFrame {
         try {
             amount = Integer.parseInt(this.amountFixedField.getText());
         } catch(NumberFormatException e) {
-            this.fixedNotiArea.append("Error parsing amount");
+            this.fixedNotiArea.append("Error parsing amount\n");
             return;
         }
         double interest;
         try {
             interest = Double.parseDouble(this.interestField.getText());
         } catch(NumberFormatException e) {
-            this.fixedNotiArea.append("Error parsing interest");
+            this.fixedNotiArea.append("Error parsing interest\n");
             return;
         }
         final Messages.Reply reply = ErlangBridge.getInstance().createLoan(this.username, amount, interest);
