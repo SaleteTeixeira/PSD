@@ -12,6 +12,7 @@ public class InvestorPage extends javax.swing.JFrame {
 
     /**
      * Creates new form InvestorPage
+     * @param username
      */
     public InvestorPage(String username) {
         this.username = username;
@@ -303,6 +304,7 @@ public class InvestorPage extends javax.swing.JFrame {
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         // TODO add your handling code here:
         ErlangBridge.getInstance().logout(this.username);
+        ErlangBridge.clean();
         this.setVisible(false);
         new LoginPage().setVisible(true);
         this.dispose();
@@ -331,8 +333,8 @@ public class InvestorPage extends javax.swing.JFrame {
         final String company = this.companyFieldAuction.getText();
         final int amount = Integer.parseInt(this.amountFieldAuction.getText());
         final double interest = Double.parseDouble(this.interestFieldAuction.getText());
-        final boolean success = ErlangBridge.getInstance().bidAuction(this.username, company, amount, interest);
-        if (success) {
+        final Messages.Reply reply = ErlangBridge.getInstance().bidAuction(this.username, company, amount, interest);
+        if (reply.getResult()) {
             this.auctionsNotiArea.append("Successfull bid in company "
                     + company
                     + " with amount "
@@ -341,13 +343,7 @@ public class InvestorPage extends javax.swing.JFrame {
                     + interest + "\n"
             );
         } else {
-            this.auctionsNotiArea.append("Error bidding in company "
-                    + company
-                    + " with amount "
-                    + amount
-                    + " at interest "
-                    + interest + "\n"
-            );
+            this.auctionsNotiArea.append(reply.getMessage() + "\n");
         }
     }//GEN-LAST:event_bidButtonMouseClicked
 
@@ -355,8 +351,8 @@ public class InvestorPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final String company = this.companyFieldFixed.getText();
         final int amount = Integer.parseInt(this.amountFieldFixed.getText());
-        final boolean success = ErlangBridge.getInstance().subscribeFixed(this.username, company, amount);
-        if (success) {
+        final Messages.Reply reply = ErlangBridge.getInstance().subscribeFixed(this.username, company, amount);
+        if (reply.getResult()) {
             this.fixedNotiArea.append("Successfull subscription in company "
                     + company
                     + " with amount "
@@ -364,12 +360,7 @@ public class InvestorPage extends javax.swing.JFrame {
                     + "\n"
             );
         } else {
-            this.fixedNotiArea.append("Error subscribing in company "
-                    + company
-                    + " with amount "
-                    + amount
-                    + "\n"
-            );
+            this.fixedNotiArea.append(reply.getMessage() + "\n");
         }
     }//GEN-LAST:event_subscribeButtonMouseClicked
 

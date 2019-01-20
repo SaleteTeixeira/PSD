@@ -175,6 +175,9 @@ public class DiretorioPage extends javax.swing.JFrame {
         Messages.CompanyInfoReply reply = ErlangBridge.getInstance().companyInfo(company);
         int count = reply.getEntryACount();
         this.details.setText("Company: " + company + "\nAuctions:\n");
+        if (count == 0) {
+            this.details.append("No auctions.");
+        }
         for(int i = 0; i < count; ++i) {
             Messages.AuctionEntry entry = reply.getEntryA(i);
             this.details.append(entry.getAmount()
@@ -183,6 +186,9 @@ public class DiretorioPage extends javax.swing.JFrame {
                     + "\n");
         }
         count = reply.getEntryFCount();
+        if (count == 0) {
+            this.details.append("No loans.");
+        }
         this.details.append("Fixed Loans:\n");
         for(int i = 0; i < count; ++i) {
             Messages.FixedEntry entry = reply.getEntryF(i);

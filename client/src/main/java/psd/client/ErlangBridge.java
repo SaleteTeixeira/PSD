@@ -20,7 +20,6 @@ class ErlangBridge {
             try {
                 instance = new ErlangBridge();
             } catch (final IOException ex) {
-                System.out.println("Could not connect socket. Is the erlang server on?");
                 System.exit(1);
             }
         }
@@ -62,19 +61,17 @@ class ErlangBridge {
         return cis.readRawBytes(count);
     }
 
-    boolean authenticate(final String username, final String password, final String role) {
+    Messages.Reply authenticate(final String username, final String password, final String role) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
             final Messages.LoginRequest login = Messages.LoginRequest.newBuilder().setUsername(username).setPassword(password).setRole(role).build();
             this.write(cos, login.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
-            System.out.println(reply.getMessage());
-            return reply.getResult();
+            return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
-            return false;
+            return null;
         }
     }
 
@@ -85,14 +82,12 @@ class ErlangBridge {
             final Messages.LogoutRequest logout = Messages.LogoutRequest.newBuilder().setType("LogoutRequest").setUsername(username).build();
             this.write(cos, logout.toByteArray());
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
         }
-        ErlangBridge.clean();
         
     }
 
-    boolean bidAuction(final String username, final String company, final int amount, final double interest) {
+    Messages.Reply bidAuction(final String username, final String company, final int amount, final double interest) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
@@ -104,16 +99,14 @@ class ErlangBridge {
                     .setInterest(interest).build();
             this.write(cos, bid.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
-            System.out.println(reply.getMessage());
-            return reply.getResult();
+            return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
-            return false;
+            return null;
         }
     }
 
-    boolean subscribeFixed(final String username, final String company, final int amount) {
+    Messages.Reply subscribeFixed(final String username, final String company, final int amount) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
@@ -124,16 +117,14 @@ class ErlangBridge {
                     .setAmount(amount).build();
             this.write(cos, bid.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
-            System.out.println(reply.getMessage());
-            return reply.getResult();
+            return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
-            return false;
+            return null;
         }
     }
     
-    boolean createAuction(final String company, final int amount, final double interest) {
+    Messages.Reply createAuction(final String company, final int amount, final double interest) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
@@ -144,16 +135,14 @@ class ErlangBridge {
                     .setInterest(interest).build();
             this.write(cos, bid.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
-            System.out.println(reply.getMessage());
-            return reply.getResult();
+            return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
-            return false;
+            return null;
         }
     }
     
-    boolean createLoan(final String company, final int amount, final double interest) {
+    Messages.Reply createLoan(final String company, final int amount, final double interest) {
         try {
             final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
             final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
@@ -164,12 +153,10 @@ class ErlangBridge {
                     .setInterest(interest).build();
             this.write(cos, bid.toByteArray());
             final Messages.Reply reply = Messages.Reply.parseFrom(this.read(cis));
-            System.out.println(reply.getMessage());
-            return reply.getResult();
+            return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
-            return false;
+            return null;
         }
     }
     
@@ -183,7 +170,6 @@ class ErlangBridge {
             final Messages.AuctionList reply = Messages.AuctionList.parseFrom(this.read(cis));
             return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
             return null;
         }
@@ -199,7 +185,6 @@ class ErlangBridge {
             final Messages.FixedList reply = Messages.FixedList.parseFrom(this.read(cis));
             return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
             return null;
         }
@@ -215,7 +200,6 @@ class ErlangBridge {
             final Messages.CompanyList reply = Messages.CompanyList.parseFrom(this.read(cis));
             return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
             return null;
         }
@@ -232,7 +216,6 @@ class ErlangBridge {
             final Messages.CompanyInfoReply reply = Messages.CompanyInfoReply.parseFrom(this.read(cis));
             return reply;
         } catch (final Exception e) {
-            e.printStackTrace();
             System.exit(1);
             return null;
         }

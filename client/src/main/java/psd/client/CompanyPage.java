@@ -13,6 +13,7 @@ public class CompanyPage extends javax.swing.JFrame {
 
     /**
      * Creates new form InvestorPage
+     * @param username
      */
     public CompanyPage(String username) {
         this.username = username;
@@ -270,8 +271,8 @@ public class CompanyPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final int amount = Integer.parseInt(this.amountAuctionField.getText());
         final double interest = Double.parseDouble(this.maxInterestField.getText());
-        final boolean success = ErlangBridge.getInstance().createAuction(this.username, amount, interest);
-        if (success) {
+        final Messages.Reply reply = ErlangBridge.getInstance().createAuction(this.username, amount, interest);
+        if (reply.getResult()) {
             this.auctionsNotiArea.append("Successfull creation of auction with amount "
                     + amount
                     + " and max interest "
@@ -279,12 +280,7 @@ public class CompanyPage extends javax.swing.JFrame {
                     + "\n"
             );
         } else {
-            this.auctionsNotiArea.append("Error creating auction with amount "
-                    + amount
-                    + " and max interest "
-                    + interest
-                    + "\n"
-            );
+            this.auctionsNotiArea.append(reply.getMessage() + "\n");
         }
     }//GEN-LAST:event_createAuctionButtonMouseClicked
 
@@ -292,17 +288,14 @@ public class CompanyPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         final int amount = Integer.parseInt(this.amountFixedField.getText());
         final double interest = Double.parseDouble(this.interestField.getText());
-        final boolean success = ErlangBridge.getInstance().createLoan(this.username, amount, interest);
-        if (success) {
+        final Messages.Reply reply = ErlangBridge.getInstance().createLoan(this.username, amount, interest);
+        if (reply.getResult()) {
             this.fixedNotiArea.append("Successfull creation of fixed loan with amount "
                     + amount
                     + "\n"
             );
         } else {
-            this.fixedNotiArea.append("Error creating fixed loan with amount "
-                    + amount
-                    + "\n"
-            );
+            this.fixedNotiArea.append(reply.getMessage() + "\n");
         }
     }//GEN-LAST:event_createFixedButtonMouseClicked
 
