@@ -261,19 +261,24 @@ public class Exchange {
 
     public Emprestimo emprestimo_atual(CodedOutputStream cos, String empresa){
         Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
-        if(empr == null){
-            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
-            return null;
+        Emprestimo e = null;
+
+        Messages.CompanyInfoFixedReply.Builder cifrB = Messages.CompanyInfoFixedReply.newBuilder()
+                .setType("CompanyInfoFixedReply").setCompany(empresa);
+
+        if(empr!=null){
+            e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
+
+            if(e!=null){
+                Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
+                        .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
+                        .build();
+
+                cifrB.setEntry(fe);
+            }
         }
 
-        Emprestimo e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
-
-        Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
-                .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
-                .build();
-
-        Messages.CompanyInfoFixedReply cifr = Messages.CompanyInfoFixedReply.newBuilder()
-                .setType("CompanyInfoFixedReply").setCompany(empresa).setEntry(fe).build();
+        Messages.CompanyInfoFixedReply cifr = cifrB.build();
 
         try {
             byte ba[] = cifr.toByteArray();
@@ -289,19 +294,24 @@ public class Exchange {
 
     public Leilao leilao_atual(CodedOutputStream cos, String empresa){
         Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
-        if(empr == null){
-            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
-            return null;
+        Leilao l = null;
+
+        Messages.CompanyInfoAuctionReply.Builder ciarB = Messages.CompanyInfoAuctionReply.newBuilder()
+                .setType("CompanyInfoAuctionReply").setCompany(empresa);
+
+        if(empr!=null){
+             l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
+
+            if(l!=null) {
+                Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
+                        .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
+                        .build();
+
+                ciarB.setEntry(ae);
+            }
         }
 
-        Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
-
-        Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
-                .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
-                .build();
-
-        Messages.CompanyInfoAuctionReply ciar = Messages.CompanyInfoAuctionReply.newBuilder()
-                .setType("CompanyInfoAuctionReply").setCompany(empresa).setEntry(ae).build();
+        Messages.CompanyInfoAuctionReply ciar = ciarB.build();
 
         try {
             byte ba[] = ciar.toByteArray();
@@ -373,30 +383,29 @@ public class Exchange {
 
     public Empresa info_emp(CodedOutputStream cos, String empresa){
         Empresa company = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
-        if(company == null){
-            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
-            return company;
+
+        Messages.CompanyInfoReply.Builder cirB = Messages.CompanyInfoReply.newBuilder()
+                .setType("CompanyInfoReply").setCompany(empresa);
+
+        if(company!=null) {
+            for (Leilao l : company.getHistoricoLeiloes()) {
+                Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
+                        .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
+                        .build();
+
+                cirB.addEntryA(ae);
+            }
+
+            for (Emprestimo e : company.getHistoricoEmprestimos()) {
+                Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
+                        .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
+                        .build();
+
+                cirB.addEntryF(fe);
+            }
         }
 
-        Messages.CompanyInfoReply.Builder cirB = Messages.CompanyInfoReply.newBuilder();
-
-        for(Leilao l : company.getHistoricoLeiloes()){
-            Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
-                    .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
-                    .build();
-
-            cirB.addEntryA(ae);
-        }
-
-        for(Emprestimo e : company.getHistoricoEmprestimos()){
-            Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
-                    .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
-                    .build();
-
-            cirB.addEntryF(fe);
-        }
-
-        Messages.CompanyInfoReply cir = cirB.setType("CompanyInfoReply").setCompany(empresa).build();
+        Messages.CompanyInfoReply cir = cirB.build();
 
         try {
             byte ba[] = cir.toByteArray();
