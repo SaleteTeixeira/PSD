@@ -5,9 +5,6 @@
  */
 package psd.client;
 
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-
 /**
  * @author diogo
  */
@@ -149,8 +146,8 @@ public class LoginPage extends javax.swing.JFrame {
         String password = passwordField.getText();
         String username = userNameField.getText();
         String role = (String) rolesBox.getSelectedItem();
-        boolean success = this.erlang.authenticate(username, password, role);
-        if (success) {
+        Messages.Reply reply = this.erlang.authenticate(username, password, role);
+        if (reply.getResult()) {
             if (role.equals("Investor")) {
                 this.setVisible(false);
                 new InvestorPage(username).setVisible(true);
@@ -212,22 +209,16 @@ public class LoginPage extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginPage().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginPage().setVisible(true);
         });
     }
 

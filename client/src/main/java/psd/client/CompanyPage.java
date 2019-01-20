@@ -269,8 +269,20 @@ public class CompanyPage extends javax.swing.JFrame {
 
     private void createAuctionButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createAuctionButtonMouseClicked
         // TODO add your handling code here:
-        final int amount = Integer.parseInt(this.amountAuctionField.getText());
-        final double interest = Double.parseDouble(this.maxInterestField.getText());
+        int amount;
+        try {
+            amount = Integer.parseInt(this.amountAuctionField.getText());
+        } catch(NumberFormatException e) {
+            this.auctionsNotiArea.append("Error parsing amount");
+            return;
+        }
+        double interest;
+        try {
+            interest = Double.parseDouble(this.maxInterestField.getText());
+        } catch(NumberFormatException e) {
+            this.auctionsNotiArea.append("Error parsing interest");
+            return;
+        }
         final Messages.Reply reply = ErlangBridge.getInstance().createAuction(this.username, amount, interest);
         if (reply.getResult()) {
             this.auctionsNotiArea.append("Successfull creation of auction with amount "
@@ -286,8 +298,20 @@ public class CompanyPage extends javax.swing.JFrame {
 
     private void createFixedButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createFixedButtonMouseClicked
         // TODO add your handling code here:
-        final int amount = Integer.parseInt(this.amountFixedField.getText());
-        final double interest = Double.parseDouble(this.interestField.getText());
+        int amount;
+        try {
+            amount = Integer.parseInt(this.amountFixedField.getText());
+        } catch(NumberFormatException e) {
+            this.fixedNotiArea.append("Error parsing amount");
+            return;
+        }
+        double interest;
+        try {
+            interest = Double.parseDouble(this.interestField.getText());
+        } catch(NumberFormatException e) {
+            this.fixedNotiArea.append("Error parsing interest");
+            return;
+        }
         final Messages.Reply reply = ErlangBridge.getInstance().createLoan(this.username, amount, interest);
         if (reply.getResult()) {
             this.fixedNotiArea.append("Successfull creation of fixed loan with amount "
