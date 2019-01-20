@@ -78,3 +78,15 @@ message FixedList {
     string type = 1;
     repeated FixedEntry entry = 2;
 }
+
+message CompanyInfoRequest {
+    string type = 1;
+    string company = 2;
+}
+
+message CompanyInfoReply {
+    string type = 1;
+    string company = 2;
+    repeated AuctionEntry entryA = 3;
+    repeated FixedEntry entryF = 4;
+}

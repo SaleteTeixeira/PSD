@@ -7,7 +7,6 @@ public class Empresa {
     private List<Leilao> historicoLeiloes;
 
     public Empresa(){
-
     }
 
     public Empresa(String nome){
@@ -24,6 +23,14 @@ public class Empresa {
 
     public String getNome(){
         return this.nome;
+    }
+
+    public List<Emprestimo> getHistoricoEmprestimos() {
+        return this.historicoEmprestimos;
+    }
+
+    public List<Leilao> getHistoricoLeiloes() {
+        return this.historicoLeiloes;
     }
 
     public void addEmprestimo(Emprestimo e){

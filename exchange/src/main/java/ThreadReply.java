@@ -52,6 +52,16 @@ public class ThreadReply implements Runnable{
                         Messages.FixedLoan fl = Messages.FixedLoan.parseFrom(ba);
                         this.exchange.criar_emprestimo(this.cos, fl.getUsername(), fl.getAmount(), fl.getInterest());
                         break;
+                    case "AuctionList":
+                        this.exchange.leiloes_atuais(this.cos);
+                        break;
+                    case "FixedList":
+                        this.exchange.emprestimos_atuais(this.cos);
+                        break;
+                    case "CompanyInfoRequest":
+                        Messages.CompanyInfoRequest cir = Messages.CompanyInfoRequest.parseFrom(ba);
+                        this.exchange.info_emp(this.cos, cir.getCompany());
+                        break;
                     default:
                         this.exchange.answerToServerRequest(this.cos,false, "Invalid message.");
                 }

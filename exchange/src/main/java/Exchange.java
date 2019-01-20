@@ -234,20 +234,95 @@ public class Exchange {
         return true;
     }
 
-    public List<Emprestimo> emprestimos_atuais(){
+    public List<Emprestimo> emprestimos_atuais(CodedOutputStream cos){
         String s = sendGet("http://localhost:8080/diretorio/get_emprestimos");
         List<Emprestimo> emprestimos = parseEmprestimos(s);
+
+        Messages.FixedList.Builder flB = Messages.FixedList.newBuilder();
+
+        for(Emprestimo e : emprestimos){
+            Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
+                    .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
+                    .build();
+
+            flB.addEntry(fe);
+        }
+
+        Messages.FixedList fl = flB.setType("FixedList").build();
+
+        try {
+            byte ba[] = fl.toByteArray();
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
+            cos.writeRawBytes(ba);
+            cos.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending proto FixedList message to Server.");
+        }
+
         return emprestimos;
     }
 
-    public List<Leilao> leiloes_atuais(){
+    public List<Leilao> leiloes_atuais(CodedOutputStream cos){
         String s = sendGet("http://localhost:8080/diretorio/get_leiloes");
         List<Leilao> leiloes = parseLeiloes(s);
+
+        Messages.AuctionList.Builder alB = Messages.AuctionList.newBuilder();
+
+        for(Leilao l : leiloes){
+            Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
+                    .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
+                    .build();
+
+            alB.addEntry(ae);
+        }
+
+        Messages.AuctionList al = alB.setType("AuctionList").build();
+
+        try {
+            byte ba[] = al.toByteArray();
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
+            cos.writeRawBytes(ba);
+            cos.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending proto AuctionEntry message to Server.");
+        }
+
         return leiloes;
     }
 
-    public Empresa info_emp(String empresa){
-        return parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+    public Empresa info_emp(CodedOutputStream cos, String empresa){
+        Empresa company = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+
+        Messages.CompanyInfoReply.Builder cirB = Messages.CompanyInfoReply.newBuilder();
+
+        for(Leilao l : company.getHistoricoLeiloes()){
+            Messages.AuctionEntry ae = Messages.AuctionEntry.newBuilder().setType("AuctionEntry")
+                    .setCompany(l.getEmpresa()).setAmount((int) l.getMontante()).setInterest(l.getTaxaMaxima())
+                    .build();
+
+            cirB.addEntryA(ae);
+        }
+
+        for(Emprestimo e : company.getHistoricoEmprestimos()){
+            Messages.FixedEntry fe = Messages.FixedEntry.newBuilder().setType("FixedEntry")
+                    .setCompany(e.getEmpresa()).setAmount((int) e.getMontante()).setInterest(e.getTaxa())
+                    .build();
+
+            cirB.addEntryF(fe);
+        }
+
+        Messages.CompanyInfoReply cir = cirB.setType("CompanyInfoReply").setCompany(empresa).build();
+
+        try {
+            byte ba[] = cir.toByteArray();
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
+            cos.writeRawBytes(ba);
+            cos.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending proto AuctionEntry message to Server.");
+        }
+
+        return company;
     }
 
     public List<String> empresas(){
@@ -484,7 +559,7 @@ public class Exchange {
             cos.flush();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error sending proto message to Server.");
         }
     }
 
