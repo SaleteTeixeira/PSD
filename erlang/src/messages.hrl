@@ -116,4 +116,30 @@
         }).
 -endif.
 
+-ifndef('COMPANYLIST_PB_H').
+-define('COMPANYLIST_PB_H', true).
+-record('CompanyList',
+        {type = []              :: iolist() | undefined, % = 1
+         names = []             :: [iolist()] | undefined % = 2
+        }).
+-endif.
+
+-ifndef('COMPANYINFOREQUEST_PB_H').
+-define('COMPANYINFOREQUEST_PB_H', true).
+-record('CompanyInfoRequest',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined % = 2
+        }).
+-endif.
+
+-ifndef('COMPANYINFOREPLY_PB_H').
+-define('COMPANYINFOREPLY_PB_H', true).
+-record('CompanyInfoReply',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined, % = 2
+         entryA = []            :: [messages:'AuctionEntry'()] | undefined, % = 3
+         entryF = []            :: [messages:'FixedEntry'()] | undefined % = 4
+        }).
+-endif.
+
 -endif.
