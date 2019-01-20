@@ -95,7 +95,7 @@ public class Diretorio {
 
             if((investidores != null) && (investidores.size() > 0)){
                 l.setInvestidores(investidores);
-                this.empresas.get(l.getEmpresa()).addLeilao(l);
+                this.empresas.get(empresa).addLeilao(l);
             }
         }
     }

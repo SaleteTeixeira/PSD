@@ -22,7 +22,7 @@ public class InvestorPage extends javax.swing.JFrame {
         Messages.AuctionList alist = ErlangBridge.getInstance().auctionList();
         Messages.FixedList flist = ErlangBridge.getInstance().fixedList();
         int count = alist.getEntryCount();
-        this.auctionsListArea.removeAll();
+        this.auctionsListArea.setText("");
         for (int i = 0; i < count; ++i) {
             Messages.AuctionEntry entry = alist.getEntry(i);
             this.auctionsListArea.append(entry.getCompany() 

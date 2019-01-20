@@ -291,7 +291,7 @@ public class CompanyPage extends javax.swing.JFrame {
     private void createFixedButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createFixedButtonMouseClicked
         // TODO add your handling code here:
         final int amount = Integer.parseInt(this.amountFixedField.getText());
-        final double interest = Double.parseDouble(this.maxInterestField.getText());
+        final double interest = Double.parseDouble(this.interestField.getText());
         final boolean success = ErlangBridge.getInstance().createLoan(this.username, amount, interest);
         if (success) {
             this.fixedNotiArea.append("Successfull creation of fixed loan with amount "

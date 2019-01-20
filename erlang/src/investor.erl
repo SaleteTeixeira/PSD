@@ -41,6 +41,13 @@ handle(ClientSocket, Username, ExchangeMap) ->
         {'Request', "FixedList"} ->
           io:fwrite("Fixed loan list request. ~p~n", [Username]),
           request_reply(ClientSocket, Username, ExchangeMap, Bin, "a");
+        {'Request', "CompanyList"} ->
+          io:fwrite("Company list request. ~p~n", [Username]),
+          request_reply(ClientSocket, Username, ExchangeMap, Bin, "a");
+        {'Request', "CompanyInfoRequest"} ->
+          io:fwrite("Company Info request. ~p~n", [Username]),
+          {_, _, Company} = messages:decode_msg(Bin, 'CompanyInfoRequest'),
+          request_reply(ClientSocket, Username, ExchangeMap, Bin, Company);
         _ -> authenticator:logout(Username)
       end;
     _ -> authenticator:logout(Username)
@@ -53,7 +60,7 @@ request_reply(ClientSocket, Username, ExchangeMap, Bin, Company) ->
   gen_tcp:send(ExchangeSocket, Bin),
   receive
     {tcp, _, Reply} ->
-      io:fwrite("~p~n", [messages:decode_msg(Reply,'Reply')]),
+      io:fwrite("~p~n", [messages:decode_msg(Reply, 'Reply')]),
       gen_tcp:send(ClientSocket, Reply),
       handle(ClientSocket, Username, ExchangeMap)
   after (60 * 1000) -> authenticator:logout(Company)
