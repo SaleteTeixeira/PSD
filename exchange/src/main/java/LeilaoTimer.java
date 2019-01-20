@@ -15,7 +15,7 @@ public class LeilaoTimer implements Runnable {
 
             this.exchange.end_leilao(this.empresa);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 }

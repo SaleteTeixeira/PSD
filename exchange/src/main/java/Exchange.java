@@ -24,6 +24,12 @@ public class Exchange {
     }
 
     public boolean criar_leilao(CodedOutputStream cos, String empresa, double montante, double taxaMaxima) {
+        Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(empr == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return false;
+        }
+
         if((montante % 1000) != 0) {
             answerToServerRequest(cos, false,"Failure: your amount is not multiple of 1000.");
             return false;
@@ -47,6 +53,12 @@ public class Exchange {
     }
 
     public boolean licitar_leilao(CodedOutputStream cos, String investidor, String empresa, double montante, double taxa){
+        Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(empr == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return false;
+        }
+
         if((montante % 100) != 0) {
             answerToServerRequest(cos, false,"Failure: your amount is not multiple of 100.");
             return false;
@@ -142,6 +154,12 @@ public class Exchange {
     }
 
     public boolean criar_emprestimo(CodedOutputStream cos, String empresa, double montante, double taxa){
+        Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(empr == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return false;
+        }
+
         if((montante % 1000) != 0) {
             answerToServerRequest(cos, false, "Failure: your amount is not multiple of 1000.");
             return false;
@@ -193,6 +211,12 @@ public class Exchange {
     }
 
     public boolean subscrever_emprestimo(CodedOutputStream cos, String investidor, String empresa, double montante){
+        Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(empr == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return false;
+        }
+
         if((montante % 100) != 0) {
             answerToServerRequest(cos, false, "Failure: your amount is not multiple of 100.");
             return false;
@@ -233,6 +257,30 @@ public class Exchange {
         //informar investidores e empresa de fim de leilao (msg para servidor) ZeroMQ
 
         return true;
+    }
+
+    public Emprestimo emprestimo_atual(CodedOutputStream cos, String empresa){
+        Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(empr == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return null;
+        }
+
+        Emprestimo e = parseEmprestimo(sendGet("http://localhost:8080/diretorio/get_emprestimo/"+empresa));
+
+        return e;
+    }
+
+    public Leilao leilao_atual(CodedOutputStream cos, String empresa){
+        Empresa empr = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(empr == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return null;
+        }
+
+        Leilao l = parseLeilao(sendGet("http://localhost:8080/diretorio/get_leilao/"+empresa));
+
+        return l;
     }
 
     public List<Emprestimo> emprestimos_atuais(CodedOutputStream cos){
@@ -293,6 +341,10 @@ public class Exchange {
 
     public Empresa info_emp(CodedOutputStream cos, String empresa){
         Empresa company = parseEmpresa(sendGet("http://localhost:8080/diretorio/get_empresa/"+empresa));
+        if(company == null){
+            answerToServerRequest(cos, false,"Failure: the company you enter doesn't exist.");
+            return company;
+        }
 
         Messages.CompanyInfoReply.Builder cirB = Messages.CompanyInfoReply.newBuilder();
 
