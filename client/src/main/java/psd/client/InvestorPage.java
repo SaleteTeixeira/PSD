@@ -16,6 +16,7 @@ public class InvestorPage extends javax.swing.JFrame {
     public InvestorPage(String username) {
         this.username = username;
         initComponents();
+        refresh();
     }
 
     private void refresh() {
@@ -75,6 +76,7 @@ public class InvestorPage extends javax.swing.JFrame {
         menu = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
         refresh = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         logout = new javax.swing.JMenuItem();
         quit = new javax.swing.JMenuItem();
         notifications = new javax.swing.JMenu();
@@ -167,7 +169,7 @@ public class InvestorPage extends javax.swing.JFrame {
 
         file.setText("File");
 
-        refresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, 0));
+        refresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         refresh.setText("Refresh");
         refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +177,15 @@ public class InvestorPage extends javax.swing.JFrame {
             }
         });
         file.add(refresh);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Diretório");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        file.add(jMenuItem1);
 
         logout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         logout.setText("Logout");
@@ -348,7 +359,7 @@ public class InvestorPage extends javax.swing.JFrame {
         if (success) {
             this.fixedNotiArea.append("Successfull subscription in company "
                     + company
-                    + " with amount"
+                    + " with amount "
                     + amount
                     + "\n"
             );
@@ -397,6 +408,11 @@ public class InvestorPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_amountFieldFixedFocusGained
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new DiretorioPage().setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private final String username;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -417,6 +433,7 @@ public class InvestorPage extends javax.swing.JFrame {
     private javax.swing.JTextField interestFieldAuction;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JMenuItem logout;
     private javax.swing.JMenuBar menu;

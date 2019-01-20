@@ -9,10 +9,14 @@
 %% Implementation
 main() ->
   loginManager:create(),
-  loginManager:create_account("diogo", "diogo", "Investor"),
-  loginManager:create_account("salete", "salete", "Investor"),
-  loginManager:create_account("sofia", "sofia", "Investor"),
-  loginManager:create_account("zara", "zara", "Company"),
+  loginManager:create_account("diogo", "pass", "Investor"),
+  loginManager:create_account("salete", "pass", "Investor"),
+  loginManager:create_account("sofia", "pass", "Investor"),
+  loginManager:create_account("Zara", "pass", "Company"),
+  loginManager:create_account("Mango", "pass", "Company"),
+  loginManager:create_account("Kiko", "pass", "Company"),
+  loginManager:create_account("Parfois", "pass", "Company"),
+  loginManager:create_account("Asus", "pass", "Company"),
   {ok, ServerSocket} = gen_tcp:listen(11111, [binary, {packet, 4}, {reuseaddr, true}]),
   acceptor(ServerSocket).
 

@@ -16,33 +16,6 @@ public class DiretorioPage extends javax.swing.JFrame {
     public DiretorioPage() {
         initComponents();
     }
-
-    private void refresh() {
-        Messages.AuctionList alist = ErlangBridge.getInstance().auctionList();
-        Messages.FixedList flist = ErlangBridge.getInstance().fixedList();
-        int count = alist.getEntryCount();
-        this.auctionsListArea.setText("");
-        for (int i = 0; i < count; ++i) {
-            Messages.AuctionEntry entry = alist.getEntry(i);
-            this.auctionsListArea.append(entry.getCompany() 
-                    + '\t'
-                    + entry.getAmount()
-                    + '\t' 
-                    + entry.getInterest() 
-                    + '\n');
-        }
-        count = flist.getEntryCount();
-        this.fixedListArea.removeAll();
-        for (int i = 0; i < count; ++i) {
-            Messages.FixedEntry entry = flist.getEntry(i);
-            this.fixedListArea.append(entry.getCompany() 
-                    + '\t'
-                    + entry.getAmount()
-                    + '\t' 
-                    + entry.getInterest() 
-                    + '\n');
-        }
-    } 
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -178,7 +151,8 @@ public class DiretorioPage extends javax.swing.JFrame {
 
     private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_closeActionPerformed
 
     private void companyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_companyActionPerformed
@@ -187,54 +161,16 @@ public class DiretorioPage extends javax.swing.JFrame {
 
     private void refreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshMouseClicked
         // TODO add your handling code here:
-        final String company = this.companyFieldAuction.getText();
-        final int amount = Integer.parseInt(this.amountFieldAuction.getText());
-        final double interest = Double.parseDouble(this.interestFieldAuction.getText());
-        final boolean success = ErlangBridge.getInstance().bidAuction(this.username, company, amount, interest);
-        if (success) {
-            this.auctionsNotiArea.append("Successfull bid in company "
-                    + company
-                    + " with amount "
-                    + amount
-                    + " at interest "
-                    + interest + "\n"
-            );
-        } else {
-            this.auctionsNotiArea.append("Error bidding in company "
-                    + company
-                    + " with amount "
-                    + amount
-                    + " at interest "
-                    + interest + "\n"
-            );
-        }
     }//GEN-LAST:event_refreshMouseClicked
 
     private void getButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_getButtonMouseClicked
         // TODO add your handling code here:
-        final String company = this.companyFieldFixed.getText();
-        final int amount = Integer.parseInt(this.company.getText());
-        final boolean success = ErlangBridge.getInstance().subscribeFixed(this.username, company, amount);
-        if (success) {
-            this.fixedNotiArea.append("Successfull subscription in company "
-                    + company
-                    + " with amount"
-                    + amount
-                    + "\n"
-            );
-        } else {
-            this.fixedNotiArea.append("Error subscribing in company "
-                    + company
-                    + " with amount "
-                    + amount
-                    + "\n"
-            );
-        }
+        final String company = this.company.getText();
     }//GEN-LAST:event_getButtonMouseClicked
 
     private void companyFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_companyFocusGained
         // TODO add your handling code here:
-        if (this.company.getText().equals("Amount")) {
+        if (this.company.getText().equals("Company")) {
             company.setText("");
         }
     }//GEN-LAST:event_companyFocusGained

@@ -204,4 +204,24 @@ class ErlangBridge {
             return null;
         }
     }
+    
+    Messages.CompanyList companyList() {
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.Request req = Messages.Request.newBuilder()
+                    .setType("CompanyList").build();
+            this.write(cos, req.toByteArray());
+            final Messages.CompanyList reply = Messages.CompanyList.parseFrom(this.read(cis));
+            return reply;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
+    }
+    
+    Messages.CompanyInfoReply companyInfo(final String ) {
+        
+    }
 }
