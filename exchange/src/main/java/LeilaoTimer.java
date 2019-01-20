@@ -11,7 +11,7 @@ public class LeilaoTimer implements Runnable {
 
     public void run(){
         try {
-            sleep(30000);
+            sleep(60000);
 
             this.exchange.end_leilao(this.empresa);
         } catch (InterruptedException e) {
