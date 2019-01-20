@@ -142,4 +142,38 @@
         }).
 -endif.
 
+-ifndef('COMPANYINFOAUCTIONREQUEST_PB_H').
+-define('COMPANYINFOAUCTIONREQUEST_PB_H', true).
+-record('CompanyInfoAuctionRequest',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined % = 2
+        }).
+-endif.
+
+-ifndef('COMPANYINFOAUCTIONREPLY_PB_H').
+-define('COMPANYINFOAUCTIONREPLY_PB_H', true).
+-record('CompanyInfoAuctionReply',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined, % = 2
+         entry = undefined      :: messages:'AuctionEntry'() | undefined % = 3
+        }).
+-endif.
+
+-ifndef('COMPANYINFOFIXEDREQUEST_PB_H').
+-define('COMPANYINFOFIXEDREQUEST_PB_H', true).
+-record('CompanyInfoFixedRequest',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined % = 2
+        }).
+-endif.
+
+-ifndef('COMPANYINFOFIXEDREPLY_PB_H').
+-define('COMPANYINFOFIXEDREPLY_PB_H', true).
+-record('CompanyInfoFixedReply',
+        {type = []              :: iolist() | undefined, % = 1
+         company = []           :: iolist() | undefined, % = 2
+         entry = undefined      :: messages:'FixedEntry'() | undefined % = 3
+        }).
+-endif.
+
 -endif.

@@ -66,20 +66,28 @@
 
 -type 'CompanyInfoReply'() :: #'CompanyInfoReply'{}.
 
--export_type(['Reply'/0, 'LoginRequest'/0, 'Request'/0, 'LogoutRequest'/0, 'AuctionBid'/0, 'FixedSubscription'/0, 'Auction'/0, 'FixedLoan'/0, 'AuctionEntry'/0, 'AuctionList'/0, 'FixedEntry'/0, 'FixedList'/0, 'CompanyList'/0, 'CompanyInfoRequest'/0, 'CompanyInfoReply'/0]).
+-type 'CompanyInfoAuctionRequest'() :: #'CompanyInfoAuctionRequest'{}.
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{} | #'CompanyList'{} | #'CompanyInfoRequest'{} | #'CompanyInfoReply'{}) -> binary().
+-type 'CompanyInfoAuctionReply'() :: #'CompanyInfoAuctionReply'{}.
+
+-type 'CompanyInfoFixedRequest'() :: #'CompanyInfoFixedRequest'{}.
+
+-type 'CompanyInfoFixedReply'() :: #'CompanyInfoFixedReply'{}.
+
+-export_type(['Reply'/0, 'LoginRequest'/0, 'Request'/0, 'LogoutRequest'/0, 'AuctionBid'/0, 'FixedSubscription'/0, 'Auction'/0, 'FixedLoan'/0, 'AuctionEntry'/0, 'AuctionList'/0, 'FixedEntry'/0, 'FixedList'/0, 'CompanyList'/0, 'CompanyInfoRequest'/0, 'CompanyInfoReply'/0, 'CompanyInfoAuctionRequest'/0, 'CompanyInfoAuctionReply'/0, 'CompanyInfoFixedRequest'/0, 'CompanyInfoFixedReply'/0]).
+
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{} | #'CompanyList'{} | #'CompanyInfoRequest'{} | #'CompanyInfoReply'{} | #'CompanyInfoAuctionRequest'{} | #'CompanyInfoAuctionReply'{} | #'CompanyInfoFixedRequest'{} | #'CompanyInfoFixedReply'{}) -> binary().
 encode_msg(Msg) when tuple_size(Msg) >= 1 ->
     encode_msg(Msg, element(1, Msg), []).
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{} | #'CompanyList'{} | #'CompanyInfoRequest'{} | #'CompanyInfoReply'{}, atom() | list()) -> binary().
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{} | #'CompanyList'{} | #'CompanyInfoRequest'{} | #'CompanyInfoReply'{} | #'CompanyInfoAuctionRequest'{} | #'CompanyInfoAuctionReply'{} | #'CompanyInfoFixedRequest'{} | #'CompanyInfoFixedReply'{}, atom() | list()) -> binary().
 encode_msg(Msg, MsgName) when is_atom(MsgName) ->
     encode_msg(Msg, MsgName, []);
 encode_msg(Msg, Opts)
     when tuple_size(Msg) >= 1, is_list(Opts) ->
     encode_msg(Msg, element(1, Msg), Opts).
 
--spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{} | #'CompanyList'{} | #'CompanyInfoRequest'{} | #'CompanyInfoReply'{}, atom(), list()) -> binary().
+-spec encode_msg(#'Reply'{} | #'LoginRequest'{} | #'Request'{} | #'LogoutRequest'{} | #'AuctionBid'{} | #'FixedSubscription'{} | #'Auction'{} | #'FixedLoan'{} | #'AuctionEntry'{} | #'AuctionList'{} | #'FixedEntry'{} | #'FixedList'{} | #'CompanyList'{} | #'CompanyInfoRequest'{} | #'CompanyInfoReply'{} | #'CompanyInfoAuctionRequest'{} | #'CompanyInfoAuctionReply'{} | #'CompanyInfoFixedRequest'{} | #'CompanyInfoFixedReply'{}, atom(), list()) -> binary().
 encode_msg(Msg, MsgName, Opts) ->
     case proplists:get_bool(verify, Opts) of
       true -> verify_msg(Msg, MsgName, Opts);
@@ -122,7 +130,20 @@ encode_msg(Msg, MsgName, Opts) ->
 					TrUserData);
       'CompanyInfoReply' ->
 	  encode_msg_CompanyInfoReply(id(Msg, TrUserData),
-				      TrUserData)
+				      TrUserData);
+      'CompanyInfoAuctionRequest' ->
+	  encode_msg_CompanyInfoAuctionRequest(id(Msg,
+						  TrUserData),
+					       TrUserData);
+      'CompanyInfoAuctionReply' ->
+	  encode_msg_CompanyInfoAuctionReply(id(Msg, TrUserData),
+					     TrUserData);
+      'CompanyInfoFixedRequest' ->
+	  encode_msg_CompanyInfoFixedRequest(id(Msg, TrUserData),
+					     TrUserData);
+      'CompanyInfoFixedReply' ->
+	  encode_msg_CompanyInfoFixedReply(id(Msg, TrUserData),
+					   TrUserData)
     end.
 
 
@@ -704,6 +725,159 @@ encode_msg_CompanyInfoReply(#'CompanyInfoReply'{type =
       end
     end.
 
+encode_msg_CompanyInfoAuctionRequest(Msg, TrUserData) ->
+    encode_msg_CompanyInfoAuctionRequest(Msg, <<>>,
+					 TrUserData).
+
+
+encode_msg_CompanyInfoAuctionRequest(#'CompanyInfoAuctionRequest'{type
+								      = F1,
+								  company = F2},
+				     Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    if F2 == undefined -> B1;
+       true ->
+	   begin
+	     TrF2 = id(F2, TrUserData),
+	     case is_empty_string(TrF2) of
+	       true -> B1;
+	       false ->
+		   e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_CompanyInfoAuctionReply(Msg, TrUserData) ->
+    encode_msg_CompanyInfoAuctionReply(Msg, <<>>,
+				       TrUserData).
+
+
+encode_msg_CompanyInfoAuctionReply(#'CompanyInfoAuctionReply'{type
+								  = F1,
+							      company = F2,
+							      entry = F3},
+				   Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true ->
+		begin
+		  TrF2 = id(F2, TrUserData),
+		  case is_empty_string(TrF2) of
+		    true -> B1;
+		    false ->
+			e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+		  end
+		end
+	 end,
+    if F3 == undefined -> B2;
+       true ->
+	   begin
+	     TrF3 = id(F3, TrUserData),
+	     if TrF3 =:= undefined -> B2;
+		true ->
+		    e_mfield_CompanyInfoAuctionReply_entry(TrF3,
+							   <<B2/binary, 26>>,
+							   TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_CompanyInfoFixedRequest(Msg, TrUserData) ->
+    encode_msg_CompanyInfoFixedRequest(Msg, <<>>,
+				       TrUserData).
+
+
+encode_msg_CompanyInfoFixedRequest(#'CompanyInfoFixedRequest'{type
+								  = F1,
+							      company = F2},
+				   Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    if F2 == undefined -> B1;
+       true ->
+	   begin
+	     TrF2 = id(F2, TrUserData),
+	     case is_empty_string(TrF2) of
+	       true -> B1;
+	       false ->
+		   e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+	     end
+	   end
+    end.
+
+encode_msg_CompanyInfoFixedReply(Msg, TrUserData) ->
+    encode_msg_CompanyInfoFixedReply(Msg, <<>>, TrUserData).
+
+
+encode_msg_CompanyInfoFixedReply(#'CompanyInfoFixedReply'{type
+							      = F1,
+							  company = F2,
+							  entry = F3},
+				 Bin, TrUserData) ->
+    B1 = if F1 == undefined -> Bin;
+	    true ->
+		begin
+		  TrF1 = id(F1, TrUserData),
+		  case is_empty_string(TrF1) of
+		    true -> Bin;
+		    false ->
+			e_type_string(TrF1, <<Bin/binary, 10>>, TrUserData)
+		  end
+		end
+	 end,
+    B2 = if F2 == undefined -> B1;
+	    true ->
+		begin
+		  TrF2 = id(F2, TrUserData),
+		  case is_empty_string(TrF2) of
+		    true -> B1;
+		    false ->
+			e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
+		  end
+		end
+	 end,
+    if F3 == undefined -> B2;
+       true ->
+	   begin
+	     TrF3 = id(F3, TrUserData),
+	     if TrF3 =:= undefined -> B2;
+		true ->
+		    e_mfield_CompanyInfoFixedReply_entry(TrF3,
+							 <<B2/binary, 26>>,
+							 TrUserData)
+	     end
+	   end
+    end.
+
 e_mfield_AuctionList_entry(Msg, Bin, TrUserData) ->
     SubBin = encode_msg_AuctionEntry(Msg, <<>>, TrUserData),
     Bin2 = e_varint(byte_size(SubBin), Bin),
@@ -769,6 +943,18 @@ e_field_CompanyInfoReply_entryF([Elem | Rest], Bin,
     e_field_CompanyInfoReply_entryF(Rest, Bin3, TrUserData);
 e_field_CompanyInfoReply_entryF([], Bin, _TrUserData) ->
     Bin.
+
+e_mfield_CompanyInfoAuctionReply_entry(Msg, Bin,
+				       TrUserData) ->
+    SubBin = encode_msg_AuctionEntry(Msg, <<>>, TrUserData),
+    Bin2 = e_varint(byte_size(SubBin), Bin),
+    <<Bin2/binary, SubBin/binary>>.
+
+e_mfield_CompanyInfoFixedReply_entry(Msg, Bin,
+				     TrUserData) ->
+    SubBin = encode_msg_FixedEntry(Msg, <<>>, TrUserData),
+    Bin2 = e_varint(byte_size(SubBin), Bin),
+    <<Bin2/binary, SubBin/binary>>.
 
 -compile({nowarn_unused_function,e_type_sint/3}).
 e_type_sint(Value, Bin, _TrUserData) when Value >= 0 ->
@@ -941,6 +1127,23 @@ decode_msg_2_doit('CompanyInfoRequest', Bin,
 decode_msg_2_doit('CompanyInfoReply', Bin,
 		  TrUserData) ->
     id(decode_msg_CompanyInfoReply(Bin, TrUserData),
+       TrUserData);
+decode_msg_2_doit('CompanyInfoAuctionRequest', Bin,
+		  TrUserData) ->
+    id(decode_msg_CompanyInfoAuctionRequest(Bin,
+					    TrUserData),
+       TrUserData);
+decode_msg_2_doit('CompanyInfoAuctionReply', Bin,
+		  TrUserData) ->
+    id(decode_msg_CompanyInfoAuctionReply(Bin, TrUserData),
+       TrUserData);
+decode_msg_2_doit('CompanyInfoFixedRequest', Bin,
+		  TrUserData) ->
+    id(decode_msg_CompanyInfoFixedRequest(Bin, TrUserData),
+       TrUserData);
+decode_msg_2_doit('CompanyInfoFixedReply', Bin,
+		  TrUserData) ->
+    id(decode_msg_CompanyInfoFixedReply(Bin, TrUserData),
        TrUserData).
 
 
@@ -3366,6 +3569,692 @@ skip_64_CompanyInfoReply(<<_:64, Rest/binary>>, Z1, Z2,
     dfp_read_field_def_CompanyInfoReply(Rest, Z1, Z2, F@_1,
 					F@_2, F@_3, F@_4, TrUserData).
 
+decode_msg_CompanyInfoAuctionRequest(Bin, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionRequest(Bin, 0, 0,
+						 id([], TrUserData),
+						 id([], TrUserData),
+						 TrUserData).
+
+dfp_read_field_def_CompanyInfoAuctionRequest(<<10,
+					       Rest/binary>>,
+					     Z1, Z2, F@_1, F@_2, TrUserData) ->
+    d_field_CompanyInfoAuctionRequest_type(Rest, Z1, Z2,
+					   F@_1, F@_2, TrUserData);
+dfp_read_field_def_CompanyInfoAuctionRequest(<<18,
+					       Rest/binary>>,
+					     Z1, Z2, F@_1, F@_2, TrUserData) ->
+    d_field_CompanyInfoAuctionRequest_company(Rest, Z1, Z2,
+					      F@_1, F@_2, TrUserData);
+dfp_read_field_def_CompanyInfoAuctionRequest(<<>>, 0, 0,
+					     F@_1, F@_2, _) ->
+    #'CompanyInfoAuctionRequest'{type = F@_1,
+				 company = F@_2};
+dfp_read_field_def_CompanyInfoAuctionRequest(Other, Z1,
+					     Z2, F@_1, F@_2, TrUserData) ->
+    dg_read_field_def_CompanyInfoAuctionRequest(Other, Z1,
+						Z2, F@_1, F@_2, TrUserData).
+
+dg_read_field_def_CompanyInfoAuctionRequest(<<1:1, X:7,
+					      Rest/binary>>,
+					    N, Acc, F@_1, F@_2, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_CompanyInfoAuctionRequest(Rest, N + 7,
+						X bsl N + Acc, F@_1, F@_2,
+						TrUserData);
+dg_read_field_def_CompanyInfoAuctionRequest(<<0:1, X:7,
+					      Rest/binary>>,
+					    N, Acc, F@_1, F@_2, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_CompanyInfoAuctionRequest_type(Rest, 0, 0, F@_1,
+						 F@_2, TrUserData);
+      18 ->
+	  d_field_CompanyInfoAuctionRequest_company(Rest, 0, 0,
+						    F@_1, F@_2, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_CompanyInfoAuctionRequest(Rest, 0, 0, F@_1,
+						      F@_2, TrUserData);
+	    1 ->
+		skip_64_CompanyInfoAuctionRequest(Rest, 0, 0, F@_1,
+						  F@_2, TrUserData);
+	    2 ->
+		skip_length_delimited_CompanyInfoAuctionRequest(Rest, 0,
+								0, F@_1, F@_2,
+								TrUserData);
+	    3 ->
+		skip_group_CompanyInfoAuctionRequest(Rest, Key bsr 3, 0,
+						     F@_1, F@_2, TrUserData);
+	    5 ->
+		skip_32_CompanyInfoAuctionRequest(Rest, 0, 0, F@_1,
+						  F@_2, TrUserData)
+	  end
+    end;
+dg_read_field_def_CompanyInfoAuctionRequest(<<>>, 0, 0,
+					    F@_1, F@_2, _) ->
+    #'CompanyInfoAuctionRequest'{type = F@_1,
+				 company = F@_2}.
+
+d_field_CompanyInfoAuctionRequest_type(<<1:1, X:7,
+					 Rest/binary>>,
+				       N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoAuctionRequest_type(Rest, N + 7,
+					   X bsl N + Acc, F@_1, F@_2,
+					   TrUserData);
+d_field_CompanyInfoAuctionRequest_type(<<0:1, X:7,
+					 Rest/binary>>,
+				       N, Acc, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoAuctionRequest(RestF, 0,
+						 0, NewFValue, F@_2,
+						 TrUserData).
+
+d_field_CompanyInfoAuctionRequest_company(<<1:1, X:7,
+					    Rest/binary>>,
+					  N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoAuctionRequest_company(Rest, N + 7,
+					      X bsl N + Acc, F@_1, F@_2,
+					      TrUserData);
+d_field_CompanyInfoAuctionRequest_company(<<0:1, X:7,
+					    Rest/binary>>,
+					  N, Acc, F@_1, _, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoAuctionRequest(RestF, 0,
+						 0, F@_1, NewFValue,
+						 TrUserData).
+
+skip_varint_CompanyInfoAuctionRequest(<<1:1, _:7,
+					Rest/binary>>,
+				      Z1, Z2, F@_1, F@_2, TrUserData) ->
+    skip_varint_CompanyInfoAuctionRequest(Rest, Z1, Z2,
+					  F@_1, F@_2, TrUserData);
+skip_varint_CompanyInfoAuctionRequest(<<0:1, _:7,
+					Rest/binary>>,
+				      Z1, Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionRequest(Rest, Z1,
+						 Z2, F@_1, F@_2, TrUserData).
+
+skip_length_delimited_CompanyInfoAuctionRequest(<<1:1,
+						  X:7, Rest/binary>>,
+						N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_CompanyInfoAuctionRequest(Rest,
+						    N + 7, X bsl N + Acc, F@_1,
+						    F@_2, TrUserData);
+skip_length_delimited_CompanyInfoAuctionRequest(<<0:1,
+						  X:7, Rest/binary>>,
+						N, Acc, F@_1, F@_2,
+						TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_CompanyInfoAuctionRequest(Rest2, 0,
+						 0, F@_1, F@_2, TrUserData).
+
+skip_group_CompanyInfoAuctionRequest(Bin, FNum, Z2,
+				     F@_1, F@_2, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_CompanyInfoAuctionRequest(Rest, 0,
+						 Z2, F@_1, F@_2, TrUserData).
+
+skip_32_CompanyInfoAuctionRequest(<<_:32, Rest/binary>>,
+				  Z1, Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionRequest(Rest, Z1,
+						 Z2, F@_1, F@_2, TrUserData).
+
+skip_64_CompanyInfoAuctionRequest(<<_:64, Rest/binary>>,
+				  Z1, Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionRequest(Rest, Z1,
+						 Z2, F@_1, F@_2, TrUserData).
+
+decode_msg_CompanyInfoAuctionReply(Bin, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionReply(Bin, 0, 0,
+					       id([], TrUserData),
+					       id([], TrUserData),
+					       id(undefined, TrUserData),
+					       TrUserData).
+
+dfp_read_field_def_CompanyInfoAuctionReply(<<10,
+					     Rest/binary>>,
+					   Z1, Z2, F@_1, F@_2, F@_3,
+					   TrUserData) ->
+    d_field_CompanyInfoAuctionReply_type(Rest, Z1, Z2, F@_1,
+					 F@_2, F@_3, TrUserData);
+dfp_read_field_def_CompanyInfoAuctionReply(<<18,
+					     Rest/binary>>,
+					   Z1, Z2, F@_1, F@_2, F@_3,
+					   TrUserData) ->
+    d_field_CompanyInfoAuctionReply_company(Rest, Z1, Z2,
+					    F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_CompanyInfoAuctionReply(<<26,
+					     Rest/binary>>,
+					   Z1, Z2, F@_1, F@_2, F@_3,
+					   TrUserData) ->
+    d_field_CompanyInfoAuctionReply_entry(Rest, Z1, Z2,
+					  F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_CompanyInfoAuctionReply(<<>>, 0, 0,
+					   F@_1, F@_2, F@_3, _) ->
+    #'CompanyInfoAuctionReply'{type = F@_1, company = F@_2,
+			       entry = F@_3};
+dfp_read_field_def_CompanyInfoAuctionReply(Other, Z1,
+					   Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dg_read_field_def_CompanyInfoAuctionReply(Other, Z1, Z2,
+					      F@_1, F@_2, F@_3, TrUserData).
+
+dg_read_field_def_CompanyInfoAuctionReply(<<1:1, X:7,
+					    Rest/binary>>,
+					  N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_CompanyInfoAuctionReply(Rest, N + 7,
+					      X bsl N + Acc, F@_1, F@_2, F@_3,
+					      TrUserData);
+dg_read_field_def_CompanyInfoAuctionReply(<<0:1, X:7,
+					    Rest/binary>>,
+					  N, Acc, F@_1, F@_2, F@_3,
+					  TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_CompanyInfoAuctionReply_type(Rest, 0, 0, F@_1,
+					       F@_2, F@_3, TrUserData);
+      18 ->
+	  d_field_CompanyInfoAuctionReply_company(Rest, 0, 0,
+						  F@_1, F@_2, F@_3, TrUserData);
+      26 ->
+	  d_field_CompanyInfoAuctionReply_entry(Rest, 0, 0, F@_1,
+						F@_2, F@_3, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_CompanyInfoAuctionReply(Rest, 0, 0, F@_1,
+						    F@_2, F@_3, TrUserData);
+	    1 ->
+		skip_64_CompanyInfoAuctionReply(Rest, 0, 0, F@_1, F@_2,
+						F@_3, TrUserData);
+	    2 ->
+		skip_length_delimited_CompanyInfoAuctionReply(Rest, 0,
+							      0, F@_1, F@_2,
+							      F@_3, TrUserData);
+	    3 ->
+		skip_group_CompanyInfoAuctionReply(Rest, Key bsr 3, 0,
+						   F@_1, F@_2, F@_3,
+						   TrUserData);
+	    5 ->
+		skip_32_CompanyInfoAuctionReply(Rest, 0, 0, F@_1, F@_2,
+						F@_3, TrUserData)
+	  end
+    end;
+dg_read_field_def_CompanyInfoAuctionReply(<<>>, 0, 0,
+					  F@_1, F@_2, F@_3, _) ->
+    #'CompanyInfoAuctionReply'{type = F@_1, company = F@_2,
+			       entry = F@_3}.
+
+d_field_CompanyInfoAuctionReply_type(<<1:1, X:7,
+				       Rest/binary>>,
+				     N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoAuctionReply_type(Rest, N + 7,
+					 X bsl N + Acc, F@_1, F@_2, F@_3,
+					 TrUserData);
+d_field_CompanyInfoAuctionReply_type(<<0:1, X:7,
+				       Rest/binary>>,
+				     N, Acc, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoAuctionReply(RestF, 0, 0,
+					       NewFValue, F@_2, F@_3,
+					       TrUserData).
+
+d_field_CompanyInfoAuctionReply_company(<<1:1, X:7,
+					  Rest/binary>>,
+					N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoAuctionReply_company(Rest, N + 7,
+					    X bsl N + Acc, F@_1, F@_2, F@_3,
+					    TrUserData);
+d_field_CompanyInfoAuctionReply_company(<<0:1, X:7,
+					  Rest/binary>>,
+					N, Acc, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoAuctionReply(RestF, 0, 0,
+					       F@_1, NewFValue, F@_3,
+					       TrUserData).
+
+d_field_CompanyInfoAuctionReply_entry(<<1:1, X:7,
+					Rest/binary>>,
+				      N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoAuctionReply_entry(Rest, N + 7,
+					  X bsl N + Acc, F@_1, F@_2, F@_3,
+					  TrUserData);
+d_field_CompanyInfoAuctionReply_entry(<<0:1, X:7,
+					Rest/binary>>,
+				      N, Acc, F@_1, F@_2, Prev, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Bs:Len/binary, Rest2/binary>> = Rest,
+			   {id(decode_msg_AuctionEntry(Bs, TrUserData),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoAuctionReply(RestF, 0, 0,
+					       F@_1, F@_2,
+					       if Prev == undefined ->
+						      NewFValue;
+						  true ->
+						      merge_msg_AuctionEntry(Prev,
+									     NewFValue,
+									     TrUserData)
+					       end,
+					       TrUserData).
+
+skip_varint_CompanyInfoAuctionReply(<<1:1, _:7,
+				      Rest/binary>>,
+				    Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    skip_varint_CompanyInfoAuctionReply(Rest, Z1, Z2, F@_1,
+					F@_2, F@_3, TrUserData);
+skip_varint_CompanyInfoAuctionReply(<<0:1, _:7,
+				      Rest/binary>>,
+				    Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionReply(Rest, Z1, Z2,
+					       F@_1, F@_2, F@_3, TrUserData).
+
+skip_length_delimited_CompanyInfoAuctionReply(<<1:1,
+						X:7, Rest/binary>>,
+					      N, Acc, F@_1, F@_2, F@_3,
+					      TrUserData)
+    when N < 57 ->
+    skip_length_delimited_CompanyInfoAuctionReply(Rest,
+						  N + 7, X bsl N + Acc, F@_1,
+						  F@_2, F@_3, TrUserData);
+skip_length_delimited_CompanyInfoAuctionReply(<<0:1,
+						X:7, Rest/binary>>,
+					      N, Acc, F@_1, F@_2, F@_3,
+					      TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_CompanyInfoAuctionReply(Rest2, 0, 0,
+					       F@_1, F@_2, F@_3, TrUserData).
+
+skip_group_CompanyInfoAuctionReply(Bin, FNum, Z2, F@_1,
+				   F@_2, F@_3, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_CompanyInfoAuctionReply(Rest, 0, Z2,
+					       F@_1, F@_2, F@_3, TrUserData).
+
+skip_32_CompanyInfoAuctionReply(<<_:32, Rest/binary>>,
+				Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionReply(Rest, Z1, Z2,
+					       F@_1, F@_2, F@_3, TrUserData).
+
+skip_64_CompanyInfoAuctionReply(<<_:64, Rest/binary>>,
+				Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_CompanyInfoAuctionReply(Rest, Z1, Z2,
+					       F@_1, F@_2, F@_3, TrUserData).
+
+decode_msg_CompanyInfoFixedRequest(Bin, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedRequest(Bin, 0, 0,
+					       id([], TrUserData),
+					       id([], TrUserData), TrUserData).
+
+dfp_read_field_def_CompanyInfoFixedRequest(<<10,
+					     Rest/binary>>,
+					   Z1, Z2, F@_1, F@_2, TrUserData) ->
+    d_field_CompanyInfoFixedRequest_type(Rest, Z1, Z2, F@_1,
+					 F@_2, TrUserData);
+dfp_read_field_def_CompanyInfoFixedRequest(<<18,
+					     Rest/binary>>,
+					   Z1, Z2, F@_1, F@_2, TrUserData) ->
+    d_field_CompanyInfoFixedRequest_company(Rest, Z1, Z2,
+					    F@_1, F@_2, TrUserData);
+dfp_read_field_def_CompanyInfoFixedRequest(<<>>, 0, 0,
+					   F@_1, F@_2, _) ->
+    #'CompanyInfoFixedRequest'{type = F@_1, company = F@_2};
+dfp_read_field_def_CompanyInfoFixedRequest(Other, Z1,
+					   Z2, F@_1, F@_2, TrUserData) ->
+    dg_read_field_def_CompanyInfoFixedRequest(Other, Z1, Z2,
+					      F@_1, F@_2, TrUserData).
+
+dg_read_field_def_CompanyInfoFixedRequest(<<1:1, X:7,
+					    Rest/binary>>,
+					  N, Acc, F@_1, F@_2, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_CompanyInfoFixedRequest(Rest, N + 7,
+					      X bsl N + Acc, F@_1, F@_2,
+					      TrUserData);
+dg_read_field_def_CompanyInfoFixedRequest(<<0:1, X:7,
+					    Rest/binary>>,
+					  N, Acc, F@_1, F@_2, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_CompanyInfoFixedRequest_type(Rest, 0, 0, F@_1,
+					       F@_2, TrUserData);
+      18 ->
+	  d_field_CompanyInfoFixedRequest_company(Rest, 0, 0,
+						  F@_1, F@_2, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_CompanyInfoFixedRequest(Rest, 0, 0, F@_1,
+						    F@_2, TrUserData);
+	    1 ->
+		skip_64_CompanyInfoFixedRequest(Rest, 0, 0, F@_1, F@_2,
+						TrUserData);
+	    2 ->
+		skip_length_delimited_CompanyInfoFixedRequest(Rest, 0,
+							      0, F@_1, F@_2,
+							      TrUserData);
+	    3 ->
+		skip_group_CompanyInfoFixedRequest(Rest, Key bsr 3, 0,
+						   F@_1, F@_2, TrUserData);
+	    5 ->
+		skip_32_CompanyInfoFixedRequest(Rest, 0, 0, F@_1, F@_2,
+						TrUserData)
+	  end
+    end;
+dg_read_field_def_CompanyInfoFixedRequest(<<>>, 0, 0,
+					  F@_1, F@_2, _) ->
+    #'CompanyInfoFixedRequest'{type = F@_1, company = F@_2}.
+
+d_field_CompanyInfoFixedRequest_type(<<1:1, X:7,
+				       Rest/binary>>,
+				     N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoFixedRequest_type(Rest, N + 7,
+					 X bsl N + Acc, F@_1, F@_2, TrUserData);
+d_field_CompanyInfoFixedRequest_type(<<0:1, X:7,
+				       Rest/binary>>,
+				     N, Acc, _, F@_2, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoFixedRequest(RestF, 0, 0,
+					       NewFValue, F@_2, TrUserData).
+
+d_field_CompanyInfoFixedRequest_company(<<1:1, X:7,
+					  Rest/binary>>,
+					N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoFixedRequest_company(Rest, N + 7,
+					    X bsl N + Acc, F@_1, F@_2,
+					    TrUserData);
+d_field_CompanyInfoFixedRequest_company(<<0:1, X:7,
+					  Rest/binary>>,
+					N, Acc, F@_1, _, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoFixedRequest(RestF, 0, 0,
+					       F@_1, NewFValue, TrUserData).
+
+skip_varint_CompanyInfoFixedRequest(<<1:1, _:7,
+				      Rest/binary>>,
+				    Z1, Z2, F@_1, F@_2, TrUserData) ->
+    skip_varint_CompanyInfoFixedRequest(Rest, Z1, Z2, F@_1,
+					F@_2, TrUserData);
+skip_varint_CompanyInfoFixedRequest(<<0:1, _:7,
+				      Rest/binary>>,
+				    Z1, Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedRequest(Rest, Z1, Z2,
+					       F@_1, F@_2, TrUserData).
+
+skip_length_delimited_CompanyInfoFixedRequest(<<1:1,
+						X:7, Rest/binary>>,
+					      N, Acc, F@_1, F@_2, TrUserData)
+    when N < 57 ->
+    skip_length_delimited_CompanyInfoFixedRequest(Rest,
+						  N + 7, X bsl N + Acc, F@_1,
+						  F@_2, TrUserData);
+skip_length_delimited_CompanyInfoFixedRequest(<<0:1,
+						X:7, Rest/binary>>,
+					      N, Acc, F@_1, F@_2, TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_CompanyInfoFixedRequest(Rest2, 0, 0,
+					       F@_1, F@_2, TrUserData).
+
+skip_group_CompanyInfoFixedRequest(Bin, FNum, Z2, F@_1,
+				   F@_2, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_CompanyInfoFixedRequest(Rest, 0, Z2,
+					       F@_1, F@_2, TrUserData).
+
+skip_32_CompanyInfoFixedRequest(<<_:32, Rest/binary>>,
+				Z1, Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedRequest(Rest, Z1, Z2,
+					       F@_1, F@_2, TrUserData).
+
+skip_64_CompanyInfoFixedRequest(<<_:64, Rest/binary>>,
+				Z1, Z2, F@_1, F@_2, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedRequest(Rest, Z1, Z2,
+					       F@_1, F@_2, TrUserData).
+
+decode_msg_CompanyInfoFixedReply(Bin, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedReply(Bin, 0, 0,
+					     id([], TrUserData),
+					     id([], TrUserData),
+					     id(undefined, TrUserData),
+					     TrUserData).
+
+dfp_read_field_def_CompanyInfoFixedReply(<<10,
+					   Rest/binary>>,
+					 Z1, Z2, F@_1, F@_2, F@_3,
+					 TrUserData) ->
+    d_field_CompanyInfoFixedReply_type(Rest, Z1, Z2, F@_1,
+				       F@_2, F@_3, TrUserData);
+dfp_read_field_def_CompanyInfoFixedReply(<<18,
+					   Rest/binary>>,
+					 Z1, Z2, F@_1, F@_2, F@_3,
+					 TrUserData) ->
+    d_field_CompanyInfoFixedReply_company(Rest, Z1, Z2,
+					  F@_1, F@_2, F@_3, TrUserData);
+dfp_read_field_def_CompanyInfoFixedReply(<<26,
+					   Rest/binary>>,
+					 Z1, Z2, F@_1, F@_2, F@_3,
+					 TrUserData) ->
+    d_field_CompanyInfoFixedReply_entry(Rest, Z1, Z2, F@_1,
+					F@_2, F@_3, TrUserData);
+dfp_read_field_def_CompanyInfoFixedReply(<<>>, 0, 0,
+					 F@_1, F@_2, F@_3, _) ->
+    #'CompanyInfoFixedReply'{type = F@_1, company = F@_2,
+			     entry = F@_3};
+dfp_read_field_def_CompanyInfoFixedReply(Other, Z1, Z2,
+					 F@_1, F@_2, F@_3, TrUserData) ->
+    dg_read_field_def_CompanyInfoFixedReply(Other, Z1, Z2,
+					    F@_1, F@_2, F@_3, TrUserData).
+
+dg_read_field_def_CompanyInfoFixedReply(<<1:1, X:7,
+					  Rest/binary>>,
+					N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 32 - 7 ->
+    dg_read_field_def_CompanyInfoFixedReply(Rest, N + 7,
+					    X bsl N + Acc, F@_1, F@_2, F@_3,
+					    TrUserData);
+dg_read_field_def_CompanyInfoFixedReply(<<0:1, X:7,
+					  Rest/binary>>,
+					N, Acc, F@_1, F@_2, F@_3, TrUserData) ->
+    Key = X bsl N + Acc,
+    case Key of
+      10 ->
+	  d_field_CompanyInfoFixedReply_type(Rest, 0, 0, F@_1,
+					     F@_2, F@_3, TrUserData);
+      18 ->
+	  d_field_CompanyInfoFixedReply_company(Rest, 0, 0, F@_1,
+						F@_2, F@_3, TrUserData);
+      26 ->
+	  d_field_CompanyInfoFixedReply_entry(Rest, 0, 0, F@_1,
+					      F@_2, F@_3, TrUserData);
+      _ ->
+	  case Key band 7 of
+	    0 ->
+		skip_varint_CompanyInfoFixedReply(Rest, 0, 0, F@_1,
+						  F@_2, F@_3, TrUserData);
+	    1 ->
+		skip_64_CompanyInfoFixedReply(Rest, 0, 0, F@_1, F@_2,
+					      F@_3, TrUserData);
+	    2 ->
+		skip_length_delimited_CompanyInfoFixedReply(Rest, 0, 0,
+							    F@_1, F@_2, F@_3,
+							    TrUserData);
+	    3 ->
+		skip_group_CompanyInfoFixedReply(Rest, Key bsr 3, 0,
+						 F@_1, F@_2, F@_3, TrUserData);
+	    5 ->
+		skip_32_CompanyInfoFixedReply(Rest, 0, 0, F@_1, F@_2,
+					      F@_3, TrUserData)
+	  end
+    end;
+dg_read_field_def_CompanyInfoFixedReply(<<>>, 0, 0,
+					F@_1, F@_2, F@_3, _) ->
+    #'CompanyInfoFixedReply'{type = F@_1, company = F@_2,
+			     entry = F@_3}.
+
+d_field_CompanyInfoFixedReply_type(<<1:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoFixedReply_type(Rest, N + 7,
+				       X bsl N + Acc, F@_1, F@_2, F@_3,
+				       TrUserData);
+d_field_CompanyInfoFixedReply_type(<<0:1, X:7,
+				     Rest/binary>>,
+				   N, Acc, _, F@_2, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoFixedReply(RestF, 0, 0,
+					     NewFValue, F@_2, F@_3, TrUserData).
+
+d_field_CompanyInfoFixedReply_company(<<1:1, X:7,
+					Rest/binary>>,
+				      N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoFixedReply_company(Rest, N + 7,
+					  X bsl N + Acc, F@_1, F@_2, F@_3,
+					  TrUserData);
+d_field_CompanyInfoFixedReply_company(<<0:1, X:7,
+					Rest/binary>>,
+				      N, Acc, F@_1, _, F@_3, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoFixedReply(RestF, 0, 0,
+					     F@_1, NewFValue, F@_3, TrUserData).
+
+d_field_CompanyInfoFixedReply_entry(<<1:1, X:7,
+				      Rest/binary>>,
+				    N, Acc, F@_1, F@_2, F@_3, TrUserData)
+    when N < 57 ->
+    d_field_CompanyInfoFixedReply_entry(Rest, N + 7,
+					X bsl N + Acc, F@_1, F@_2, F@_3,
+					TrUserData);
+d_field_CompanyInfoFixedReply_entry(<<0:1, X:7,
+				      Rest/binary>>,
+				    N, Acc, F@_1, F@_2, Prev, TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Bs:Len/binary, Rest2/binary>> = Rest,
+			   {id(decode_msg_FixedEntry(Bs, TrUserData),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_CompanyInfoFixedReply(RestF, 0, 0,
+					     F@_1, F@_2,
+					     if Prev == undefined -> NewFValue;
+						true ->
+						    merge_msg_FixedEntry(Prev,
+									 NewFValue,
+									 TrUserData)
+					     end,
+					     TrUserData).
+
+skip_varint_CompanyInfoFixedReply(<<1:1, _:7,
+				    Rest/binary>>,
+				  Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    skip_varint_CompanyInfoFixedReply(Rest, Z1, Z2, F@_1,
+				      F@_2, F@_3, TrUserData);
+skip_varint_CompanyInfoFixedReply(<<0:1, _:7,
+				    Rest/binary>>,
+				  Z1, Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedReply(Rest, Z1, Z2,
+					     F@_1, F@_2, F@_3, TrUserData).
+
+skip_length_delimited_CompanyInfoFixedReply(<<1:1, X:7,
+					      Rest/binary>>,
+					    N, Acc, F@_1, F@_2, F@_3,
+					    TrUserData)
+    when N < 57 ->
+    skip_length_delimited_CompanyInfoFixedReply(Rest, N + 7,
+						X bsl N + Acc, F@_1, F@_2, F@_3,
+						TrUserData);
+skip_length_delimited_CompanyInfoFixedReply(<<0:1, X:7,
+					      Rest/binary>>,
+					    N, Acc, F@_1, F@_2, F@_3,
+					    TrUserData) ->
+    Length = X bsl N + Acc,
+    <<_:Length/binary, Rest2/binary>> = Rest,
+    dfp_read_field_def_CompanyInfoFixedReply(Rest2, 0, 0,
+					     F@_1, F@_2, F@_3, TrUserData).
+
+skip_group_CompanyInfoFixedReply(Bin, FNum, Z2, F@_1,
+				 F@_2, F@_3, TrUserData) ->
+    {_, Rest} = read_group(Bin, FNum),
+    dfp_read_field_def_CompanyInfoFixedReply(Rest, 0, Z2,
+					     F@_1, F@_2, F@_3, TrUserData).
+
+skip_32_CompanyInfoFixedReply(<<_:32, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedReply(Rest, Z1, Z2,
+					     F@_1, F@_2, F@_3, TrUserData).
+
+skip_64_CompanyInfoFixedReply(<<_:64, Rest/binary>>, Z1,
+			      Z2, F@_1, F@_2, F@_3, TrUserData) ->
+    dfp_read_field_def_CompanyInfoFixedReply(Rest, Z1, Z2,
+					     F@_1, F@_2, F@_3, TrUserData).
+
 read_group(Bin, FieldNum) ->
     {NumBytes, EndTagLen} = read_gr_b(Bin, 0, 0, 0, 0, FieldNum),
     <<Group:NumBytes/binary, _:EndTagLen/binary, Rest/binary>> = Bin,
@@ -3464,7 +4353,18 @@ merge_msgs(Prev, New, MsgName, Opts) ->
       'CompanyInfoRequest' ->
 	  merge_msg_CompanyInfoRequest(Prev, New, TrUserData);
       'CompanyInfoReply' ->
-	  merge_msg_CompanyInfoReply(Prev, New, TrUserData)
+	  merge_msg_CompanyInfoReply(Prev, New, TrUserData);
+      'CompanyInfoAuctionRequest' ->
+	  merge_msg_CompanyInfoAuctionRequest(Prev, New,
+					      TrUserData);
+      'CompanyInfoAuctionReply' ->
+	  merge_msg_CompanyInfoAuctionReply(Prev, New,
+					    TrUserData);
+      'CompanyInfoFixedRequest' ->
+	  merge_msg_CompanyInfoFixedRequest(Prev, New,
+					    TrUserData);
+      'CompanyInfoFixedReply' ->
+	  merge_msg_CompanyInfoFixedReply(Prev, New, TrUserData)
     end.
 
 -compile({nowarn_unused_function,merge_msg_Reply/3}).
@@ -3772,6 +4672,97 @@ merge_msg_CompanyInfoReply(#'CompanyInfoReply'{type =
 			       NFentryF == undefined -> PFentryF
 			    end}.
 
+-compile({nowarn_unused_function,merge_msg_CompanyInfoAuctionRequest/3}).
+merge_msg_CompanyInfoAuctionRequest(#'CompanyInfoAuctionRequest'{type
+								     = PFtype,
+								 company =
+								     PFcompany},
+				    #'CompanyInfoAuctionRequest'{type = NFtype,
+								 company =
+								     NFcompany},
+				    _) ->
+    #'CompanyInfoAuctionRequest'{type =
+				     if NFtype =:= undefined -> PFtype;
+					true -> NFtype
+				     end,
+				 company =
+				     if NFcompany =:= undefined -> PFcompany;
+					true -> NFcompany
+				     end}.
+
+-compile({nowarn_unused_function,merge_msg_CompanyInfoAuctionReply/3}).
+merge_msg_CompanyInfoAuctionReply(#'CompanyInfoAuctionReply'{type
+								 = PFtype,
+							     company =
+								 PFcompany,
+							     entry = PFentry},
+				  #'CompanyInfoAuctionReply'{type = NFtype,
+							     company =
+								 NFcompany,
+							     entry = NFentry},
+				  TrUserData) ->
+    #'CompanyInfoAuctionReply'{type =
+				   if NFtype =:= undefined -> PFtype;
+				      true -> NFtype
+				   end,
+			       company =
+				   if NFcompany =:= undefined -> PFcompany;
+				      true -> NFcompany
+				   end,
+			       entry =
+				   if PFentry /= undefined,
+				      NFentry /= undefined ->
+					  merge_msg_AuctionEntry(PFentry,
+								 NFentry,
+								 TrUserData);
+				      PFentry == undefined -> NFentry;
+				      NFentry == undefined -> PFentry
+				   end}.
+
+-compile({nowarn_unused_function,merge_msg_CompanyInfoFixedRequest/3}).
+merge_msg_CompanyInfoFixedRequest(#'CompanyInfoFixedRequest'{type
+								 = PFtype,
+							     company =
+								 PFcompany},
+				  #'CompanyInfoFixedRequest'{type = NFtype,
+							     company =
+								 NFcompany},
+				  _) ->
+    #'CompanyInfoFixedRequest'{type =
+				   if NFtype =:= undefined -> PFtype;
+				      true -> NFtype
+				   end,
+			       company =
+				   if NFcompany =:= undefined -> PFcompany;
+				      true -> NFcompany
+				   end}.
+
+-compile({nowarn_unused_function,merge_msg_CompanyInfoFixedReply/3}).
+merge_msg_CompanyInfoFixedReply(#'CompanyInfoFixedReply'{type
+							     = PFtype,
+							 company = PFcompany,
+							 entry = PFentry},
+				#'CompanyInfoFixedReply'{type = NFtype,
+							 company = NFcompany,
+							 entry = NFentry},
+				TrUserData) ->
+    #'CompanyInfoFixedReply'{type =
+				 if NFtype =:= undefined -> PFtype;
+				    true -> NFtype
+				 end,
+			     company =
+				 if NFcompany =:= undefined -> PFcompany;
+				    true -> NFcompany
+				 end,
+			     entry =
+				 if PFentry /= undefined,
+				    NFentry /= undefined ->
+					merge_msg_FixedEntry(PFentry, NFentry,
+							     TrUserData);
+				    PFentry == undefined -> NFentry;
+				    NFentry == undefined -> PFentry
+				 end}.
+
 
 verify_msg(Msg) when tuple_size(Msg) >= 1 ->
     verify_msg(Msg, element(1, Msg), []);
@@ -3815,6 +4806,17 @@ verify_msg(Msg, MsgName, Opts) ->
 	  v_msg_CompanyInfoRequest(Msg, [MsgName], TrUserData);
       'CompanyInfoReply' ->
 	  v_msg_CompanyInfoReply(Msg, [MsgName], TrUserData);
+      'CompanyInfoAuctionRequest' ->
+	  v_msg_CompanyInfoAuctionRequest(Msg, [MsgName],
+					  TrUserData);
+      'CompanyInfoAuctionReply' ->
+	  v_msg_CompanyInfoAuctionReply(Msg, [MsgName],
+					TrUserData);
+      'CompanyInfoFixedRequest' ->
+	  v_msg_CompanyInfoFixedRequest(Msg, [MsgName],
+					TrUserData);
+      'CompanyInfoFixedReply' ->
+	  v_msg_CompanyInfoFixedReply(Msg, [MsgName], TrUserData);
       _ -> mk_type_error(not_a_known_message, Msg, [])
     end.
 
@@ -4117,6 +5119,83 @@ v_msg_CompanyInfoReply(X, Path, _TrUserData) ->
     mk_type_error({expected_msg, 'CompanyInfoReply'}, X,
 		  Path).
 
+-compile({nowarn_unused_function,v_msg_CompanyInfoAuctionRequest/3}).
+-dialyzer({nowarn_function,v_msg_CompanyInfoAuctionRequest/3}).
+v_msg_CompanyInfoAuctionRequest(#'CompanyInfoAuctionRequest'{type
+								 = F1,
+							     company = F2},
+				Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [company | Path], TrUserData)
+    end,
+    ok;
+v_msg_CompanyInfoAuctionRequest(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg,
+		   'CompanyInfoAuctionRequest'},
+		  X, Path).
+
+-compile({nowarn_unused_function,v_msg_CompanyInfoAuctionReply/3}).
+-dialyzer({nowarn_function,v_msg_CompanyInfoAuctionReply/3}).
+v_msg_CompanyInfoAuctionReply(#'CompanyInfoAuctionReply'{type
+							     = F1,
+							 company = F2,
+							 entry = F3},
+			      Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [company | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true ->
+	   v_msg_AuctionEntry(F3, [entry | Path], TrUserData)
+    end,
+    ok;
+v_msg_CompanyInfoAuctionReply(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'CompanyInfoAuctionReply'},
+		  X, Path).
+
+-compile({nowarn_unused_function,v_msg_CompanyInfoFixedRequest/3}).
+-dialyzer({nowarn_function,v_msg_CompanyInfoFixedRequest/3}).
+v_msg_CompanyInfoFixedRequest(#'CompanyInfoFixedRequest'{type
+							     = F1,
+							 company = F2},
+			      Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [company | Path], TrUserData)
+    end,
+    ok;
+v_msg_CompanyInfoFixedRequest(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'CompanyInfoFixedRequest'},
+		  X, Path).
+
+-compile({nowarn_unused_function,v_msg_CompanyInfoFixedReply/3}).
+-dialyzer({nowarn_function,v_msg_CompanyInfoFixedReply/3}).
+v_msg_CompanyInfoFixedReply(#'CompanyInfoFixedReply'{type
+							 = F1,
+						     company = F2, entry = F3},
+			    Path, TrUserData) ->
+    if F1 == undefined -> ok;
+       true -> v_type_string(F1, [type | Path], TrUserData)
+    end,
+    if F2 == undefined -> ok;
+       true -> v_type_string(F2, [company | Path], TrUserData)
+    end,
+    if F3 == undefined -> ok;
+       true -> v_msg_FixedEntry(F3, [entry | Path], TrUserData)
+    end,
+    ok;
+v_msg_CompanyInfoFixedReply(X, Path, _TrUserData) ->
+    mk_type_error({expected_msg, 'CompanyInfoFixedReply'},
+		  X, Path).
+
 -compile({nowarn_unused_function,v_type_uint32/3}).
 -dialyzer({nowarn_function,v_type_uint32/3}).
 v_type_uint32(N, _Path, _TrUserData)
@@ -4317,6 +5396,32 @@ get_msg_defs() ->
 	      opts = []},
        #field{name = entryF, fnum = 4, rnum = 5,
 	      type = {msg, 'FixedEntry'}, occurrence = repeated,
+	      opts = []}]},
+     {{msg, 'CompanyInfoAuctionRequest'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = company, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []}]},
+     {{msg, 'CompanyInfoAuctionReply'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = company, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = entry, fnum = 3, rnum = 4,
+	      type = {msg, 'AuctionEntry'}, occurrence = optional,
+	      opts = []}]},
+     {{msg, 'CompanyInfoFixedRequest'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = company, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []}]},
+     {{msg, 'CompanyInfoFixedReply'},
+      [#field{name = type, fnum = 1, rnum = 2, type = string,
+	      occurrence = optional, opts = []},
+       #field{name = company, fnum = 2, rnum = 3,
+	      type = string, occurrence = optional, opts = []},
+       #field{name = entry, fnum = 3, rnum = 4,
+	      type = {msg, 'FixedEntry'}, occurrence = optional,
 	      opts = []}]}].
 
 
@@ -4325,7 +5430,9 @@ get_msg_names() ->
      'AuctionBid', 'FixedSubscription', 'Auction',
      'FixedLoan', 'AuctionEntry', 'AuctionList',
      'FixedEntry', 'FixedList', 'CompanyList',
-     'CompanyInfoRequest', 'CompanyInfoReply'].
+     'CompanyInfoRequest', 'CompanyInfoReply',
+     'CompanyInfoAuctionRequest', 'CompanyInfoAuctionReply',
+     'CompanyInfoFixedRequest', 'CompanyInfoFixedReply'].
 
 
 get_group_names() -> [].
@@ -4336,7 +5443,9 @@ get_msg_or_group_names() ->
      'AuctionBid', 'FixedSubscription', 'Auction',
      'FixedLoan', 'AuctionEntry', 'AuctionList',
      'FixedEntry', 'FixedList', 'CompanyList',
-     'CompanyInfoRequest', 'CompanyInfoReply'].
+     'CompanyInfoRequest', 'CompanyInfoReply',
+     'CompanyInfoAuctionRequest', 'CompanyInfoAuctionReply',
+     'CompanyInfoFixedRequest', 'CompanyInfoFixedReply'].
 
 
 get_enum_names() -> [].
@@ -4462,6 +5571,32 @@ find_msg_def('CompanyInfoReply') ->
 	    opts = []},
      #field{name = entryF, fnum = 4, rnum = 5,
 	    type = {msg, 'FixedEntry'}, occurrence = repeated,
+	    opts = []}];
+find_msg_def('CompanyInfoAuctionRequest') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = company, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []}];
+find_msg_def('CompanyInfoAuctionReply') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = company, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = entry, fnum = 3, rnum = 4,
+	    type = {msg, 'AuctionEntry'}, occurrence = optional,
+	    opts = []}];
+find_msg_def('CompanyInfoFixedRequest') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = company, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []}];
+find_msg_def('CompanyInfoFixedReply') ->
+    [#field{name = type, fnum = 1, rnum = 2, type = string,
+	    occurrence = optional, opts = []},
+     #field{name = company, fnum = 2, rnum = 3,
+	    type = string, occurrence = optional, opts = []},
+     #field{name = entry, fnum = 3, rnum = 4,
+	    type = {msg, 'FixedEntry'}, occurrence = optional,
 	    opts = []}];
 find_msg_def(_) -> error.
 
