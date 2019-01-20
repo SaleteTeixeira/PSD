@@ -32,10 +32,10 @@ public class DiretorioPage extends javax.swing.JFrame {
         refresh = new javax.swing.JButton();
         company = new javax.swing.JTextField();
         getButton = new javax.swing.JButton();
-        fixedListPane = new javax.swing.JScrollPane();
-        fixedListArea = new javax.swing.JTextArea();
-        auctionsListPane = new javax.swing.JScrollPane();
-        auctionsListArea = new javax.swing.JTextArea();
+        detailspane = new javax.swing.JScrollPane();
+        details = new javax.swing.JTextArea();
+        companiespane = new javax.swing.JScrollPane();
+        companies = new javax.swing.JTextArea();
         menu = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
         close = new javax.swing.JMenuItem();
@@ -74,13 +74,13 @@ public class DiretorioPage extends javax.swing.JFrame {
             }
         });
 
-        fixedListArea.setColumns(20);
-        fixedListArea.setRows(5);
-        fixedListPane.setViewportView(fixedListArea);
+        details.setColumns(20);
+        details.setRows(5);
+        detailspane.setViewportView(details);
 
-        auctionsListArea.setColumns(20);
-        auctionsListArea.setRows(5);
-        auctionsListPane.setViewportView(auctionsListArea);
+        companies.setColumns(20);
+        companies.setRows(5);
+        companiespane.setViewportView(companies);
 
         file.setText("File");
 
@@ -105,7 +105,7 @@ public class DiretorioPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(auctionsListPane, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(companiespane, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,7 +120,7 @@ public class DiretorioPage extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(getButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addComponent(fixedListPane)))
+                    .addComponent(detailspane)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,14 +133,14 @@ public class DiretorioPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fixedListPane)
+                        .addComponent(detailspane)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(getButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(auctionsListPane, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(companiespane, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(refresh)))
                 .addContainerGap(102, Short.MAX_VALUE))
@@ -161,11 +161,36 @@ public class DiretorioPage extends javax.swing.JFrame {
 
     private void refreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshMouseClicked
         // TODO add your handling code here:
+        Messages.CompanyList list = ErlangBridge.getInstance().companyList();
+        int count = list.getNamesCount();
+        this.companies.setText("");
+        for (int i = 0; i < count; ++i) {
+            this.companies.append(list.getNames(i) + "\n");
+        }
     }//GEN-LAST:event_refreshMouseClicked
 
     private void getButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_getButtonMouseClicked
         // TODO add your handling code here:
         final String company = this.company.getText();
+        Messages.CompanyInfoReply reply = ErlangBridge.getInstance().companyInfo(company);
+        int count = reply.getEntryACount();
+        this.details.setText("Company: " + company + "\nAuctions:\n");
+        for(int i = 0; i < count; ++i) {
+            Messages.AuctionEntry entry = reply.getEntryA(i);
+            this.details.append(entry.getAmount()
+                    + "\t"
+                    + entry.getInterest() 
+                    + "\n");
+        }
+        count = reply.getEntryFCount();
+        this.details.append("Fixed Loans:\n");
+        for(int i = 0; i < count; ++i) {
+            Messages.FixedEntry entry = reply.getEntryF(i);
+            this.details.append(entry.getAmount()
+                    + "\t"
+                    + entry.getInterest() 
+                    + "\n");
+        }
     }//GEN-LAST:event_getButtonMouseClicked
 
     private void companyFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_companyFocusGained
@@ -176,13 +201,13 @@ public class DiretorioPage extends javax.swing.JFrame {
     }//GEN-LAST:event_companyFocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea auctionsListArea;
-    private javax.swing.JScrollPane auctionsListPane;
     private javax.swing.JMenuItem close;
+    private javax.swing.JTextArea companies;
+    private javax.swing.JScrollPane companiespane;
     private javax.swing.JTextField company;
+    private javax.swing.JTextArea details;
+    private javax.swing.JScrollPane detailspane;
     private javax.swing.JMenu file;
-    private javax.swing.JTextArea fixedListArea;
-    private javax.swing.JScrollPane fixedListPane;
     private javax.swing.JButton getButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

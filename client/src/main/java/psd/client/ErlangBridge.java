@@ -221,7 +221,20 @@ class ErlangBridge {
         }
     }
     
-    Messages.CompanyInfoReply companyInfo(final String ) {
-        
+    Messages.CompanyInfoReply companyInfo(final String company) {
+        try {
+            final CodedInputStream cis = CodedInputStream.newInstance(this.erlangServer.getInputStream());
+            final CodedOutputStream cos = CodedOutputStream.newInstance(this.erlangServer.getOutputStream());
+            final Messages.CompanyInfoRequest req = Messages.CompanyInfoRequest.newBuilder()
+                    .setType("CompanyInfoRequest")
+                    .setCompany(company).build();
+            this.write(cos, req.toByteArray());
+            final Messages.CompanyInfoReply reply = Messages.CompanyInfoReply.parseFrom(this.read(cis));
+            return reply;
+        } catch (final Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
     }
 }
