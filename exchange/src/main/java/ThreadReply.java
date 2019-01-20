@@ -58,6 +58,9 @@ public class ThreadReply implements Runnable{
                     case "FixedList":
                         this.exchange.emprestimos_atuais(this.cos);
                         break;
+                    case "CompanyList":
+                        this.exchange.empresas(this.cos);
+                        break;
                     case "CompanyInfoRequest":
                         Messages.CompanyInfoRequest cir = Messages.CompanyInfoRequest.parseFrom(ba);
                         this.exchange.info_emp(this.cos, cir.getCompany());

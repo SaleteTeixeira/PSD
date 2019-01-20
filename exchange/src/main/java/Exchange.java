@@ -284,7 +284,7 @@ public class Exchange {
             cos.writeRawBytes(ba);
             cos.flush();
         } catch (IOException e) {
-            System.out.println("Error sending proto AuctionEntry message to Server.");
+            System.out.println("Error sending proto AuctionList message to Server.");
         }
 
         return leiloes;
@@ -319,18 +319,32 @@ public class Exchange {
             cos.writeRawBytes(ba);
             cos.flush();
         } catch (IOException e) {
-            System.out.println("Error sending proto AuctionEntry message to Server.");
+            System.out.println("Error sending proto CompanyInfoReply message to Server.");
         }
 
         return company;
     }
 
-    public List<String> empresas(){
+    public List<String> empresas(CodedOutputStream cos){
         List<Empresa> empresas = parseEmpresas(sendGet("http://localhost:8080/diretorio/get_empresas/"));
         List<String> nomes = new ArrayList<>();
 
+        Messages.CompanyList.Builder clB = Messages.CompanyList.newBuilder();
+
         for(Empresa emp: empresas){
             nomes.add(emp.getNome());
+            clB.addNames(emp.getNome());
+        }
+
+        Messages.CompanyList cl = clB.setType("CompanyList").build();
+
+        try {
+            byte ba[] = cl.toByteArray();
+            cos.writeRawBytes(this.intToByteArrayBigEndian(ba.length));
+            cos.writeRawBytes(ba);
+            cos.flush();
+        } catch (IOException e) {
+            System.out.println("Error sending proto CompanyList message to Server.");
         }
 
         return nomes;

@@ -79,6 +79,11 @@ message FixedList {
     repeated FixedEntry entry = 2;
 }
 
+message CompanyList {
+    string type = 1;
+    repeated string names = 2;
+}
+
 message CompanyInfoRequest {
     string type = 1;
     string company = 2;
