@@ -22,6 +22,12 @@ handle(ClientSocket, Company, ExchangeSocket) ->
         {'Request', "FixedLoan"} ->
           io:fwrite("Fixed loan creation request. ~p~n", [Company]),
           request_reply(ClientSocket, Company, ExchangeSocket, Bin);
+        {'Request', "CompanyInfoAuctionRequest"} ->
+          io:fwrite("Company info auction request. ~p~n", [Company]),
+          request_reply(ClientSocket, Company, ExchangeSocket, Bin);
+        {'Request', "CompanyInfoFixedRequest"} ->
+          io:fwrite("Company info fixed request. ~p~n", [Company]),
+          request_reply(ClientSocket, Company, ExchangeSocket, Bin);
         _ -> authenticator:logout(Company)
       end;
     _ -> authenticator:logout(Company)
